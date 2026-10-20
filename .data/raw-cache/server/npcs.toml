@@ -16283,9 +16283,18 @@ inherit = "npc.wyrmscraig_wyrm01_walk"
 [[npc]]
 id = "npc.mad_angel"
 inherit = "npc.mad_angel"
+huntMode = 6
+huntRange = 15
+maxRange = 40
+defaultMode = "None"
+respawnRate = 26
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
+"param.defend_sound"=5688
+"param.killcount_varp"="varp.total_mad_angel_kills"
+"param.boss_hp_bar_mode"=1
+"param.death_anim"="seq.npc_mad_angel_attack_death"
 
 [[npc]]
 id = "npc.mad_angel_initial"
@@ -16293,6 +16302,10 @@ inherit = "npc.mad_angel_initial"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
+"param.defend_sound"=5688
+"param.killcount_varp"="varp.total_mad_angel_kills"
+"param.boss_hp_bar_mode"=1
+"param.death_anim"="seq.npc_mad_angel_attack_death"
 
 [[npc]]
 id = "npc.mad_angel_anim"
@@ -16300,6 +16313,10 @@ inherit = "npc.mad_angel_anim"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
+"param.defend_sound"=5688
+"param.killcount_varp"="varp.total_mad_angel_kills"
+"param.boss_hp_bar_mode"=1
+"param.death_anim"="seq.npc_mad_angel_attack_death"
 
 [[npc]]
 id = "npc.mad_angel_dead"
@@ -16307,6 +16324,10 @@ inherit = "npc.mad_angel_dead"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
+"param.defend_sound"=5688
+"param.killcount_varp"="varp.total_mad_angel_kills"
+"param.boss_hp_bar_mode"=1
+"param.death_anim"="seq.npc_mad_angel_attack_death"
 
 [[npc]]
 id = "npc.mad_angel_quest"
@@ -16314,6 +16335,7 @@ inherit = "npc.mad_angel_quest"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
+"param.defend_sound"=5688
 
 [[npc]]
 id = "npc.mad_angel_initial_quest"
@@ -16321,6 +16343,7 @@ inherit = "npc.mad_angel_initial_quest"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
+"param.defend_sound"=5688
 
 [[npc]]
 id = "npc.mad_angel_anim_quest"
@@ -16328,6 +16351,7 @@ inherit = "npc.mad_angel_anim_quest"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
+"param.defend_sound"=5688
 
 [[npc]]
 id = "npc.mad_angel_dead_quest"
@@ -16335,6 +16359,7 @@ inherit = "npc.mad_angel_dead_quest"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
+"param.defend_sound"=5688
 
 [[npc]]
 id = "npc.mad_angel_cathedral_vis"
@@ -16342,6 +16367,7 @@ inherit = "npc.mad_angel_cathedral_vis"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
+"param.defend_sound"=5688
 
 [[npc]]
 id = "npc.mad_angel_cathedral_vis_quest"
@@ -16349,6 +16375,7 @@ inherit = "npc.mad_angel_cathedral_vis_quest"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
+"param.defend_sound"=5688
 
 [[npc]]
 id = "npc.ffg_troll_1"
