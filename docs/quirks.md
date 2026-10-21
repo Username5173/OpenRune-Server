@@ -73,6 +73,13 @@ it through the interface close hook. Keep cleanup tied to the interface,
 not the suspended dialogue: walking or a hit can cancel that dialogue.
 Disabled popups do not set the flag.
 
+## Mad Angel
+
+- The sunstone crystal drop checks that the player does not already own the crystal in their
+  inventory or bank. The other half of the wiki condition (the Auchrie bank chest has not been
+  built) is not implemented because the bank chest construction is not part of this content;
+  until it is, the chest is always unbuilt.
+
 ## Types
 ```
 engine
