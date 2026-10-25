@@ -100,15 +100,15 @@ constructor(
         for (element in TitanElement.entries) {
             for (type in listOf(element.titan, element.inactive)) {
                 onOpNpc1(type) {
-                    LOGGER.info { "[royal-titans] loot op1 on ${it.npc.type.internalName}" }
+                    LOGGER.debug { "[royal-titans] loot op1 on ${it.npc.type.internalName}" }
                     lootTitan(encounter, it.npc, RoyalTitansLootMode.Loot)
                 }
                 onOpNpc3(type) {
-                    LOGGER.info { "[royal-titans] loot op3 on ${it.npc.type.internalName}" }
+                    LOGGER.debug { "[royal-titans] loot op3 on ${it.npc.type.internalName}" }
                     lootTitan(encounter, it.npc, RoyalTitansLootMode.Sacrifice)
                 }
                 onOpNpc4(type) {
-                    LOGGER.info { "[royal-titans] loot op4 on ${it.npc.type.internalName}" }
+                    LOGGER.debug { "[royal-titans] loot op4 on ${it.npc.type.internalName}" }
                     lootTitan(encounter, it.npc, RoyalTitansLootMode.Pages)
                 }
             }
@@ -389,7 +389,7 @@ private fun stompWave(deps: BossDeps, npc: Npc, params: StompParams, spawn: Coor
             deps.worldRepo.spotanimMap(spot, tile, delay = depth * STOMP_ROW_TICKS)
         }
     }
-    LOGGER.info {
+    LOGGER.debug {
         "[royal-titans] stomp ${npc.type.internalName} two=${params.phaseTwo} " +
             "at=(${npc.coords.x}, ${npc.coords.z}) rows=${rows.size}"
     }

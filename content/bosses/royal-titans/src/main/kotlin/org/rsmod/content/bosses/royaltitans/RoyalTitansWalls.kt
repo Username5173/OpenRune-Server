@@ -208,7 +208,7 @@ constructor(
             val proj = fx.playCast(this, npc, getOrNull(attack.weapon))
             val (serverDelay, clientDelay) = proj.durations
             fx.playImpact(this, npc, clientDelay)
-            logger.info {
+            logger.debug {
                 "[royal-titans] ${wall.element.name.lowercase()} wall cast at " +
                     "(${wall.tile.x}, ${wall.tile.z}) delay=$serverDelay"
             }
@@ -234,7 +234,7 @@ constructor(
             (origin.z + RoyalTitansArena.WALL_ROW_MIN..origin.z + RoyalTitansArena.WALL_ROW_MAX)
                 .filter { it !in occupiedRows }
         if (freeRows.isEmpty()) {
-            logger.info { "[royal-titans] ${element.name.lowercase()} wall skipped: no free row" }
+            logger.debug { "[royal-titans] ${element.name.lowercase()} wall skipped: no free row" }
             return
         }
         val row = freeRows[deps.random.of(freeRows.size)]
@@ -252,7 +252,7 @@ constructor(
             pendingRows -= row
             if (!npc.isSlotAssigned || npc.hitpoints <= 0) return@add
             val formed = tiles.count { form(element, npc, it) }
-            logger.info {
+            logger.debug {
                 "[royal-titans] ${element.name.lowercase()} wall row=$row " +
                     "tiles=(${tiles.first().x},$row)..(${tiles.last().x},$row) formed=$formed"
             }
@@ -352,7 +352,7 @@ constructor(
                         abs(other.tile.x - wall.tile.x) <= 1
                 }
                 .map { it.key }
-        logger.info {
+        logger.debug {
             "[royal-titans] douse ${wall.element.name.lowercase()} wall at " +
                 "(${wall.tile.x}, ${wall.tile.z}) removed=${targets.size}"
         }
@@ -373,7 +373,7 @@ constructor(
         deps.worldRepo.spotanimMap(spot, wall.tile)
         removeVisual(wall.tile, wall.element)
         deleteNpc(npc)
-        logger.info {
+        logger.debug {
             "[royal-titans] ${wall.element.name.lowercase()} wall gone at " +
                 "(${wall.tile.x}, ${wall.tile.z})"
         }

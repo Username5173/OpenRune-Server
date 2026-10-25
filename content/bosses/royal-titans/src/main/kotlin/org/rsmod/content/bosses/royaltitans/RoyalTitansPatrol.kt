@@ -57,11 +57,10 @@ constructor(
         state.playableZ = measureStrip(npc)
         npc.moveRestrict = MoveRestrict.Normal
         lockFacing(npc, state)
-        logger.info {
+        logger.debug {
             "[royal-titans] engage ${npc.type.internalName} size=${npc.size} " +
                 "typeMoveRestrict=${npc.type.moveRestrict} stripZ=${state.playableZ}"
         }
-        diagnose(npc)
         tick(npc)
     }
 
@@ -138,7 +137,7 @@ constructor(
                 when {
                     !busy && waited >= state.dwell -> beginWalk(npc, state, tick)
                     waited >= MAX_STAND_TICKS -> {
-                        logger.info {
+                        logger.debug {
                             "[royal-titans] patrol forced for ${npc.type.internalName} " +
                                 "after $waited ticks (busyUntil=${deps.encounter(npc).busyUntil})"
                         }
@@ -183,11 +182,10 @@ constructor(
         npc.clearInteraction()
         npc.moveRestrict = MoveRestrict.Blocked
         npc.walk(dest) { arrive(npc, state) }
-        logger.info {
+        logger.debug {
             "[royal-titans] patrol walk ${npc.type.internalName} " +
                 "(${npc.coords.x}, ${npc.coords.z}) -> (${dest.x}, ${dest.z})"
         }
-        diagnose(npc)
     }
 
     /**
@@ -217,46 +215,6 @@ constructor(
         return path.lastOrNull() == dest
     }
 
-    private fun diagnose(npc: Npc) {
-        runCatching { logDiagnostics(npc) }
-    }
-
-    private fun logDiagnostics(npc: Npc) {
-        val coords = npc.coords
-        val strategy = npc.collisionStrategy ?: return
-        val directions =
-            listOf(
-                    "n" to (0 to 1),
-                    "s" to (0 to -1),
-                    "e" to (1 to 0),
-                    "w" to (-1 to 0),
-                    "ne" to (1 to 1),
-                    "nw" to (-1 to 1),
-                    "se" to (1 to -1),
-                    "sw" to (-1 to -1),
-                )
-                .joinToString(" ") { (name, offset) ->
-                    val (dx, dz) = offset
-                    val dest = CoordGrid(coords.x + dx, coords.z + dz, coords.level)
-                    val step = stepFactory.validated(npc, coords, dest, strategy)
-                    "$name=${step != CoordGrid.NULL}"
-                }
-        val flags = StringBuilder()
-        for (z in coords.z + 4 downTo coords.z - 1) {
-            for (x in coords.x - 2..coords.x + 4) {
-                flags.append(deps.collision[x, z, coords.level].toString(16)).append(' ')
-            }
-            flags.append('|')
-        }
-        logger.info {
-            "[royal-titans] walk diag ${npc.type.internalName} at=(${coords.x}, ${coords.z}) " +
-                "size=${npc.size} restrict=${npc.moveRestrict} strategy=$strategy " +
-                "locked=${npc.movementLocked} allocated=" +
-                "${deps.collision.isZoneAllocated(coords.x, coords.z, coords.level)} " +
-                "steps[$directions] flags[x-2..x+4][z+4..z-1]=$flags"
-        }
-    }
-
     /**
      * The titan attacks one to two ticks after its last step in the capture, never on the same tick
      * it stops walking, and it turns before the first attack. The interaction is therefore resumed
@@ -281,7 +239,7 @@ constructor(
             val front = isAtFront(npc, state)
             state.since = deps.mapClock.cycle
             state.dwell = if (front) FRONT_DWELL else BACK_DWELL
-            logger.info {
+            logger.debug {
                 "[royal-titans] patrol re-engage ${npc.type.internalName} " +
                     "(${npc.coords.x}, ${npc.coords.z}) front=$front dwell=${state.dwell}"
             }

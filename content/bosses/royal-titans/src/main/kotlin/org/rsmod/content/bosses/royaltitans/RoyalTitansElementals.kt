@@ -101,7 +101,7 @@ constructor(
         val element = parsed?.element ?: params as? TitanElement ?: return
         val phaseTwo = parsed?.phaseTwo ?: false
         val tiles = RoyalTitansArena.elementalSummonTiles(spawn, element, phaseTwo) { deps.random.of(it) }
-        logger.info {
+        logger.debug {
             "[royal-titans] ${element.name.lowercase()} elemental summon " +
                 "hp=${caster.hitpoints}/${caster.baseHitpointsLvl} " +
                 "column=${tiles.first().x} rows=${tiles.first().z}..${tiles.last().z}"
@@ -124,7 +124,7 @@ constructor(
         npc.anim(element.minionSpawn)
         npc.spotanim(SPAWN_SPOTS.getValue(element))
         npc.apPlayer2(target, aiPlayerInteractions)
-        logger.info { "[royal-titans] ${element.name.lowercase()} elemental at (${tile.x}, ${tile.z})" }
+        logger.debug { "[royal-titans] ${element.name.lowercase()} elemental at (${tile.x}, ${tile.z})" }
         deps.worldQueues.add(EXPLODE_MIN_TICKS + deps.random.of(EXPLODE_TICK_SPREAD)) {
             if (active[npc] == element && npc.isSlotAssigned && npc.hitpoints > 0) {
                 explode(element, npc)

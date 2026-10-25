@@ -501,7 +501,7 @@ constructor(
             encounter.busyUntil = tick
             encounter.nextAttackTick = tick
         }
-        logger.info {
+        logger.debug {
             "[royal-titans] pulse safe=(${safe.x}, ${safe.z}) " +
                 "survivor=$survivor alive=${alive.size}"
         }
@@ -654,7 +654,7 @@ constructor(
             val x = npc.coords.x + if (index == 0) 0 else 2
             addLoc(run, symbol, CoordGrid(x, npc.coords.z, npc.coords.level), Int.MAX_VALUE)
         }
-        logger.info { "[royal-titans] ${element.displayName} corpse fades at (${spawn.x}, ${spawn.z})" }
+        logger.debug { "[royal-titans] ${element.displayName} corpse fades at (${spawn.x}, ${spawn.z})" }
     }
 
     private fun markSafeTile(run: Run, tile: CoordGrid) {
@@ -696,7 +696,7 @@ constructor(
                 addLoc(run, BLOCKING_LOC, CoordGrid(x, z, level), Int.MAX_VALUE)
             }
         }
-        logger.info {
+        logger.debug {
             "[royal-titans] phase two locs ${element.name.lowercase()} " +
                 "spawn=(${spawn.x},${spawn.z}) zone=(${xs.first},${zs.first})..(${xs.last},${zs.last}) " +
                 "floors=(${floorWest.x},${floorWest.z})/(${floorEast.x},${floorEast.z})"
