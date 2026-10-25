@@ -195,15 +195,15 @@ constructor(
     private fun faceEachOther(run: Run) {
         if (run.phase != PHASE_TWO || run.queenDead || run.kingDead) return
         if (!run.queen.isSlotAssigned || !run.king.isSlotAssigned) return
-        // Packet capture: Branda faces south (angle 0), Eldric faces north (angle 1024). Reset the
-        // player-facing target set by the combat interaction, or the npc update keeps turning them
-        // towards whoever they are attacking.
+        // Packet capture: Branda faces south (angle 0), Eldric faces north (angle 1024). The
+        // post-tick hook applies this override instantly each tick, so the combat AI cannot turn
+        // them towards the player.
         run.queen.resetFaceEntity()
         run.queen.pendingFaceAngle = EntityFaceAngle.NULL
-        run.queen.infoProtocol.setFaceAngle(FIRE_FACE_ANGLE, true)
+        run.queen.faceAngleOverride = FIRE_FACE_ANGLE
         run.king.resetFaceEntity()
         run.king.pendingFaceAngle = EntityFaceAngle.NULL
-        run.king.infoProtocol.setFaceAngle(ICE_FACE_ANGLE, true)
+        run.king.faceAngleOverride = ICE_FACE_ANGLE
     }
 
     fun onTitanDeath(npc: Npc) {
@@ -218,6 +218,7 @@ constructor(
         }
         deps.encounterRegistry.remove(npc)
         patrol.stop(npc)
+        npc.faceAngleOverride = null
         logger.info {
             "[royal-titans] ${element.displayName} defeated " +
                 "(queenDead=${run.queenDead} kingDead=${run.kingDead})"
@@ -419,6 +420,7 @@ constructor(
         for (titan in listOf(run.queen, run.king)) {
             if (!titan.isSlotAssigned) continue
             val element = TitanElement.of(titan) ?: continue
+            titan.faceAngleOverride = null
             titan.apRequiresLineOfSight = false
             titan.apRangeOverride = ARENA_AP_RANGE
             titan.apPlayer2(player, aiPlayerInteractions)
