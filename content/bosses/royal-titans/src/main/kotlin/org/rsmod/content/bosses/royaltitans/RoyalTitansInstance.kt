@@ -183,6 +183,7 @@ constructor(
     private companion object {
         private const val SETTINGS_ROW = "dbrow.instance_royal_titans"
         private const val BEST_TIME_VARP = "varp.royal_titans_best_time"
+
         // DbRow id of "In the Pits" (dbtable.music). Its cache/midi id is 469, which is a
         // different row (a giant-lore dbrow); passing that id here throws while loading the
         // music row and took the server down on entry.

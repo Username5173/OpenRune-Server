@@ -23,8 +23,8 @@ import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
-import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.entity.util.EntityFaceAngle
+import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.headbar.Headbar as EngineHeadbar
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.loc.LocAngle
