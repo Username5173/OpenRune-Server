@@ -14,6 +14,7 @@ import org.rsmod.api.route.StepFactory
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
+import org.rsmod.routefinder.collision.CollisionStrategy
 import org.rsmod.routefinder.flag.CollisionFlag
 
 /**
@@ -26,8 +27,10 @@ import org.rsmod.routefinder.flag.CollisionFlag
  * are `BLOCK_WALK`. They therefore walk with [MoveRestrict.Blocked], which is the engine's
  * "moves only across blocked tiles" restriction, so no collision is carved out of the map and
  * players stay confined to the corridor. The walkable rows are measured from the collision map
- * ([measureStrip]) rather than assumed, so a destination is never aimed at a tile the titan is not
- * allowed to stand on. While engaged the restriction is [MoveRestrict.Normal].
+ * ([measureStrip]) rather than assumed, and every destination is checked with the same greedy
+ * stepper the movement processor uses ([canReach]): the ledge narrows at its ends, so a row that
+ * fits at the titan's current column is not necessarily reachable from every other column.
+ * While engaged the restriction is [MoveRestrict.Normal].
  *
  * The interaction has to be dropped through [Npc.ignoreCombatInteractions]: an active `ApPlayer2`
  * interaction aborts the npc's route every cycle and re-applies its facing, so a plain
@@ -163,7 +166,15 @@ constructor(
 
     private fun beginWalk(npc: Npc, state: State, tick: Int) {
         if (npc.movementLocked) return
-        val dest = destination(npc, state)
+        val dest =
+            destination(npc, state)
+                ?: run {
+                    // No reachable tile right now (e.g. the player is on a row where the ledge
+                    // narrows); stay engaged and try again after the normal dwell instead of
+                    // walking into a wall and stalling until the walk timeout.
+                    state.since = tick
+                    return
+                }
         state.mode = Mode.Walking
         state.since = tick
         state.walkFrom = npc.coords
@@ -177,6 +188,33 @@ constructor(
                 "(${npc.coords.x}, ${npc.coords.z}) -> (${dest.x}, ${dest.z})"
         }
         diagnose(npc)
+    }
+
+    /**
+     * [StepFactory.createPath] is the same greedy stepper the npc movement processor runs, so a
+     * path that ends on [dest] is exactly a walk the engine will complete this cycle.
+     */
+    private fun canReach(npc: Npc, dest: CoordGrid): Boolean {
+        if (dest == npc.coords) return true
+        val selfFlag = npc.blockWalkCollisionFlag
+        if (selfFlag != null) {
+            npc.removeBlockWalkCollision(deps.collision, npc.coords)
+        }
+        val path =
+            try {
+                stepFactory.createPath(
+                    source = npc.coords,
+                    destination = dest,
+                    size = npc.size,
+                    extraFlag = 0,
+                    collision = CollisionStrategy.Blocked,
+                )
+            } finally {
+                if (selfFlag != null) {
+                    npc.addBlockWalkCollision(deps.collision, npc.coords)
+                }
+            }
+        return path.lastOrNull() == dest
     }
 
     private fun diagnose(npc: Npc) {
@@ -267,14 +305,26 @@ constructor(
         npc.lockFacing(target, targetWidth = 1, targetLength = 1)
     }
 
-    private fun destination(npc: Npc, state: State): CoordGrid {
+    private fun destination(npc: Npc, state: State): CoordGrid? {
         val origin = npc.spawnCoords
         val lowX = if (state.westStrip) origin.x - STRIP_HALF_WIDTH else origin.x
         val highX = if (state.westStrip) origin.x else origin.x + STRIP_HALF_WIDTH
         val preferred = if (deps.random.of(2) == 0) lowX else highX
         val x = if (preferred == npc.coords.x) (if (preferred == lowX) highX else lowX) else preferred
+        val otherX = if (x == lowX) highX else lowX
         val z = (state.target.coords.z + deps.random.of(-1, 1)).coerceIn(state.playableZ)
-        return CoordGrid(x, z, origin.level)
+        // Prefer the requested row, then nearby rows, then the other column. A row can be
+        // walkable at one column but blocked at another where the ledge narrows, so only offer
+        // destinations with a complete route for the titan's own size and walk restriction.
+        for (candidateX in intArrayOf(x, otherX)) {
+            for (offset in Z_OFFSETS) {
+                val candidateZ = z + offset
+                if (candidateZ !in state.playableZ) continue
+                val candidate = CoordGrid(candidateX, candidateZ, origin.level)
+                if (canReach(npc, candidate)) return candidate
+            }
+        }
+        return null
     }
 
     private enum class Mode {
@@ -294,6 +344,7 @@ constructor(
 
     private companion object {
         private const val STRIP_HALF_WIDTH = 2
+        private val Z_OFFSETS = intArrayOf(0, -1, 1, -2, 2, -3, 3, -4, 4)
         private const val STAND_TICKS = 14
         private const val FIRST_DWELL = 4
         private const val FRONT_DWELL = 30
