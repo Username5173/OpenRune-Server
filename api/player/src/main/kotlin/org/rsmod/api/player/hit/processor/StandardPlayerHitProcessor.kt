@@ -7,6 +7,7 @@ import dev.openrune.types.aconverted.SynthType
 import kotlin.math.min
 import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.BaseParams
+import org.rsmod.api.player.cheat.adminGodMode
 import org.rsmod.api.player.death.recordDeathCause
 import org.rsmod.api.player.death.resolveDeathCause
 import org.rsmod.api.player.events.PlayerHitEvents
@@ -43,7 +44,7 @@ public object StandardPlayerHitProcessor : QueuedPlayerHitProcessor {
 
         val oldHitpoints = player.hitpoints
         val damage = min(oldHitpoints, hit.damage)
-        if (damage > 0) {
+        if (damage > 0 && !player.adminGodMode) {
             statSub("stat.hitpoints", constant = damage, percent = 0)
             recordHitDamage(player, hit, damage)
             publishPlayerHitpointsChangedEvent(oldHitpoints, hit)
@@ -51,12 +52,14 @@ public object StandardPlayerHitProcessor : QueuedPlayerHitProcessor {
 
         playDefendSound(hit, random)
 
-        val queueDeath = player.hitpoints == 0 && "queue.death" !in player.queueList
-        if (queueDeath) {
-            val npcSource = if (hit.isFromNpc) findHitNpcSource(hit) else null
-            val playerSource = if (hit.isFromPlayer) findHitPlayerSource(hit) else null
-            player.recordDeathCause(hit.resolveDeathCause(npcSource, playerSource))
-            queueDeath()
+        if (!player.adminGodMode) {
+            val queueDeath = player.hitpoints == 0 && "queue.death" !in player.queueList
+            if (queueDeath) {
+                val npcSource = if (hit.isFromNpc) findHitNpcSource(hit) else null
+                val playerSource = if (hit.isFromPlayer) findHitPlayerSource(hit) else null
+                player.recordDeathCause(hit.resolveDeathCause(npcSource, playerSource))
+                queueDeath()
+            }
         }
 
         player.showHitmark(hit.hitmark)

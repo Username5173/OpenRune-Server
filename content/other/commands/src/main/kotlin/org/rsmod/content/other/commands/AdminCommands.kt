@@ -230,7 +230,7 @@ constructor(
         ) {
             invalidArgs = "Use as ::spellbook standard|ancients|lunars|arceuus"
         }
-        onCommand("god", "Toggle god mode (invincibility)", ::god)
+        onCommand("god", "Toggle god mode (show hits without applying damage)", ::god)
         onCommand(
             "componentdebug",
             "Toggle interface component click debug output",

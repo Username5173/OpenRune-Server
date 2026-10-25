@@ -28,13 +28,9 @@ constructor(
     private val playerList: PlayerList,
 ) : InstantPlayerHitProcessor {
     override fun Player.process(hit: Hit) {
-        if (adminGodMode) {
-            return
-        }
-
         val oldHitpoints = hitpoints
         val damage = min(oldHitpoints, hit.damage)
-        if (damage > 0) {
+        if (damage > 0 && !adminGodMode) {
             statSub("stat.hitpoints", constant = damage, percent = 0)
             hit.recordDamageOn(this, damage, playerList, npcList)
             val event =
@@ -48,12 +44,14 @@ constructor(
             eventBus.publish(event)
         }
 
-        val queueDeath = hitpoints == 0 && "queue.death" !in queueList
-        if (queueDeath) {
-            val npcSource = if (hit.isFromNpc) hit.resolveNpcSource(npcList) else null
-            val playerSource = if (hit.isFromPlayer) hit.resolvePlayerSource(playerList) else null
-            recordDeathCause(hit.resolveDeathCause(npcSource, playerSource))
-            queueDeath()
+        if (!adminGodMode) {
+            val queueDeath = hitpoints == 0 && "queue.death" !in queueList
+            if (queueDeath) {
+                val npcSource = if (hit.isFromNpc) hit.resolveNpcSource(npcList) else null
+                val playerSource = if (hit.isFromPlayer) hit.resolvePlayerSource(playerList) else null
+                recordDeathCause(hit.resolveDeathCause(npcSource, playerSource))
+                queueDeath()
+            }
         }
 
         showHitmark(hit.hitmark)
