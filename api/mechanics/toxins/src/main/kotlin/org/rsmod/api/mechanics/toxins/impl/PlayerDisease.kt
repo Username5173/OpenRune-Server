@@ -8,6 +8,7 @@ import kotlin.random.Random
 import org.rsmod.api.config.refs.done.hitmark_groups
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.mechanics.toxins.Toxin
+import org.rsmod.api.player.cheat.adminGodMode
 import org.rsmod.api.player.hit.modifier.NoopPlayerHitModifier
 import org.rsmod.api.player.hit.processor.InstantPlayerHitProcessor
 import org.rsmod.api.player.hit.takeInstantHit
@@ -43,12 +44,14 @@ public object PlayerDisease {
     private object DiseaseDamageOnlyProcessor : InstantPlayerHitProcessor {
         override fun Player.process(hit: Hit) {
             val damage = minOf(hitpoints, hit.damage)
-            if (damage > 0) {
+            if (damage > 0 && !adminGodMode) {
                 statSub("stat.hitpoints", constant = damage, percent = 0)
             }
-            val queueDeath = hitpoints == 0 && "queue.death" !in queueList
-            if (queueDeath) {
-                queueDeath()
+            if (!adminGodMode) {
+                val queueDeath = hitpoints == 0 && "queue.death" !in queueList
+                if (queueDeath) {
+                    queueDeath()
+                }
             }
             showHitmark(hit.hitmark)
         }
