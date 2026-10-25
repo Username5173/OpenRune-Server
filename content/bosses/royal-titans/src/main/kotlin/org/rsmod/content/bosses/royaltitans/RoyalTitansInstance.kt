@@ -19,6 +19,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.boolVarp
 import org.rsmod.api.script.onApLoc1
 import org.rsmod.api.script.onApLoc2
+import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.table.MusicRow
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
@@ -70,8 +71,12 @@ constructor(
             }
         }
         onEnterObject { openEntryMenu() }
-        onExitObject { quickEscape() }
-        onApLoc1(ESCAPE_LOC_SYMBOL) { quickEscape() }
+        // The arena tunnel exposes Inspect (op1) and Quick-escape (op2). The instance framework
+        // routes op1 of an exit object to this override, so keep that option informational and
+        // bind the leave flow to the Quick-escape option the client actually offers.
+        onExitObject { inspectTunnel() }
+        onApLoc1(ESCAPE_LOC_SYMBOL) { inspectTunnel() }
+        onOpLoc2(ESCAPE_LOC_SYMBOL) { quickEscape() }
         onApLoc2(ESCAPE_LOC_SYMBOL) { quickEscape() }
     }
 
@@ -169,6 +174,10 @@ constructor(
         defaultLeaveFlow()
     }
 
+    private fun ProtectedAccess.inspectTunnel() {
+        mes(INSPECT_INFO)
+    }
+
     private fun engageTitans(session: InstanceSession, player: Player) {
         val titans =
             manager
@@ -197,6 +206,9 @@ constructor(
         private const val ESCAPE_INFO =
             "This tunnel leads out of the arena. Click it again to use 'Quick-escape' and leave " +
                 "the encounter."
+        private const val INSPECT_INFO =
+            "This tunnel leads out of the arena. Right-click it and select 'Quick-escape' to " +
+                "leave the encounter."
         private const val ENTRY_WARNING =
             "You are about to begin an encounter with the Royal Titans. Dying<br>during this " +
                 "encounter will not be considered a safe death. To leave,<br>you'll need to use " +
