@@ -4,12 +4,15 @@ import com.github.michaelbull.logging.InlineLogger
 import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import dev.openrune.types.ItemServerType
 import dev.openrune.types.aconverted.SpotanimType
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import java.util.IdentityHashMap
 import kotlin.math.max
 import org.rsmod.api.bosses.runtime.BossDeps
+import org.rsmod.api.combat.commons.magic.MagicSpellChecks
+import org.rsmod.api.combat.manager.PlayerAttackManager
 import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.hit.queueHit
@@ -36,9 +39,14 @@ constructor(
     private val deps: BossDeps,
     private val aiPlayerInteractions: AiPlayerInteractions,
     private val npcList: NpcList,
+    private val playerAttackManager: PlayerAttackManager,
 ) {
     private val logger = InlineLogger()
     private val active: MutableMap<Npc, TitanElement> = IdentityHashMap()
+
+    internal fun isElemental(npc: Npc): Boolean = active.containsKey(npc)
+
+    internal fun elementOf(npc: Npc): TitanElement? = active[npc]
 
     fun register(script: ScriptContext, spawnFor: (Npc) -> CoordGrid) {
         deps.extensionRegistry.register(CAST_HANDLER) { ctx ->
@@ -55,6 +63,27 @@ constructor(
             delete(npc)
         }
         active.clear()
+    }
+
+    /**
+     * The titans' defeat wipes the remaining elementals; each one plays its death animation and
+     * spotanim before it is removed a couple of ticks later.
+     */
+    internal fun killAll() {
+        for ((npc, element) in active.entries.toList()) {
+            active.remove(npc)
+            if (!npc.isSlotAssigned) continue
+            npc.clearInteraction()
+            npc.ignoreCombatInteractions = true
+            npc.hideAllOps()
+            npc.anim(element.minionDeath)
+            npc.spotanim(element.minionDeathSpot)
+            deps.worldQueues.add(MINION_DEATH_FADE_TICKS) {
+                if (npc.isSlotAssigned) {
+                    deps.npcRepo.del(npc, Int.MAX_VALUE)
+                }
+            }
+        }
     }
 
     internal fun destroyAt(tile: CoordGrid, element: TitanElement) {
@@ -93,6 +122,37 @@ constructor(
             if (npc.hitpoints > 0 || !hit.isFromPlayer) return@onNpcHit
             val player = hit.resolvePlayerSource(deps.playerList) ?: return@onNpcHit
             player.actionDelay = max(player.currentMapClock, player.actionDelay - 1)
+        }
+    }
+
+    /**
+     * Water spells cleave fire elementals and fire spells cleave ice elementals. Every elemental of
+     * the primary target's element within the 3x3 around it is hit; the cleave hits reuse the
+     * primary hit's impact delay so they land on the same tick.
+     */
+    internal fun cleave(
+        player: Player,
+        primary: Npc,
+        spell: ItemServerType,
+        damage: Int,
+        hitDelay: Int,
+    ) {
+        val element = active[primary] ?: return
+        if (!element.isCleavedBy(spell)) return
+        val centre = primary.coords
+        for ((other, otherElement) in active.entries.toList()) {
+            if (other === primary || otherElement != element) continue
+            if (!other.isSlotAssigned || other.hitpoints <= 0) continue
+            if (other.coords.level != centre.level) continue
+            if (other.coords.chebyshevDistance(centre) > 1) continue
+            playerAttackManager.queueMagicHit(
+                source = player,
+                target = other,
+                spell = null,
+                damage = damage,
+                clientDelay = 0,
+                hitDelay = hitDelay,
+            )
         }
     }
 
@@ -160,6 +220,7 @@ constructor(
         private const val EXPLODE_MIN_TICKS = 30
         private const val EXPLODE_TICK_SPREAD = 11
         private const val EXPLODE_FADE_TICKS = 2
+        private const val MINION_DEATH_FADE_TICKS = 2
         private const val EXPLODE_RADIUS = 1
         private const val EXPLODE_MIN_HIT = 8
         private const val EXPLODE_MAX_HIT = 10
@@ -177,3 +238,10 @@ constructor(
             )
     }
 }
+
+/** The opposing-element spell that cleaves this elemental and always deals its max hit. */
+internal fun TitanElement.isCleavedBy(spell: ItemServerType): Boolean =
+    when (this) {
+        TitanElement.Fire -> MagicSpellChecks.isWaterSpell(spell)
+        TitanElement.Ice -> MagicSpellChecks.isFireSpell(spell)
+    }

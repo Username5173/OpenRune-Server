@@ -58,8 +58,9 @@ enum class TitanElement(
     val minion: String,
     val minionSpawn: String,
     val minionExplode: String,
+    val minionDeath: String,
+    val minionDeathSpot: String,
     val wallColumnOffsets: IntRange,
-    val dousingElement: String,
     val aoeCharge: String,
     val aoeRelease: String,
     val aoeWave: String,
@@ -76,8 +77,9 @@ enum class TitanElement(
         minion = "npc.rt_summon_elemental_fire",
         minionSpawn = "seq.fire_minion_spawn01",
         minionExplode = "seq.fire_minion_explode01",
+        minionDeath = "seq.fire_minion_death01",
+        minionDeathSpot = "spotanim.fire_minion_death_spotanim",
         wallColumnOffsets = 3..7,
-        dousingElement = "water",
         aoeCharge = "seq.fire_giant_branda_queen_attack_aoe01",
         aoeRelease = "seq.fire_giant_branda_queen_attack_aoe02",
         aoeWave = "spotanim.vfx_fire_giant_branda_queen_attack_aoe_proj01",
@@ -94,8 +96,9 @@ enum class TitanElement(
         minion = "npc.rt_summon_elemental_ice",
         minionSpawn = "seq.ice_minion_spawn01",
         minionExplode = "seq.ice_minion_explode01",
+        minionDeath = "seq.ice_minion_death01",
+        minionDeathSpot = "spotanim.ice_minion_death_spotanim",
         wallColumnOffsets = -5..-1,
-        dousingElement = "fire",
         aoeCharge = "seq.ice_giant_edric_king_attack_aoe01",
         aoeRelease = "seq.ice_giant_edric_king_attack_aoe02",
         aoeWave = "spotanim.vfx_ice_giant_eldric_king_attack_aoe_proj01",
@@ -115,7 +118,14 @@ enum class TitanElement(
     val inactiveId: Int by lazy { inactive.asRSCM(RSCMType.NPC) }
 
     val undousedMessage: String
-        get() = "The ${name.lowercase()} wall is unharmed. Cast a $dousingElement spell at it to douse it."
+        get() =
+            when (this) {
+                Fire ->
+                    "You'll need to use a water or ice spell that is strong enough to put out " +
+                        "the fire."
+                Ice ->
+                    "You'll need to use a fire spell that is strong enough to melt the icicles."
+            }
 
     fun isDousedBy(spell: ItemServerType): Boolean =
         if (this == Fire) {

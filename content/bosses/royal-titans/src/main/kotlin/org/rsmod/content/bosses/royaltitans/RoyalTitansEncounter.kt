@@ -31,6 +31,7 @@ import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocShape
+import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.loc.LocLayerConstants
 
@@ -278,6 +279,14 @@ constructor(
         }
     }
 
+    /** Whether this player would receive loot from [npc] right now. */
+    fun canLoot(player: Player, npc: Npc): Boolean {
+        val run = runOf(npc) ?: return false
+        if (!run.queenDead || !run.kingDead) return false
+        val uuid = player.uuid ?: return false
+        return uuid !in run.looted
+    }
+
     fun phaseTwo(npc: Npc) {
         val run = runOf(npc) ?: return
         if (run.phase >= PHASE_TWO) {
@@ -351,7 +360,7 @@ constructor(
     private fun onPairKilled(run: Run) {
         val tick = deps.mapClock.cycle
         walls.clearAll()
-        elementals.clearAll()
+        elementals.killAll()
         run.respawnAt = tick + RESPAWN_TICKS
         run.looted.clear()
         run.lootStarted = false
@@ -508,26 +517,34 @@ constructor(
         return true
     }
 
+    /**
+     * OSRS knocks any player standing on a titan's phase-two landing strip (the full five-by-three
+     * end zone, not just the titan's own three-by-three body) three tiles back towards the middle
+     * of the arena. The player plays the troll flyback, faces the teleporting titan, and takes a
+     * 15-30 typeless hit on the following tick.
+     */
     private fun knockPlayersOffLandingTiles(run: Run, alive: List<Npc>) {
         for (titan in alive) {
             val element = TitanElement.of(titan) ?: continue
             val spawn = run.spawnFor(element)
-            val landing = RoyalTitansArena.phaseTwoPosition(spawn, element)
+            val landing = RoyalTitansArena.endTiles(spawn, element).toHashSet()
+            val step = if (element == TitanElement.Fire) -KNOCKBACK_TILES else KNOCKBACK_TILES
+            val face = if (element == TitanElement.Fire) Direction.North else Direction.South
             for (player in players(run)) {
                 if (!player.isValidTarget()) continue
-                if (player.coords.level != landing.level) continue
-                if (player.coords.x !in landing.x until landing.x + 3) continue
-                if (player.coords.z !in landing.z until landing.z + 3) continue
-                val columns = RoyalTitansArena.columns(spawn, element)
-                val dest =
-                    CoordGrid(
-                        player.coords.x.coerceIn(columns.first, columns.last),
-                        player.coords.z.coerceIn(
-                            spawn.z + RoyalTitansArena.BAND_SOUTH,
-                            spawn.z + RoyalTitansArena.BAND_NORTH,
-                        ),
-                        player.coords.level,
-                    )
+                if (player.coords !in landing) continue
+                val start = player.coords
+                val dest = CoordGrid(start.x, start.z + step, start.level)
+                PathingEntityCommon.exactMove(
+                    player,
+                    start,
+                    dest,
+                    KNOCKBACK_DELAY1,
+                    KNOCKBACK_DELAY2,
+                    face.angle,
+                    deps.collision,
+                )
+                player.anim(FLYBACK_SEQ, priority = KNOCKBACK_ANIM_PRIORITY)
                 player.queueHit(
                     titan,
                     HIT_DELAY,
@@ -535,7 +552,6 @@ constructor(
                     KNOCKBACK_MIN_HIT + deps.random.of(KNOCKBACK_MAX_HIT - KNOCKBACK_MIN_HIT + 1),
                     deps.playerHitModifier,
                 )
-                PathingEntityCommon.teleport(player, deps.collision, dest)
             }
         }
     }
@@ -587,41 +603,12 @@ constructor(
         walls.clearAll()
         elementals.clearAll()
         val target = players(run).firstOrNull { it.isValidTarget() }
-        val fresh = HashMap<TitanElement, Npc>(2)
-        for (element in TitanElement.entries) {
-            val old = if (element == TitanElement.Fire) run.queen else run.king
-            if (old.isSlotAssigned) {
-                runCatching { deps.npcRepo.del(old, Int.MAX_VALUE) }
-                    .onFailure { logger.warn(it) { "[royal-titans] failed to delete defeated titan" } }
-            }
-            val fightType = ServerCacheManager.getNpc(element.titanId) ?: continue
-            val npc = Npc(fightType, run.spawnFor(element))
-            npc.copyStats(fightType)
-            npc.hitpoints = npc.baseHitpointsLvl
-            npc.movementLocked = false
-            npc.mode = fightType.defaultMode
-            npc.moveRestrict = fightType.moveRestrict
-            npc.ignoreCombatInteractions = false
-            npc.apRequiresLineOfSight = false
-            npc.apRangeOverride = ARENA_AP_RANGE
-            npc.anim(element.spawnSeq)
-            element.titanSpawnSpot?.let { npc.spotanim(it) }
-            val added =
-                runCatching { deps.npcRepo.add(npc, Int.MAX_VALUE) }
-                    .onFailure { logger.warn(it) { "[royal-titans] failed to respawn ${element.displayName}" } }
-                    .isSuccess
-            if (!added) {
-                continue
-            }
-            manager.attachNpc(run.session.id, npc)
-            fresh[element] = npc
-            logger.info {
-                "[royal-titans] respawned ${element.displayName} at " +
-                    "(${npc.coords.x}, ${npc.coords.z})"
-            }
+        // The corpses fade first, then the new pair appears a couple of ticks apart (OSRS).
+        for (titan in listOf(run.queen, run.king)) {
+            if (!titan.isSlotAssigned) continue
+            runCatching { deps.npcRepo.del(titan, Int.MAX_VALUE) }
+                .onFailure { logger.warn(it) { "[royal-titans] failed to delete defeated titan" } }
         }
-        fresh[TitanElement.Fire]?.let { run.queen = it }
-        fresh[TitanElement.Ice]?.let { run.king = it }
         run.phase = PHASE_ONE
         run.queenDead = false
         run.kingDead = false
@@ -633,10 +620,49 @@ constructor(
         run.nextPulse = 0
         run.pulseUntil = 0
         run.fightStart = deps.mapClock.cycle
+        deps.worldQueues.add(RESPAWN_DELAY) { spawnTitan(run, TitanElement.Fire, target) }
+        deps.worldQueues.add(RESPAWN_DELAY + RESPAWN_STAGGER) {
+            spawnTitan(run, TitanElement.Ice, target)
+        }
+        logger.info { "[royal-titans] instance=${run.session.id} titans respawning" }
+    }
+
+    @OptIn(InternalApi::class)
+    private fun spawnTitan(run: Run, element: TitanElement, target: Player?) {
+        if (!active(run)) return
+        val fightType = ServerCacheManager.getNpc(element.titanId) ?: return
+        val npc = Npc(fightType, run.spawnFor(element))
+        npc.copyStats(fightType)
+        npc.hitpoints = npc.baseHitpointsLvl
+        npc.movementLocked = false
+        npc.mode = fightType.defaultMode
+        npc.moveRestrict = fightType.moveRestrict
+        npc.ignoreCombatInteractions = false
+        npc.apRequiresLineOfSight = false
+        npc.apRangeOverride = ARENA_AP_RANGE
+        npc.respawnDir = if (element == TitanElement.Fire) Direction.East else Direction.West
+        npc.anim(element.spawnSeq)
+        element.titanSpawnSpot?.let { npc.spotanim(it) }
+        val added =
+            runCatching { deps.npcRepo.add(npc, Int.MAX_VALUE) }
+                .onFailure { logger.warn(it) { "[royal-titans] failed to respawn ${element.displayName}" } }
+                .isSuccess
+        if (!added) {
+            return
+        }
+        manager.attachNpc(run.session.id, npc)
+        if (element == TitanElement.Fire) {
+            run.queen = npc
+        } else {
+            run.king = npc
+        }
         if (target != null) {
             engage(run, target)
         }
-        logger.info { "[royal-titans] instance=${run.session.id} titans respawned" }
+        logger.info {
+            "[royal-titans] respawned ${element.displayName} at " +
+                "(${npc.coords.x}, ${npc.coords.z})"
+        }
     }
 
     private fun playCorpseDeath(run: Run, npc: Npc) {
@@ -816,6 +842,8 @@ constructor(
         private const val PHASE_TWO_NAME = "phase_two"
         private const val PHASE_TWO_ENTRY_TICKS = 10
         private const val PHASE_TWO_SPAWN_DELAY = 2
+        private const val RESPAWN_DELAY = 2
+        private const val RESPAWN_STAGGER = 2
         private const val FIRST_ATTACK_DELAY = 8
         private const val FIRE_FACE_ANGLE = 0
         private const val ICE_FACE_ANGLE = 1024
@@ -833,6 +861,11 @@ constructor(
         private const val CORPSE_DEATH_DELAY = 28
         private const val KNOCKBACK_MIN_HIT = 15
         private const val KNOCKBACK_MAX_HIT = 30
+        private const val KNOCKBACK_TILES = 3
+        private const val KNOCKBACK_DELAY1 = 0
+        private const val KNOCKBACK_DELAY2 = 15
+        private const val KNOCKBACK_ANIM_PRIORITY = 100
+        private const val FLYBACK_SEQ = "seq.human_troll_flyback_withsound"
         private const val HIT_DELAY = 1
         private const val ARENA_AP_RANGE = 20
         private const val SAFE_MARKER_LOC = "loc.vfx_giant_attack_aoe_protection01"

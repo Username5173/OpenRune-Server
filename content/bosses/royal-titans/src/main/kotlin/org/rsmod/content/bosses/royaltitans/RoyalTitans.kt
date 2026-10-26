@@ -18,6 +18,7 @@ import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.spec.BossSpec
 import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.DamageExpr
+import org.rsmod.api.player.clearInteractionRoute
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onEvent
 import org.rsmod.api.script.onNpcHit
@@ -318,8 +319,18 @@ private suspend fun ProtectedAccess.lootTitan(
     val run = encounter.runOf(npc) ?: return
     if (!run.queenDead || !run.kingDead) return
     val element = TitanElement.of(npc) ?: return
+    if (!encounter.canLoot(player, npc)) {
+        // Already looted (or otherwise ineligible): only the refusal message plays.
+        encounter.onLoot(player, npc, mode)
+        return
+    }
+    // A pending combat sequence (weapon attack or spell) has priority over the pick-up
+    // animation, which is why looting straight out of combat could silently skip it. OSRS plays
+    // picking_low on the loot tick regardless, so clear the interaction and force the sequence
+    // through at a priority no combat animation can outrank.
+    player.clearInteractionRoute()
     player.faceNpc(npc)
-    anim("seq.picking_low")
+    player.anim("seq.picking_low", priority = PICKUP_ANIM_PRIORITY)
     delay(2)
     encounter.onLoot(player, npc, mode)
     soundSynth(if (element == TitanElement.Fire) FIRE_LOOT_SOUND else ICE_LOOT_SOUND)
@@ -327,6 +338,7 @@ private suspend fun ProtectedAccess.lootTitan(
 
 private const val FIRE_LOOT_SOUND = 10102
 private const val ICE_LOOT_SOUND = 10108
+private const val PICKUP_ANIM_PRIORITY = 100
 
 private val TitanElement.meleeSeq: String
     get() =

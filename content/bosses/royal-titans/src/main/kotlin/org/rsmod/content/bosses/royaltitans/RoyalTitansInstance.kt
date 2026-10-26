@@ -2,8 +2,6 @@
 
 import com.github.michaelbull.logging.InlineLogger
 import jakarta.inject.Inject
-import java.util.Collections
-import java.util.WeakHashMap
 import org.rsmod.api.instances.BossInstanceRegistry
 import org.rsmod.api.instances.InstanceAccess
 import org.rsmod.api.instances.InstanceArea
@@ -14,6 +12,7 @@ import org.rsmod.api.instances.InstanceSession
 import org.rsmod.api.instances.SessionState
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.music.MusicPlayer
+import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.boolVarp
@@ -52,9 +51,6 @@ constructor(
 
     override fun bestTimeVarp(): String = BEST_TIME_VARP
 
-    private val escapeWarned: MutableSet<Player> =
-        Collections.newSetFromMap(WeakHashMap<Player, Boolean>())
-
     override fun ScriptContext.configure() {
         locInteractions.setApRange(ESCAPE_LOC_SYMBOL, ESCAPE_AP_RANGE)
         onEnterPrelude { result, enter ->
@@ -89,6 +85,10 @@ constructor(
         enter()
         delay(2)
         minimapReset()
+        // The instance telejump rebuilds the scene; resend the carried inventories so the client
+        // recalculates spell/rune availability instead of keeping a stale spellbook state.
+        UpdateInventory.updateInvFull(player, player.inv)
+        UpdateInventory.updateInvFull(player, player.worn)
         closeFadeOverlay(cycles = 2)
         musicPlayer.unlockAndPlay(player, MusicRow.getRow(MUSIC))
     }
@@ -165,11 +165,6 @@ constructor(
     }
 
     private suspend fun ProtectedAccess.quickEscape() {
-        if (escapeWarned.add(player)) {
-            mes(ESCAPE_INFO)
-            return
-        }
-        escapeWarned.remove(player)
         logger.info { "[royal-titans] quick-escape used by ${player.username}" }
         defaultLeaveFlow()
     }
@@ -203,9 +198,6 @@ constructor(
         private const val FADE_CLIENT_CYCLES = 50
         private const val ESCAPE_AP_RANGE = 40
         private const val ESCAPE_LOC_SYMBOL = "loc.royal_titans_exit"
-        private const val ESCAPE_INFO =
-            "This tunnel leads out of the arena. Click it again to use 'Quick-escape' and leave " +
-                "the encounter."
         private const val INSPECT_INFO =
             "This tunnel leads out of the arena. Right-click it and select 'Quick-escape' to " +
                 "leave the encounter."
