@@ -525,6 +525,7 @@ constructor(
      */
     private fun knockPlayersOffLandingTiles(run: Run, alive: List<Npc>) {
         for (titan in alive) {
+            if (!titan.isSlotAssigned || titan.hitpoints <= 0) continue
             val element = TitanElement.of(titan) ?: continue
             val spawn = run.spawnFor(element)
             val landing = RoyalTitansArena.endTiles(spawn, element).toHashSet()
