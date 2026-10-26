@@ -85,10 +85,6 @@ constructor(
         enter()
         delay(2)
         minimapReset()
-        // The instance telejump rebuilds the scene; resend the carried inventories so the client
-        // recalculates spell/rune availability instead of keeping a stale spellbook state.
-        UpdateInventory.updateInvFull(player, player.inv)
-        UpdateInventory.updateInvFull(player, player.worn)
         closeFadeOverlay(cycles = 2)
         musicPlayer.unlockAndPlay(player, MusicRow.getRow(MUSIC))
     }
