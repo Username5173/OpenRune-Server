@@ -20,6 +20,7 @@ import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.isValidTarget
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -233,6 +234,8 @@ constructor(
         val survivor = element.opposite
         run.survivorElement = survivor
         val survivorNpc = if (survivor == TitanElement.Fire) run.queen else run.king
+        survivorNpc.faceAngleOverride = null
+        survivorNpc.clearFacingLock()
         deps.worldQueues.add(SURVIVOR_SPEECH_DELAY) {
             if (survivorNpc.isSlotAssigned) {
                 survivorNpc.say(survivor.survivorSpeech(deps.random.of(2)))
@@ -260,7 +263,9 @@ constructor(
         }
         if (!run.lootStarted) {
             run.lootStarted = true
-            run.respawnAt = deps.mapClock.cycle + RESPAWN_TICKS
+            if (!run.fadeStarted) {
+                run.respawnAt = deps.mapClock.cycle + RESPAWN_TICKS
+            }
             broadcast(
                 run,
                 "<col=ef1020>The Royal Titans will reinvigorate themselves in 18 seconds.</col>",
@@ -307,6 +312,8 @@ constructor(
         elementals.clearAll()
         patrol.stop(run.queen)
         patrol.stop(run.king)
+        run.queen.clearFacingLock()
+        run.king.clearFacingLock()
         for (titan in alive) {
             val element = TitanElement.of(titan) ?: continue
             val encounter = deps.encounterRegistry.of(titan)
@@ -326,6 +333,7 @@ constructor(
                 deps.worldRepo.spotanimMap(element.endSpawnSpot, tile)
             }
         }
+        run.phaseTwoLandingTick = tick + PHASE_TWO_SPAWN_DELAY
         deps.worldQueues.add(PHASE_TWO_SPAWN_DELAY) {
             val target = players(run).firstOrNull { it.isValidTarget() }
             knockPlayersOffLandingTiles(run, alive)
@@ -362,6 +370,7 @@ constructor(
         walls.clearAll()
         elementals.killAll()
         run.respawnAt = tick + RESPAWN_TICKS
+        run.fadeStarted = false
         run.looted.clear()
         run.lootStarted = false
         run.lootEventId++
@@ -389,11 +398,6 @@ constructor(
                     "${TitanElement.Fire.displayName} or ${TitanElement.Ice.displayName}.",
                 ChatType.GameMessage,
             )
-        }
-        deps.worldQueues.add(CORPSE_DEATH_DELAY) {
-            for (titan in listOf(run.queen, run.king)) {
-                if (titan.isSlotAssigned) playCorpseDeath(run, titan)
-            }
         }
     }
 
@@ -466,6 +470,12 @@ constructor(
     private fun advance(run: Run) {
         val tick = deps.mapClock.cycle
         if (run.queenDead && run.kingDead) {
+            if (!run.fadeStarted && tick >= run.respawnAt - CORPSE_FADE_LEAD) {
+                run.fadeStarted = true
+                for (titan in listOf(run.queen, run.king)) {
+                    if (titan.isSlotAssigned) playCorpseDeath(run, titan)
+                }
+            }
             if (run.respawnAt in 1..tick) {
                 reset(run)
             }
@@ -474,7 +484,13 @@ constructor(
         if (run.phase != PHASE_TWO) {
             return
         }
-        if (!run.queenDead && !run.kingDead && run.queen.isSlotAssigned && run.king.isSlotAssigned) {
+        if (
+            !run.queenDead &&
+                !run.kingDead &&
+                run.queen.isSlotAssigned &&
+                run.king.isSlotAssigned &&
+                tick >= run.phaseTwoLandingTick
+        ) {
             // Packet capture: Branda faces south (towards Eldric), Eldric faces north.
             faceEachOther(run)
         }
@@ -572,6 +588,18 @@ constructor(
             RoyalTitansArena.waveTiles(run.spawnFor(element), element, safe, run.survivorElement)
         if (tiles.isEmpty()) return
         val spot = element.aoeWaveSpot
+        if (run.pulseSoundToken != run.pulseToken) {
+            run.pulseSoundToken = run.pulseToken
+            for (player in players(run)) {
+                if (!player.isValidTarget()) continue
+                for (pass in 0 until WAVE_PASSES) {
+                    player.soundSynth(
+                        AOE_WAVE_SOUND,
+                        delay = AOE_WAVE_SOUND_DELAY + pass * AOE_WAVE_SOUND_GAP,
+                    )
+                }
+            }
+        }
         for (pass in 0 until WAVE_PASSES) {
             deps.worldQueues.add(1 + pass * WAVE_GAP) {
                 if (run.pulseToken != token || run.safeTile != safe) return@add
@@ -618,6 +646,8 @@ constructor(
         run.looted.clear()
         run.lootStarted = false
         run.respawnAt = 0
+        run.fadeStarted = false
+        run.phaseTwoLandingTick = 0
         run.nextPulse = 0
         run.pulseUntil = 0
         run.fightStart = deps.mapClock.cycle
@@ -642,8 +672,6 @@ constructor(
         npc.apRequiresLineOfSight = false
         npc.apRangeOverride = ARENA_AP_RANGE
         npc.respawnDir = if (element == TitanElement.Fire) Direction.East else Direction.West
-        npc.anim(element.spawnSeq)
-        element.titanSpawnSpot?.let { npc.spotanim(it) }
         val added =
             runCatching { deps.npcRepo.add(npc, Int.MAX_VALUE) }
                 .onFailure { logger.warn(it) { "[royal-titans] failed to respawn ${element.displayName}" } }
@@ -651,12 +679,20 @@ constructor(
         if (!added) {
             return
         }
+        // The avatar only gets its info protocol on Add; setting the spawn animation earlier is a
+        // no-op and the titan then pops in on its default idle pose.
+        npc.anim(element.spawnSeq)
+        element.titanSpawnSpot?.let { npc.spotanim(it) }
         manager.attachNpc(run.session.id, npc)
         if (element == TitanElement.Fire) {
             run.queen = npc
         } else {
             run.king = npc
         }
+        val firstAttack = deps.mapClock.cycle + FIRST_ATTACK_DELAY
+        val encounter = deps.encounterRegistry.of(npc)
+        encounter.busyUntil = firstAttack
+        encounter.nextAttackTick = firstAttack
         if (target != null) {
             engage(run, target)
         }
@@ -677,10 +713,12 @@ constructor(
             } else {
                 DEATH_FLOOR_ICE
             }
-        for ((index, symbol) in locs.withIndex()) {
-            val x = npc.coords.x + if (index == 0) 0 else 2
-            addLoc(run, symbol, CoordGrid(x, npc.coords.z, npc.coords.level), Int.MAX_VALUE)
-        }
+        // The pools form against the corridor edges either side of the corpse, not against the
+        // titan's own spawn column on the ledge.
+        val columns = RoyalTitansArena.columns(spawn, element)
+        val level = npc.coords.level
+        addLoc(run, locs[0], CoordGrid(columns.first, npc.coords.z, level), Int.MAX_VALUE)
+        addLoc(run, locs[1], CoordGrid(columns.last, npc.coords.z, level), Int.MAX_VALUE)
         logger.debug { "[royal-titans] ${element.displayName} corpse fades at (${spawn.x}, ${spawn.z})" }
     }
 
@@ -808,9 +846,12 @@ constructor(
         var nextPulse = 0
         var pulseUntil = 0
         var pulseToken = 0
+        var pulseSoundToken = -1
+        var phaseTwoLandingTick = 0
         var safeTile: CoordGrid? = null
         var lootStarted = false
         var respawnAt = 0
+        var fadeStarted = false
         var lootEventId = 1
         var loopRunning = false
         var phaseAnchor: CoordGrid? = null
@@ -859,7 +900,10 @@ constructor(
         private const val BLAST_MAX_HIT = 30
         private const val RANGED_ACCURACY_BOOST = 6.0
         private const val RESPAWN_TICKS = 30
-        private const val CORPSE_DEATH_DELAY = 28
+        private const val CORPSE_FADE_LEAD = 5
+        private const val AOE_WAVE_SOUND = 10155
+        private const val AOE_WAVE_SOUND_DELAY = 28
+        private const val AOE_WAVE_SOUND_GAP = 60
         private const val KNOCKBACK_MIN_HIT = 15
         private const val KNOCKBACK_MAX_HIT = 30
         private const val KNOCKBACK_TILES = 3
@@ -887,7 +931,7 @@ constructor(
         private val DEATH_FLOOR_FIRE =
             listOf("loc.fire_giant_branda_queen_death01_floor01", "loc.fire_giant_branda_queen_death01_floor02")
         private val DEATH_FLOOR_ICE =
-            listOf("loc.ice_giant_eldric_king_death01_floor01", "loc.ice_giant_eldric_king_death01_floor02")
+            listOf("loc.ice_giant_eldric_king_death01_floor02", "loc.ice_giant_eldric_king_death01_floor01")
 
         private val TitanElement.teleportSeq: String
             get() =

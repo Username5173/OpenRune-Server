@@ -12,13 +12,13 @@ import org.rsmod.api.instances.InstanceSession
 import org.rsmod.api.instances.SessionState
 import org.rsmod.api.player.interact.LocInteractions
 import org.rsmod.api.player.music.MusicPlayer
-import org.rsmod.api.player.output.UpdateInventory
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.boolVarp
 import org.rsmod.api.script.onApLoc1
 import org.rsmod.api.script.onApLoc2
 import org.rsmod.api.script.onOpLoc2
+import org.rsmod.api.script.onOpLoc3
 import org.rsmod.api.table.MusicRow
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
@@ -67,6 +67,10 @@ constructor(
             }
         }
         onEnterObject { openEntryMenu() }
+        // The entrance exposes Enter (op1), Join (op2) and Quick-start (op3). Op1 opens the menu
+        // above; the other two skip straight to the action they name.
+        onOpLoc2(ENTRANCE_LOC_SYMBOL) { joinFight() }
+        onOpLoc3(ENTRANCE_LOC_SYMBOL) { quickStart() }
         // The arena tunnel exposes Inspect (op1) and Quick-escape (op2). The instance framework
         // routes op1 of an exit object to this override, so keep that option informational and
         // bind the leave flow to the Quick-escape option the client actually offers.
@@ -143,7 +147,19 @@ constructor(
         completeInstanceEntry(result)
     }
 
+    private suspend fun ProtectedAccess.quickStart() {
+        if (manager.sessionForPlayer(player) != null) {
+            mes("You are already inside an instance.")
+            return
+        }
+        startFight()
+    }
+
     private suspend fun ProtectedAccess.joinFight() {
+        if (manager.sessionForPlayer(player) != null) {
+            mes("You are already inside an instance.")
+            return
+        }
         val session =
             manager
                 .sessionsForKey(key)
@@ -194,6 +210,7 @@ constructor(
         private const val FADE_CLIENT_CYCLES = 50
         private const val ESCAPE_AP_RANGE = 40
         private const val ESCAPE_LOC_SYMBOL = "loc.royal_titans_exit"
+        private const val ENTRANCE_LOC_SYMBOL = "loc.royal_titans_entrance"
         private const val INSPECT_INFO =
             "This tunnel leads out of the arena. Right-click it and select 'Quick-escape' to " +
                 "leave the encounter."
