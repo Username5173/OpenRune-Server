@@ -176,6 +176,110 @@ class MusicPlayerRegressionTest {
     }
 
     @Test
+    fun `skip in shuffle mode moves to another unlocked track with the live fade`() {
+        val f = Fixture()
+        f.set("varp.musicmulti_1", 3)
+        assertTrue(f.music.playSelected(f.player, f.first))
+        f.music.selectMode(f.player, MusicPlayMode.Random)
+        f.client.messages.clear()
+
+        f.music.skipTrack(f.player)
+
+        assertEquals(f.second.id, f.player.vars["varbit.music_curr_id"])
+        val song = f.client.messages.filterIsInstance<MidiSongV2>().single()
+        assertEquals(MusicPlayer.MUSIC_SKIP_FADE, song.fadeOutSpeed)
+        assertEquals(MusicPlayer.MUSIC_SKIP_FADE, song.fadeInSpeed)
+    }
+
+    @Test
+    fun `skip keeps the current track when no other track is unlocked`() {
+        val f = Fixture()
+        f.set("varp.musicmulti_1", 1)
+        assertTrue(f.music.playSelected(f.player, f.first))
+        f.music.selectMode(f.player, MusicPlayMode.Random)
+        f.client.messages.clear()
+
+        f.music.skipTrack(f.player)
+
+        assertEquals(f.first.id, f.player.vars["varbit.music_curr_id"])
+        assertTrue(f.client.messages.filterIsInstance<MidiSongV2>().isEmpty())
+    }
+
+    @Test
+    fun `skip does nothing outside shuffle mode or while music is muted`() {
+        for (mode in MusicPlayMode.entries) {
+            val f = Fixture()
+            f.set("varp.musicmulti_1", 3)
+            assertTrue(f.music.playSelected(f.player, f.first))
+            f.music.selectMode(f.player, mode)
+            if (mode == MusicPlayMode.Random) {
+                f.set("varbit.option_music_desktop", 0)
+            }
+            f.client.messages.clear()
+
+            f.music.skipTrack(f.player)
+
+            assertEquals(f.first.id, f.player.vars["varbit.music_curr_id"], "$mode")
+            assertTrue(f.client.messages.filterIsInstance<MidiSongV2>().isEmpty(), "$mode")
+        }
+    }
+
+    @Test
+    fun `selecting area mode leaves the selected playlist unless playlist changes keep the mode`() {
+        for (keepPlaylist in listOf(false, true)) {
+            val f = Fixture()
+            f.music.selectMode(f.player, MusicPlayMode.Random)
+            f.set("varbit.music_current_playlist", 2)
+            f.set("varbit.dont_update_music_on_playlist_change", if (keepPlaylist) 1 else 0)
+
+            f.music.selectMode(f.player, MusicPlayMode.Area)
+
+            val expected = if (keepPlaylist) 2 else 0
+            assertEquals(0, f.player.vars["varp.musicplay"])
+            assertEquals(expected, f.player.vars["varbit.music_current_playlist"])
+        }
+    }
+
+    @Test
+    fun `selecting area mode while idle starts the current area's music`() {
+        val f = Fixture()
+        f.area("area.lumbridge", f.first)
+        f.set("varp.musicmulti_1", 1)
+        f.set("varp.musicplay", MusicPlayMode.Manual.varValue)
+        f.music.enterArea(f.player, "area.lumbridge")
+        assertEquals(0, f.player.vars["varbit.music_curr_id"])
+
+        f.music.selectMode(f.player, MusicPlayMode.Area)
+        f.music.playNextIfIdle(f.player)
+
+        assertEquals(f.first.id, f.player.vars["varbit.music_curr_id"])
+    }
+
+    @Test
+    fun `idle start keeps a playing track and respects mute`() {
+        val f = Fixture()
+        f.set("varp.musicmulti_1", 1)
+        assertTrue(f.music.playSelected(f.player, f.first))
+        f.music.selectMode(f.player, MusicPlayMode.Area)
+        f.music.playNextIfIdle(f.player)
+        assertEquals(f.first.id, f.player.vars["varbit.music_curr_id"])
+
+        val muted = Fixture()
+        muted.area("area.lumbridge", muted.first)
+        muted.set("varp.musicmulti_1", 1)
+        muted.set("varp.musicplay", MusicPlayMode.Manual.varValue)
+        muted.music.enterArea(muted.player, "area.lumbridge")
+        muted.set("varbit.option_master_volume_desktop", 0)
+        muted.music.selectMode(muted.player, MusicPlayMode.Area)
+        muted.client.messages.clear()
+
+        muted.music.playNextIfIdle(muted.player)
+
+        assertEquals(0, muted.player.vars["varbit.music_curr_id"])
+        assertTrue(muted.client.messages.filterIsInstance<MidiSongV2>().isEmpty())
+    }
+
+    @Test
     fun `shuffle with no unlocked songs sends no locked song`() {
         val f = Fixture()
         f.music.selectMode(f.player, MusicPlayMode.Random)
@@ -203,6 +307,7 @@ class MusicPlayerRegressionTest {
         assertTrue(f.music.addToPlaylist(f.player, 1, f.second))
         f.set("varbit.music_current_playlist", 1)
         f.music.selectMode(f.player, MusicPlayMode.Random)
+        f.music.playNextIfIdle(f.player)
         assertEquals(f.second.id, f.player.vars["varbit.music_curr_id"])
         f.music.skipTrack(f.player)
         assertEquals(f.second.id, f.player.vars["varbit.music_curr_id"])
@@ -368,6 +473,8 @@ class MusicPlayerRegressionTest {
             repoField("musicIds", rows)
             repoField("classicAreas", Int2ObjectOpenHashMap<Music>())
             repoField("modernAreas", Int2ObjectOpenHashMap<List<Music>>())
+            set("varbit.option_master_volume_desktop", 100)
+            set("varbit.option_music_desktop", 100)
         }
 
         fun repoField(name: String, value: Any) {

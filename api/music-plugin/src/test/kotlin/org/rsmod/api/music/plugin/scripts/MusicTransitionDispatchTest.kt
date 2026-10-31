@@ -15,6 +15,7 @@ import org.rsmod.annotations.InternalApi
 import org.rsmod.api.music.MusicRepository
 import org.rsmod.api.player.events.EngineQueueEvents
 import org.rsmod.api.player.events.PlayerTimerEvent
+import org.rsmod.api.player.music.MusicPlayMode
 import org.rsmod.api.player.music.MusicPlayer
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessContextFactory
@@ -121,8 +122,20 @@ class MusicTransitionDispatchTest {
         assertEquals(oldTrack, f.player.vars["varbit.music_curr_id"])
     }
 
+    @Test
+    fun `login resets to area mode unless remembering the previous mode is enabled`() {
+        val reset = Fixture(MusicPlayMode.Manual, rememberMode = false)
+        assertEquals(MusicPlayMode.Area.varValue, reset.player.vars["varp.musicplay"])
+
+        val remembered = Fixture(MusicPlayMode.Manual, rememberMode = true)
+        assertEquals(MusicPlayMode.Manual.varValue, remembered.player.vars["varp.musicplay"])
+    }
+
     @OptIn(InternalApi::class)
-    private class Fixture {
+    private class Fixture(
+        initialMode: MusicPlayMode = MusicPlayMode.Area,
+        rememberMode: Boolean = false,
+    ) {
         val client = RecordingClient()
         val player = Player().apply { this.client = this@Fixture.client }
         private val random = DefaultGameRandom(1)
@@ -142,6 +155,8 @@ class MusicTransitionDispatchTest {
             set("varbit.option_master_volume_desktop", 100)
             set("varbit.option_music_desktop", 100)
             set("varbit.music_area_mode", 0)
+            set("varp.musicplay", initialMode.varValue)
+            set("varbit.use_previous_music_mode_on_login", if (rememberMode) 1 else 0)
             assertTrue(events.publish(SessionStateEvent.Login(player)))
         }
 

@@ -24,6 +24,7 @@ constructor(private val repo: MusicRepository, private val musicPlayer: MusicPla
     PluginScript() {
     private val Player.playMode by enumVarp<MusicPlayMode>("varp.musicplay")
     private var Player.currentPlaylist by intVarBit("varbit.music_current_playlist")
+    private var Player.currMusicId by intVarBit("varbit.music_curr_id")
     private val Player.keepModeOnPlaylistChange by
         boolVarBit("varbit.dont_update_music_on_playlist_change")
 
@@ -31,17 +32,25 @@ constructor(private val repo: MusicRepository, private val musicPlayer: MusicPla
         onIfOpen("interface.music") { player.openTab() }
         onIfOverlayButton("component.music:jukebox") { player.selectTrack(it.comsub, it.op) }
         onIfOverlayButton("component.music:area") {
-            musicPlayer.selectMode(player, MusicPlayMode.Area)
+            player.selectMode(MusicPlayMode.Area, "area", startArea = true)
         }
         onIfOverlayButton("component.music:shuffle") {
-            musicPlayer.selectMode(player, MusicPlayMode.Random)
+            player.selectMode(MusicPlayMode.Random, "shuffle")
         }
         onIfOverlayButton("component.music:single") {
-            musicPlayer.selectMode(player, MusicPlayMode.Manual)
+            player.selectMode(MusicPlayMode.Manual, "single")
         }
         onIfOverlayButton("component.music:skip") { musicPlayer.skipTrack(player) }
         onIfOverlayButton("component.music:dropdown_content") {
             player.selectDropdownEntry(it.comsub)
+        }
+    }
+
+    private fun Player.selectMode(mode: MusicPlayMode, name: String, startArea: Boolean = false) {
+        musicPlayer.selectMode(this, mode)
+        mes("You are now using the $name music mode.")
+        if (startArea) {
+            musicPlayer.playNextIfIdle(this)
         }
     }
 
@@ -114,8 +123,17 @@ constructor(private val repo: MusicRepository, private val musicPlayer: MusicPla
         }
         if (playlist == 0) {
             musicPlayer.selectMode(this, MusicPlayMode.Area)
-        } else if (playMode == MusicPlayMode.Area) {
+            return
+        }
+        if (playMode == MusicPlayMode.Area) {
             musicPlayer.selectMode(this, MusicPlayMode.Random)
+            return
+        }
+        if (playMode == MusicPlayMode.Manual) {
+            val current = repo.forId(currMusicId)
+            if (current != null && !musicPlayer.isInPlaylist(this, playlist, current)) {
+                musicPlayer.selectMode(this, MusicPlayMode.Random)
+            }
         }
     }
 

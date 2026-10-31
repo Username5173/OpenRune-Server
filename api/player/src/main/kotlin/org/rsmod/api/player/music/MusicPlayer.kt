@@ -40,10 +40,16 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
     private var Player.currentTrackRow by intVarp("varp.music_current_track")
     private var Player.pendingAreaExit by nullableIntVarp("varp.music_pending_area_exit")
 
-    private val Player.currentPlaylist by intVarBit("varbit.music_current_playlist")
+    private var Player.currentPlaylist by intVarBit("varbit.music_current_playlist")
 
     private val Player.shuffleOnManualSelect by
         boolVarBit("varbit.use_shuffle_mode_on_manual_music_selection")
+
+    private val Player.keepPlaylistOnModeChange by
+        boolVarBit("varbit.dont_update_music_on_playlist_change")
+
+    private val Player.masterVolume by intVarBit("varbit.option_master_volume_desktop")
+    private val Player.musicVolume by intVarBit("varbit.option_music_desktop")
 
     public fun unlockAndPlay(player: Player, musicRow: MusicRow) {
         val music = getUnlockableOrThrow(musicRow)
@@ -99,7 +105,7 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
         play(player, music)
     }
 
-    private fun play(player: Player, music: Music) {
+    private fun play(player: Player, music: Music, fade: Int = MUSIC_PLAY_FADE) {
         player.pendingAreaExit = null
         val currMusicId = player.currMusicId
 
@@ -114,7 +120,7 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
             player.currMusicId = music.id
             player.currentTrackRow = music.rowId
 
-            val fadeSpeed = if (currMusicId == 0) 0 else MUSIC_PLAY_FADE
+            val fadeSpeed = if (currMusicId == 0) 0 else fade
             // Both fades start together; delaying the new song would leave a gap instead.
             player.midiSong(music.midi.id, fadeOutSpeed = fadeSpeed, fadeInSpeed = fadeSpeed)
             player.ifSetText("component.music:now_playing_text", music.displayName)
@@ -131,23 +137,30 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
         return true
     }
 
+    public fun isMuted(player: Player): Boolean {
+        return player.masterVolume == 0 || player.musicVolume == 0
+    }
+
     public fun selectMode(player: Player, mode: MusicPlayMode) {
         if (player.playMode == mode) {
             return
         }
         player.playMode = mode
-        when (mode) {
-            MusicPlayMode.Area -> playNextArea(player)
-            MusicPlayMode.Random -> playNextRandom(player)
-            MusicPlayMode.Manual -> {}
+        val leavePlaylist = mode == MusicPlayMode.Area && !player.keepPlaylistOnModeChange
+        if (leavePlaylist && player.currentPlaylist != 0) {
+            player.currentPlaylist = 0
+        }
+    }
+
+    public fun playNextIfIdle(player: Player) {
+        if (player.currMusicId == 0 && !isMuted(player)) {
+            playNext(player)
         }
     }
 
     public fun skipTrack(player: Player) {
-        when (player.playMode) {
-            MusicPlayMode.Area -> playNextArea(player)
-            MusicPlayMode.Random -> playNextRandom(player)
-            MusicPlayMode.Manual -> {}
+        if (player.playMode == MusicPlayMode.Random && !isMuted(player)) {
+            playNextRandom(player, MUSIC_SKIP_FADE)
         }
     }
 
@@ -339,7 +352,7 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
         }
     }
 
-    private fun playNextRandom(player: Player) {
+    private fun playNextRandom(player: Player, fade: Int = MUSIC_PLAY_FADE) {
         val playlist = player.currentPlaylist
         val candidates =
             if (playlist in 1..PLAYLIST_COUNT) playlistTracks(player, playlist) else repo.getAll()
@@ -352,7 +365,7 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
             setEmptyMusicText(player)
             return
         }
-        play(player, next)
+        play(player, next, fade)
     }
 
     public fun enterArea(player: Player, area: String) {
@@ -442,6 +455,9 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
     public companion object {
         /** Two seconds in the client's 20 ms music cycles, shared by both sides of a crossfade. */
         public const val MUSIC_PLAY_FADE: Int = 100
+
+        /** Live capture: the Shuffle Skip button uses the shorter 60/60 fade. */
+        public const val MUSIC_SKIP_FADE: Int = 60
         public const val MUSIC_END_FADE: Int = 20
 
         public const val PLAYLIST_COUNT: Int = 3

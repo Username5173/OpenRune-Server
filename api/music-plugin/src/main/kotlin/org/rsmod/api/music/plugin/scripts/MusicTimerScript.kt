@@ -11,8 +11,6 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 public class MusicTimerScript @Inject constructor(private val musicPlayer: MusicPlayer) :
     PluginScript() {
-    private val Player.masterVolume by intVarBit("varbit.option_master_volume_desktop")
-    private val Player.musicVolume by intVarBit("varbit.option_music_desktop")
     private var Player.currMusicId by intVarBit("varbit.music_curr_id")
     private var Player.musicClock by intVarBit("varbit.music_curr_clocks")
     private var Player.musicDuration by intVarBit("varbit.music_curr_duration")
@@ -40,7 +38,7 @@ public class MusicTimerScript @Inject constructor(private val musicPlayer: Music
         // midi_song each tick, which the client answers by killing any playing jingle (silencing
         // level-up and death jingles entirely).
         clearSoftTimer("timer.music_resume")
-        if (isMusicMuted()) {
+        if (musicPlayer.isMuted(this)) {
             return
         }
         musicPlayer.enable(this)
@@ -52,7 +50,7 @@ public class MusicTimerScript @Inject constructor(private val musicPlayer: Music
         if (musicPlayer.syncAreaExit(this)) {
             return
         }
-        if (isMusicMuted()) {
+        if (musicPlayer.isMuted(this)) {
             return
         }
 
@@ -71,9 +69,5 @@ public class MusicTimerScript @Inject constructor(private val musicPlayer: Music
             musicPlayer.trackEnded(this)
             return
         }
-    }
-
-    private fun Player.isMusicMuted(): Boolean {
-        return masterVolume == 0 || musicVolume == 0
     }
 }
