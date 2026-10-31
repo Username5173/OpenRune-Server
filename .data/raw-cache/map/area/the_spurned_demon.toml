@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Spurned Demon"
+area_id = "area.the_spurned_demon"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3008, 6016],
+    [3071, 6016],
+    [3071, 6061],
+    [3008, 6061],
+]

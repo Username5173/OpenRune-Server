@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Rest in Peace"
+area_id = "area.rest_in_peace"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 5696],
+    [3199, 5696],
+    [3199, 5759],
+    [3136, 5759],
+]

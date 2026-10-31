@@ -1,0 +1,20 @@
+[[area]]
+name = "Disk of Returning mine access"
+area_id = "area.diango_disk_mines"
+levels = [0]
+
+[[area.polygons]]
+vertices = [
+    [3008, 9690],
+    [3069, 9690],
+    [3069, 9840],
+    [3008, 9840],
+]
+
+[[area.polygons]]
+vertices = [
+    [2944, 9792],
+    [3008, 9792],
+    [3008, 9856],
+    [2944, 9856],
+]

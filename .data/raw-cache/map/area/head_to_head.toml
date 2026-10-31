@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Head to Head"
+area_id = "area.head_to_head"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1856, 5120],
+    [1919, 5120],
+    [1919, 5183],
+    [1856, 5183],
+]

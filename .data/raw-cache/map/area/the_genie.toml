@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Genie"
+area_id = "area.the_genie"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3328, 9280],
+    [3391, 9280],
+    [3391, 9343],
+    [3328, 9343],
+]

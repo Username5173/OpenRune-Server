@@ -1,0 +1,62 @@
+
+[[area]]
+name = "Mudskipper Point"
+area_id = "area.mudskipper_point"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2944, 3072],
+    [3007, 3072],
+    [3007, 3135],
+    [2944, 3135],
+]
+
+[[area.polygons]]
+vertices = [
+    [2944, 3136],
+    [2997, 3136],
+]
+
+[[area.polygons]]
+vertices = [[3007, 3136]]
+
+[[area.polygons]]
+vertices = [
+    [2944, 3137],
+    [2995, 3137],
+]
+
+[[area.polygons]]
+vertices = [
+    [2944, 3138],
+    [2994, 3138],
+]
+
+[[area.polygons]]
+vertices = [
+    [2944, 3139],
+    [2950, 3139],
+]
+
+[[area.polygons]]
+vertices = [
+    [2970, 3139],
+    [2994, 3139],
+]
+
+[[area.polygons]]
+vertices = [
+    [2944, 3140],
+    [2949, 3140],
+    [2949, 3141],
+    [2944, 3141],
+]
+
+[[area.polygons]]
+vertices = [
+    [2970, 3140],
+    [2993, 3140],
+    [2993, 3141],
+    [2970, 3141],
+]

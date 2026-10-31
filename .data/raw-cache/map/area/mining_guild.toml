@@ -15,3 +15,5 @@ vertices = [
     [3016, 9679],
     [2997, 9698],
 ]
+
+# Do not restore area.mining_guild_f2p without overlap tests; its nested polygon breaks MapAreaDecoder.

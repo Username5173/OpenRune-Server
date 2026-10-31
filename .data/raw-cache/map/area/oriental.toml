@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Oriental"
+area_id = "area.oriental"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2880, 9344],
+    [2943, 9344],
+    [2943, 9407],
+    [2880, 9407],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Hells Bells"
+area_id = "area.hells_bells"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2752, 3712],
+    [2815, 3712],
+    [2815, 3834],
+    [2752, 3834],
+]

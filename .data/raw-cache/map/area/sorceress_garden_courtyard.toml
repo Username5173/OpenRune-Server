@@ -1,0 +1,12 @@
+[[area]]
+name = "Sorceress's Garden courtyard"
+area_id = "area.sorceress_garden_courtyard"
+levels = [0]
+
+[[area.polygons]]
+vertices = [
+    [2903, 5463],
+    [2920, 5463],
+    [2920, 5480],
+    [2903, 5480],
+]

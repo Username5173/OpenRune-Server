@@ -1,0 +1,12 @@
+[[area]]
+name = "Draynor Sewers"
+area_id = "area.draynor_sewers"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3070, 9640],
+    [3130, 9640],
+    [3130, 9700],
+    [3070, 9700],
+]

@@ -1,0 +1,12 @@
+[[area]]
+name = "Black Knights' Fortress"
+area_id = "area.black_knights_fortress"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3005, 3500],
+    [3045, 3500],
+    [3045, 3524],
+    [3005, 3524],
+]

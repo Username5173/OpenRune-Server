@@ -1,0 +1,12 @@
+[[area]]
+name = "Pollnivneach"
+area_id = "area.pollnivneach"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3320, 2935],
+    [3388, 2935],
+    [3388, 3007],
+    [3320, 3007],
+]

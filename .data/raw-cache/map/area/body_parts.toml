@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Body Parts"
+area_id = "area.body_parts"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3456, 9920],
+    [3583, 9920],
+    [3583, 9983],
+    [3456, 9983],
+]

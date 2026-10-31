@@ -472,7 +472,7 @@ private constructor(
             mes("You can't perform that emote now.")
             return
         }
-        midiJingle("synth.emote_air_guitar")
+        midiJingle(249)
         playAnim("seq.emote_air_guitar", "spotanim.air_guitar_spotanim")
     }
 

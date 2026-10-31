@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Horizon"
+area_id = "area.horizon"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1920, 5030],
+    [1945, 5030],
+    [1945, 5055],
+    [1920, 5055],
+]

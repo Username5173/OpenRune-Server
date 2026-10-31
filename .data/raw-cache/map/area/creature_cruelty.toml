@@ -1,0 +1,31 @@
+
+[[area]]
+name = "Creature Cruelty"
+area_id = "area.creature_cruelty"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2646, 3214],
+    [2651, 3214],
+    [2651, 3222],
+    [2646, 3222],
+]
+
+[[area.polygons]]
+vertices = [
+    [2645, 3215],
+    [2645, 3221],
+]
+
+[[area.polygons]]
+vertices = [
+    [2652, 3215],
+    [2652, 3221],
+]
+
+[[area.polygons]]
+vertices = [
+    [2653, 3216],
+    [2653, 3220],
+]

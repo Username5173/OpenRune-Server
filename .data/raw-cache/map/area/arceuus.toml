@@ -1,0 +1,14 @@
+[[area]]
+name = "Arceuus"
+area_id = "area.arceuus"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1590, 3700],
+    [1789, 3700],
+    [1789, 3820],
+    [1870, 3820],
+    [1870, 3900],
+    [1590, 3900],
+]

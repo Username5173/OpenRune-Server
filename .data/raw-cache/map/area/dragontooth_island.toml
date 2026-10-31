@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Dragontooth Island"
+area_id = "area.dragontooth_island"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3776, 3520],
+    [3839, 3520],
+    [3839, 3583],
+    [3776, 3583],
+]

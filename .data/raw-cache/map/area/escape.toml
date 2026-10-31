@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Escape"
+area_id = "area.escape"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2688, 9664],
+    [2751, 9664],
+    [2751, 9727],
+    [2688, 9727],
+]

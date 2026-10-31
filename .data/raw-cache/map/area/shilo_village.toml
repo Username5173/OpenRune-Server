@@ -1,0 +1,12 @@
+[[area]]
+name = "Shilo Village"
+area_id = "area.shilo_village"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2810, 2936],
+    [2895, 2936],
+    [2895, 3012],
+    [2810, 3012],
+]

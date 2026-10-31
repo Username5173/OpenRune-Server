@@ -1,0 +1,14 @@
+[[area]]
+name = "Lovakengj"
+area_id = "area.lovakengj"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1462, 3720],
+    [1580, 3720],
+    [1580, 3880],
+    [1420, 3880],
+    [1420, 3780],
+    [1462, 3780],
+]

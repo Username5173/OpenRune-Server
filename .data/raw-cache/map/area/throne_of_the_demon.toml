@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Throne of the Demon"
+area_id = "area.throne_of_the_demon"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2688, 4864],
+    [2751, 4864],
+    [2751, 4927],
+    [2688, 4927],
+]

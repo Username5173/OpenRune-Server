@@ -1,0 +1,12 @@
+[[area]]
+name = "Canifis"
+area_id = "area.canifis"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3470, 3470],
+    [3520, 3470],
+    [3520, 3512],
+    [3470, 3512],
+]

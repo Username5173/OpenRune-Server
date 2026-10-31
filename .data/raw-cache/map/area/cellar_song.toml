@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Cellar Song"
+area_id = "area.cellar_song"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 9792],
+    [3199, 9792],
+    [3199, 9855],
+    [3136, 9855],
+]

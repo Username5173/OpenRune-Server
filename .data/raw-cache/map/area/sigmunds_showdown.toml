@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Sigmund's Showdown"
+area_id = "area.sigmunds_showdown"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1984, 5056],
+    [2047, 5056],
+    [2047, 5119],
+    [1984, 5119],
+]

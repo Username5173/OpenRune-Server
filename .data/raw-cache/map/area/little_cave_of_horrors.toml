@@ -1,0 +1,21 @@
+
+[[area]]
+name = "Little Cave of Horrors"
+area_id = "area.little_cave_of_horrors"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3712, 9344],
+    [3775, 9344],
+    [3775, 9471],
+    [3712, 9471],
+]
+
+[[area.polygons]]
+vertices = [
+    [3776, 9408],
+    [3839, 9408],
+    [3839, 9471],
+    [3776, 9471],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Consortium"
+area_id = "area.the_consortium"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1984, 4480],
+    [2047, 4480],
+    [2047, 4543],
+    [1984, 4543],
+]

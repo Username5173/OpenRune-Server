@@ -15,6 +15,7 @@ import org.rsmod.api.player.deathResetTimers
 import org.rsmod.api.player.disablePrayers
 import org.rsmod.api.player.hasProtectItemPrayer
 import org.rsmod.api.player.hook.TeleportType
+import org.rsmod.api.player.midiJingle
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.player.vars.intVarp
@@ -63,7 +64,7 @@ constructor(
 
         mes("Oh dear, you are dead!")
         midiSong("midi.stop_music")
-        midiJingle("jingle.air_guitar_jingle")
+        player.midiJingle(DEATH_JINGLE_GROUP)
         telejump(randomRespawn ?: respawn, TeleportType.Exempt)
         resetAnim()
         resetPlayerState()
@@ -153,6 +154,9 @@ constructor(
     }
 
     private companion object {
+        /** Playable archive groups differ from JINGLE gameval IDs; see [midiJingle]. */
+        private const val DEATH_JINGLE_GROUP = 90
+
         private fun CoordGrid.wildernessLevel(): Int {
             if (!isInWildernessBasic()) return -1
             val y = z

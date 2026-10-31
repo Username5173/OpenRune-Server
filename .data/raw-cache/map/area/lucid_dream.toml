@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Lucid Dream"
+area_id = "area.lucid_dream"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1792, 5184],
+    [1855, 5184],
+    [1855, 5212],
+    [1792, 5212],
+]

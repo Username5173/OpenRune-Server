@@ -1,0 +1,12 @@
+[[area]]
+name = "Temple of Marimbo Dungeon"
+area_id = "area.temple_of_marimbo_dungeon"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2752, 9153],
+    [2816, 9153],
+    [2816, 9216],
+    [2752, 9216],
+]

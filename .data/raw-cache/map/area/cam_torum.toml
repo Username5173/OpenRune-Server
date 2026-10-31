@@ -1,0 +1,12 @@
+[[area]]
+name = "Cam Torum"
+area_id = "area.cam_torum"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1420, 9530],
+    [1515, 9530],
+    [1515, 9595],
+    [1420, 9595],
+]

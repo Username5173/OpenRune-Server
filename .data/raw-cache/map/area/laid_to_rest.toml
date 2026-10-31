@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Laid to Rest"
+area_id = "area.laid_to_rest"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3648, 5120],
+    [3711, 5120],
+    [3711, 5183],
+    [3648, 5183],
+]

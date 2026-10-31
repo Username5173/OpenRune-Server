@@ -1,0 +1,12 @@
+[[area]]
+name = "Hosidius"
+area_id = "area.hosidius"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1630, 3480],
+    [1830, 3480],
+    [1830, 3680],
+    [1630, 3680],
+]

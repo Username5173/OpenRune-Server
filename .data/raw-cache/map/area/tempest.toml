@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Tempest"
+area_id = "area.tempest"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1664, 4544],
+    [1727, 4544],
+    [1727, 4607],
+    [1664, 4607],
+]

@@ -1,0 +1,12 @@
+[[area]]
+name = "Kharazi Jungle"
+area_id = "area.kharazi_jungle"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2750, 2872],
+    [2955, 2872],
+    [2955, 2934],
+    [2750, 2934],
+]

@@ -11,10 +11,11 @@ vertices = [
     [2816, 10239],
 ]
 
+# Keep the west edge clear of area.brineratcavern to avoid firing both music areas.
 [[area.polygons]]
 vertices = [
-    [2752, 10112],
+    [2756, 10112],
     [2815, 10112],
     [2815, 10175],
-    [2752, 10175],
+    [2756, 10175],
 ]

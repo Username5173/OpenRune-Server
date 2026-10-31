@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Fragment"
+area_id = "area.the_fragment"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3264, 5888],
+    [3327, 5888],
+    [3327, 5951],
+    [3264, 5951],
+]

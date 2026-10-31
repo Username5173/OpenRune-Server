@@ -1,0 +1,13 @@
+
+[[area]]
+name = "My Arm's Journey"
+area_id = "area.my_arms_journey"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1856, 4864],
+    [1919, 4864],
+    [1919, 4927],
+    [1856, 4927],
+]

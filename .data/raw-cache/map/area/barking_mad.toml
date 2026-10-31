@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Barking Mad"
+area_id = "area.barking_mad"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3520, 9856],
+    [3583, 9856],
+    [3583, 9919],
+    [3520, 9919],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Corporal Punishment"
+area_id = "area.corporal_punishment"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 4800],
+    [3199, 4800],
+    [3199, 4863],
+    [3136, 4863],
+]

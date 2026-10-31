@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Tears of Guthix"
+area_id = "area.tears_of_guthix"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3200, 9472],
+    [3253, 9472],
+    [3253, 9535],
+    [3200, 9535],
+]

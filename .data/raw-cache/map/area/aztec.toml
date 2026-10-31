@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Aztec"
+area_id = "area.aztec"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2752, 9536],
+    [2815, 9536],
+    [2815, 9599],
+    [2752, 9599],
+]

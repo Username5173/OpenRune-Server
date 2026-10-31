@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Lost Melody"
+area_id = "area.the_lost_melody"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3264, 9600],
+    [3327, 9600],
+    [3327, 9663],
+    [3264, 9663],
+]

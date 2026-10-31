@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Clanliness"
+area_id = "area.clanliness"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1728, 5440],
+    [1791, 5440],
+    [1791, 5503],
+    [1728, 5503],
+]

@@ -1,0 +1,12 @@
+[[area]]
+name = "Fishing Platform"
+area_id = "area.fishing_platform"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2755, 3265],
+    [2805, 3265],
+    [2805, 3300],
+    [2755, 3300],
+]

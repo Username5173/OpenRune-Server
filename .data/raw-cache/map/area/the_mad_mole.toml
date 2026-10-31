@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Mad Mole"
+area_id = "area.the_mad_mole"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1728, 5120],
+    [1791, 5120],
+    [1791, 5247],
+    [1728, 5247],
+]

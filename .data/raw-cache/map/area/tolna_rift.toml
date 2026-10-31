@@ -1,0 +1,12 @@
+[[area]]
+name = "Tolnas Rift"
+area_id = "area.tolna_rift"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3264, 9790],
+    [3328, 9790],
+    [3328, 9856],
+    [3264, 9856],
+]

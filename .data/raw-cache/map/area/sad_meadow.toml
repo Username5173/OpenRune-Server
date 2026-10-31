@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Sad Meadow"
+area_id = "area.sad_meadow"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2528, 9728],
+    [2559, 9728],
+    [2559, 9759],
+    [2528, 9759],
+]

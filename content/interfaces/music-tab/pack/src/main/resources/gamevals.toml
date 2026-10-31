@@ -1,0 +1,8 @@
+[gamevals.varp]
+music_pending_area_exit = 63797
+
+[gamevals.area]
+sorceress_garden_courtyard = 20535
+
+[gamevals.dbrow]
+music_modern_sorceress_garden_courtyard = 20535

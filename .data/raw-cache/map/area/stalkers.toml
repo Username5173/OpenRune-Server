@@ -1,0 +1,21 @@
+
+[[area]]
+name = "Stalkers"
+area_id = "area.stalkers"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1240, 9728],
+    [1343, 9728],
+    [1343, 9791],
+    [1240, 9791],
+]
+
+[[area.polygons]]
+vertices = [
+    [1280, 9792],
+    [1343, 9792],
+    [1343, 9831],
+    [1280, 9831],
+]

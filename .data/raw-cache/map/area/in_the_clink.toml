@@ -1,0 +1,13 @@
+
+[[area]]
+name = "In the Clink"
+area_id = "area.in_the_clink"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2048, 4416],
+    [2111, 4416],
+    [2111, 4479],
+    [2048, 4479],
+]

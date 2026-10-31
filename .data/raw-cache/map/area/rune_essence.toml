@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Rune Essence"
+area_id = "area.rune_essence"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2880, 4800],
+    [2943, 4800],
+    [2943, 4863],
+    [2880, 4863],
+]

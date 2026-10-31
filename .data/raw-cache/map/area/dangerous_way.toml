@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Dangerous Way"
+area_id = "area.dangerous_way"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3520, 9664],
+    [3583, 9664],
+    [3583, 9727],
+    [3520, 9727],
+]

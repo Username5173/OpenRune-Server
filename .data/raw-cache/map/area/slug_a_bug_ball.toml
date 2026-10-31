@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Slug a Bug Ball"
+area_id = "area.slug_a_bug_ball"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2304, 5056],
+    [2367, 5056],
+    [2367, 5119],
+    [2304, 5119],
+]

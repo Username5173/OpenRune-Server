@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Artistry"
+area_id = "area.artistry"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1984, 4736],
+    [2047, 4736],
+    [2047, 4799],
+    [1984, 4799],
+]

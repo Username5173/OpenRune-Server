@@ -1,0 +1,12 @@
+[[area]]
+name = "Ruins of Uzer"
+area_id = "area.uzer"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3450, 3060],
+    [3500, 3060],
+    [3500, 3110],
+    [3450, 3110],
+]

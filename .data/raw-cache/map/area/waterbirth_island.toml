@@ -1,0 +1,12 @@
+[[area]]
+name = "Waterbirth Island"
+area_id = "area.waterbirth_island"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2490, 3705],
+    [2565, 3705],
+    [2565, 3775],
+    [2490, 3775],
+]

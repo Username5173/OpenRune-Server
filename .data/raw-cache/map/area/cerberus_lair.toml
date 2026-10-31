@@ -1,0 +1,12 @@
+[[area]]
+name = "Cerberus Lair"
+area_id = "area.cerberus_lair"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1232, 1244],
+    [1372, 1244],
+    [1372, 1320],
+    [1232, 1320],
+]

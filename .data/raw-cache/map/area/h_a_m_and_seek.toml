@@ -1,0 +1,13 @@
+
+[[area]]
+name = "H.A.M. and Seek"
+area_id = "area.h_a_m_and_seek"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2368, 5504],
+    [2431, 5504],
+    [2431, 5567],
+    [2368, 5567],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Have a Blast"
+area_id = "area.have_a_blast"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1920, 4928],
+    [1983, 4928],
+    [1983, 4991],
+    [1920, 4991],
+]

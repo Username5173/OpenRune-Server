@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Dimension X"
+area_id = "area.dimension_x"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3008, 5312],
+    [3071, 5312],
+    [3071, 5375],
+    [3008, 5375],
+]

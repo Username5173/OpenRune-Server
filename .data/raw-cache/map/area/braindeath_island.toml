@@ -1,0 +1,12 @@
+[[area]]
+name = "Braindeath Island"
+area_id = "area.braindeath_island"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2100, 5080],
+    [2240, 5080],
+    [2240, 5220],
+    [2100, 5220],
+]

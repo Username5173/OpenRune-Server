@@ -1,0 +1,12 @@
+[[area]]
+name = "Werewolf Agility Course"
+area_id = "area.werewolf_agility_course"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3520, 9860],
+    [3585, 9860],
+    [3585, 9920],
+    [3520, 9920],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Lamistard's Labyrinth"
+area_id = "area.lamistards_labyrinth"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2752, 10240],
+    [2815, 10240],
+    [2815, 10303],
+    [2752, 10303],
+]

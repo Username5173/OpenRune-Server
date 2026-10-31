@@ -1,0 +1,12 @@
+[[area]]
+name = "Karamja Shipyard"
+area_id = "area.karamja_shipyard"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2938, 3020],
+    [3012, 3020],
+    [3012, 3070],
+    [2938, 3070],
+]

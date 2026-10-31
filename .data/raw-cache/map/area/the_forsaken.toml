@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Forsaken"
+area_id = "area.the_forsaken"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1536, 5056],
+    [1599, 5056],
+    [1599, 5119],
+    [1536, 5119],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Slice of Silent Movie"
+area_id = "area.slice_of_silent_movie"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2528, 5504],
+    [2559, 5504],
+    [2559, 5567],
+    [2528, 5567],
+]

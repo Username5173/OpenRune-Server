@@ -1,0 +1,12 @@
+[[area]]
+name = "Lunar Isle Mine"
+area_id = "area.lunar_isle_mine"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2320, 10336],
+    [2380, 10336],
+    [2380, 10400],
+    [2320, 10400],
+]

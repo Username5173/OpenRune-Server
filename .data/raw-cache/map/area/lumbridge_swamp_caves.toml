@@ -1,0 +1,12 @@
+[[area]]
+name = "Lumbridge Swamp Caves"
+area_id = "area.lumbridge_swamp_caves"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3130, 9528],
+    [3263, 9528],
+    [3263, 9606],
+    [3130, 9606],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Scar Tissue"
+area_id = "area.scar_tissue"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1728, 6400],
+    [2239, 6400],
+    [2239, 6463],
+    [1728, 6463],
+]

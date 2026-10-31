@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Down Below"
+area_id = "area.down_below"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3072, 9600],
+    [3135, 9600],
+    [3135, 9727],
+    [3072, 9727],
+]

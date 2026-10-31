@@ -1,0 +1,5 @@
+[[varp]]
+isServerOnly = true
+id = "varp.music_pending_area_exit"
+scope = "Temp"
+transmit = "Never"

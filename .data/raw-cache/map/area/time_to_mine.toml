@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Time to Mine"
+area_id = "area.time_to_mine"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2816, 10112],
+    [2879, 10112],
+    [2879, 10176],
+    [2816, 10176],
+]

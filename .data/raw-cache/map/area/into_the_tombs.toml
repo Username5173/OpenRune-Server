@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Into the Tombs"
+area_id = "area.into_the_tombs"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3328, 9088],
+    [3391, 9088],
+    [3391, 9151],
+    [3328, 9151],
+]

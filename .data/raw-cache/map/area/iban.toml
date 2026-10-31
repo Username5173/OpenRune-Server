@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Iban"
+area_id = "area.iban"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2112, 4544],
+    [2175, 4544],
+    [2175, 4735],
+    [2112, 4735],
+]

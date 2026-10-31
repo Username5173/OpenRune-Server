@@ -1,0 +1,12 @@
+[[area]]
+name = "Crandor Dungeon"
+area_id = "area.crandor_dungeon"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2800, 9600],
+    [2885, 9600],
+    [2885, 9662],
+    [2800, 9662],
+]

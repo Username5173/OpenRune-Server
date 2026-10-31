@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Impetuous"
+area_id = "area.impetuous"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2560, 4288],
+    [2623, 4288],
+    [2623, 4351],
+    [2560, 4351],
+]

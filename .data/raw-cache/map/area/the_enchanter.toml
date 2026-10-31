@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Enchanter"
+area_id = "area.the_enchanter"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3328, 9600],
+    [3391, 9600],
+    [3391, 9663],
+    [3328, 9663],
+]

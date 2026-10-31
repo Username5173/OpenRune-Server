@@ -1,0 +1,12 @@
+[[area]]
+name = "Barrows Tunnels"
+area_id = "area.barrows_tunnels"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3525, 9660],
+    [3578, 9660],
+    [3578, 9723],
+    [3525, 9723],
+]

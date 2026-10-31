@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Regal Pomp"
+area_id = "area.regal_pomp"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2048, 6144],
+    [2111, 6144],
+    [2111, 6207],
+    [2048, 6207],
+]

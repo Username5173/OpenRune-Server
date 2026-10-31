@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Mirage"
+area_id = "area.mirage"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3264, 9152],
+    [3327, 9152],
+    [3327, 9215],
+    [3264, 9215],
+]

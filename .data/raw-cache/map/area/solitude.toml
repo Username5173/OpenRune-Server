@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Solitude"
+area_id = "area.solitude"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3149, 7701],
+    [3169, 7701],
+    [3169, 7721],
+    [3149, 7721],
+]

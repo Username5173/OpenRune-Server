@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Lava is Mine"
+area_id = "area.lava_is_mine"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3776, 10112],
+    [3839, 10112],
+    [3839, 10239],
+    [3776, 10239],
+]

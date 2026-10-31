@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Sarachnis"
+area_id = "area.sarachnis"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1792, 9856],
+    [1855, 9856],
+    [1855, 9911],
+    [1792, 9911],
+]

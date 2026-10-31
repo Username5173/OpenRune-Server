@@ -3540,8 +3540,17 @@ public class ProtectedAccess(
     }
 
     /* Midi helper functions */
+    public fun midiJingle(jingleTrack: Int, lengthInMillis: Int = 0) {
+        player.midiJingle(jingleTrack, lengthInMillis)
+    }
+
+    @Deprecated(
+        "Jingle gameval ids are not index-11 track ids; the client cannot play them. " +
+            "Use the Int overload with the jingle's cache track id (wiki `Cache ID`).",
+        ReplaceWith("midiJingle(jingleTrack)"),
+    )
     public fun midiJingle(jingle: String) {
-        player.midiJingle(jingle)
+        @Suppress("DEPRECATION") player.midiJingle(jingle)
     }
 
     public fun midiSong(midi: String) {

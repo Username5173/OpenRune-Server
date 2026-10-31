@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Lord of the Larvae"
+area_id = "area.lord_of_the_larvae"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2901, 8031],
+    [2921, 8031],
+    [2921, 8047],
+    [2901, 8047],
+]

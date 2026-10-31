@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Everlasting Slumber"
+area_id = "area.the_everlasting_slumber"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3712, 9664],
+    [3903, 9664],
+    [3903, 9855],
+    [3712, 9855],
+]

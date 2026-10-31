@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Bubble and Squeak"
+area_id = "area.bubble_and_squeak"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1920, 4672],
+    [1983, 4672],
+    [1983, 4735],
+    [1920, 4735],
+]

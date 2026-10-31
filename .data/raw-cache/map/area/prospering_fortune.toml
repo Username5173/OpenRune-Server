@@ -1,0 +1,29 @@
+
+[[area]]
+name = "Prospering Fortune"
+area_id = "area.prospering_fortune"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1664, 9472],
+    [1727, 9472],
+    [1727, 9535],
+    [1664, 9535],
+]
+
+[[area.polygons]]
+vertices = [
+    [1792, 9472],
+    [1855, 9472],
+    [1855, 9535],
+    [1792, 9535],
+]
+
+[[area.polygons]]
+vertices = [
+    [1600, 9536],
+    [1663, 9536],
+    [1663, 9599],
+    [1600, 9599],
+]

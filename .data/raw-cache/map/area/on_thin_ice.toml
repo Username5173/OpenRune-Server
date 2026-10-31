@@ -1,0 +1,19 @@
+
+[[area]]
+name = "On Thin Ice"
+area_id = "area.on_thin_ice"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2261, 4054],
+    [2282, 4054],
+    [2282, 4076],
+    [2261, 4076],
+]
+
+[[area.polygons]]
+vertices = [
+    [2283, 4055],
+    [2283, 4075],
+]

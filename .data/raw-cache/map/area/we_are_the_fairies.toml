@@ -1,0 +1,13 @@
+
+[[area]]
+name = "We are the Fairies"
+area_id = "area.we_are_the_fairies"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2048, 4800],
+    [2111, 4800],
+    [2111, 4863],
+    [2048, 4863],
+]

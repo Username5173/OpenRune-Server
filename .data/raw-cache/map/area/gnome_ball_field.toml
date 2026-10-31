@@ -1,0 +1,12 @@
+[[area]]
+name = "Gnome Ball field"
+area_id = "area.gnome_ball_field"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2384, 3479],
+    [2405, 3479],
+    [2405, 3497],
+    [2384, 3497],
+]

@@ -1,5 +1,6 @@
 plugins {
     id("base-conventions")
+    id("game-cache-test-conventions")
 }
 
 kotlin {
@@ -16,4 +17,10 @@ dependencies {
     implementation(projects.engine.events)
     implementation(projects.engine.game)
     implementation(projects.engine.plugin)
+    testImplementation(libs.kotlin.coroutines.core)
+    testImplementation(libs.rsprot.api)
+    testImplementation(projects.api.music)
+    testImplementation(projects.api.random)
+    testImplementation(projects.engine.annotations)
+    testImplementation(projects.engine.coroutine)
 }

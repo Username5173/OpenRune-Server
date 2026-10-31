@@ -23,6 +23,7 @@ import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.isValidTarget
+import org.rsmod.api.player.music.MusicPlayer
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.queueDeath
 import org.rsmod.api.player.stat.statSub
@@ -35,6 +36,7 @@ import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onPlayerSoftTimer
+import org.rsmod.api.table.MusicRow
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -53,6 +55,7 @@ constructor(
     private val aiPlayerInteractions: AiPlayerInteractions,
     private val collision: CollisionFlagMap,
     private val eventBus: EventBus,
+    private val musicPlayer: MusicPlayer,
 ) : InstanceScript(registry) {
 
     private val awakening: MutableSet<Npc> = Collections.newSetFromMap(IdentityHashMap())
@@ -199,7 +202,10 @@ constructor(
         npc.copyStats(type)
         npc.assignUid()
         deps.suppressAttacks(npc, FIRST_VOLLEY_DELAY - WHISPERER_ATTACK_RATE)
-        if (target.isValidTarget()) npc.apPlayer2(target, aiPlayerInteractions)
+        if (target.isValidTarget()) {
+            musicPlayer.startEncounter(target, MusicRow.getRow("dbrow.music_dt2_whisperer"))
+            npc.apPlayer2(target, aiPlayerInteractions)
+        }
     }
 
     private fun placeBarriers(session: InstanceSession) {

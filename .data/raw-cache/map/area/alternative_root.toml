@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Alternative Root"
+area_id = "area.alternative_root"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 5184],
+    [3199, 5184],
+    [3199, 5247],
+    [3136, 5247],
+]

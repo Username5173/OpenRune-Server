@@ -1,0 +1,21 @@
+
+[[area]]
+name = "Below the Conch"
+area_id = "area.below_the_conch"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3072, 8832],
+    [3135, 8832],
+    [3135, 8895],
+    [3072, 8895],
+]
+
+[[area.polygons]]
+vertices = [
+    [3200, 8832],
+    [3263, 8832],
+    [3263, 8895],
+    [3200, 8895],
+]

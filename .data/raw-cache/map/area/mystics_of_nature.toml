@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Mystics of Nature"
+area_id = "area.mystics_of_nature"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3008, 6080],
+    [3071, 6080],
+    [3071, 6143],
+    [3008, 6143],
+]

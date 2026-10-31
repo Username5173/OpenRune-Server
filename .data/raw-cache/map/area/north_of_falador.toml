@@ -1,0 +1,12 @@
+[[area]]
+name = "North of Falador"
+area_id = "area.north_of_falador"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3061, 3313],
+    [3087, 3313],
+    [3087, 3394],
+    [3061, 3394],
+]

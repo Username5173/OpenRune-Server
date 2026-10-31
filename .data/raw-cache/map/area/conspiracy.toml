@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Conspiracy"
+area_id = "area.conspiracy"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3584, 9664],
+    [3599, 9664],
+    [3599, 9727],
+    [3584, 9727],
+]

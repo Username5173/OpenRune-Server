@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Strange Place"
+area_id = "area.strange_place"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1856, 4480],
+    [1919, 4480],
+    [1919, 4543],
+    [1856, 4543],
+]

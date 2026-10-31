@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Part Where You Die"
+area_id = "area.the_part_where_you_die"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3008, 5925],
+    [3071, 5925],
+    [3071, 5951],
+    [3008, 5951],
+]

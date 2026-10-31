@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Altar Ego"
+area_id = "area.altar_ego"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3008, 5568],
+    [3071, 5568],
+    [3071, 5631],
+    [3008, 5631],
+]

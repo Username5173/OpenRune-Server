@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Harmony"
+area_id = "area.harmony"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1856, 5312],
+    [1919, 5312],
+    [1919, 5375],
+    [1856, 5375],
+]

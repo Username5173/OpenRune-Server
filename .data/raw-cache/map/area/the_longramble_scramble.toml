@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Longramble Scramble"
+area_id = "area.the_longramble_scramble"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2310, 3080],
+    [2359, 3080],
+    [2359, 3135],
+    [2310, 3135],
+]

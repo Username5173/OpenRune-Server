@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Temple of Light"
+area_id = "area.temple_of_light"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1856, 4608],
+    [1919, 4608],
+    [1919, 4671],
+    [1856, 4671],
+]

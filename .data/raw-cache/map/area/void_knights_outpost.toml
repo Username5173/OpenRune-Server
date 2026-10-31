@@ -1,0 +1,12 @@
+[[area]]
+name = "Void Knights' Outpost"
+area_id = "area.void_knights_outpost"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2630, 2630],
+    [2680, 2630],
+    [2680, 2685],
+    [2630, 2685],
+]

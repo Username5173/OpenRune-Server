@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Well Hallowed Air"
+area_id = "area.well_hallowed_air"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2368, 5952],
+    [2431, 5952],
+    [2431, 6015],
+    [2368, 6015],
+]

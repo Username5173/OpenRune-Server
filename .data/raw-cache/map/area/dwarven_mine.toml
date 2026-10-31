@@ -1,0 +1,12 @@
+[[area]]
+name = "Dwarven Mine"
+area_id = "area.dwarven_mine"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3008, 9690],
+    [3069, 9690],
+    [3069, 9840],
+    [3008, 9840],
+]

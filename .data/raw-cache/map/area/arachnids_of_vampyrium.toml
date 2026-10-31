@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Arachnids of Vampyrium"
+area_id = "area.arachnids_of_vampyrium"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3264, 4224],
+    [3327, 4224],
+    [3327, 4287],
+    [3264, 4287],
+]

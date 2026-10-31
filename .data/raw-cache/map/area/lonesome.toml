@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Lonesome"
+area_id = "area.lonesome"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3264, 9408],
+    [3327, 9408],
+    [3327, 9471],
+    [3264, 9471],
+]

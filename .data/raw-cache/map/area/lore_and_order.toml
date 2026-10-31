@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Lore and Order"
+area_id = "area.lore_and_order"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1792, 4224],
+    [1855, 4224],
+    [1855, 4287],
+    [1792, 4287],
+]

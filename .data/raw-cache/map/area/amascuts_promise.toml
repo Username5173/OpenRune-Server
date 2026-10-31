@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Amascut's Promise"
+area_id = "area.amascuts_promise"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3776, 5120],
+    [3839, 5120],
+    [3839, 5183],
+    [3776, 5183],
+]

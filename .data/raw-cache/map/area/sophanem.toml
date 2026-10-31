@@ -1,0 +1,12 @@
+[[area]]
+name = "Sophanem"
+area_id = "area.sophanem"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3262, 2745],
+    [3330, 2745],
+    [3330, 2815],
+    [3262, 2815],
+]

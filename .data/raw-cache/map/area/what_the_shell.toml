@@ -1,0 +1,13 @@
+
+[[area]]
+name = "What the Shell!"
+area_id = "area.what_the_shell"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 8832],
+    [3199, 8832],
+    [3199, 8895],
+    [3136, 8895],
+]

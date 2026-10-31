@@ -1,0 +1,12 @@
+[[area]]
+name = "Fortis Colosseum"
+area_id = "area.fortis_colosseum"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1790, 9470],
+    [1840, 9470],
+    [1840, 9540],
+    [1790, 9540],
+]

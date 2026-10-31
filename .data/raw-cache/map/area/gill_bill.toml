@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Gill Bill"
+area_id = "area.gill_bill"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1352, 3624],
+    [1383, 3624],
+    [1383, 3647],
+    [1352, 3647],
+]

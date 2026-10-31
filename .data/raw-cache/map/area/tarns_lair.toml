@@ -1,0 +1,12 @@
+[[area]]
+name = "Tarns Lair"
+area_id = "area.tarns_lair"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3134, 4540],
+    [3200, 4540],
+    [3200, 4664],
+    [3134, 4664],
+]

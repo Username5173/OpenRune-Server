@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Scape Main"
+area_id = "area.scape_main"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1600, 5632],
+    [1727, 5632],
+    [1727, 5759],
+    [1600, 5759],
+]

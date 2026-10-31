@@ -1,0 +1,12 @@
+[[area]]
+name = "Harmony Island"
+area_id = "area.harmony_island"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3760, 2800],
+    [3850, 2800],
+    [3850, 2890],
+    [3760, 2890],
+]

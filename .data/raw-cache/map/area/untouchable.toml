@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Untouchable"
+area_id = "area.untouchable"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1792, 5120],
+    [1855, 5120],
+    [1855, 5183],
+    [1792, 5183],
+]

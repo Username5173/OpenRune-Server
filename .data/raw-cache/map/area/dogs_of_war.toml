@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Dogs of War"
+area_id = "area.dogs_of_war"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1856, 5184],
+    [1919, 5184],
+    [1919, 5247],
+    [1856, 5247],
+]

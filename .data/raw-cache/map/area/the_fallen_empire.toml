@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Fallen Empire"
+area_id = "area.the_fallen_empire"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2560, 6272],
+    [2751, 6272],
+    [2751, 6463],
+    [2560, 6463],
+]

@@ -23,11 +23,13 @@ import org.rsmod.api.player.events.PlayerHitEvents
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.isValidTarget
 import org.rsmod.api.player.lockOverheads
+import org.rsmod.api.player.music.MusicPlayer
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.script.onEvent
 import org.rsmod.api.script.onNpcHit
+import org.rsmod.api.table.MusicRow
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.Player
@@ -54,6 +56,7 @@ constructor(
     private val locRepo: LocRepository,
     private val aiPlayerInteractions: AiPlayerInteractions,
     private val strangle: VardorvisStrangle,
+    private val musicPlayer: MusicPlayer,
 ) : BossPluginScript(deps) {
 
     private val arenaBarrier = IdentityHashMap<Npc, List<LocInfo>>()
@@ -92,9 +95,21 @@ constructor(
                 if (npc.hitpoints > 0) {
                     if (npc !in arenaBarrier) {
                         raiseArenaBarrier(npc)
+                        hit.resolvePlayerSource(deps.playerList)?.let { player ->
+                            musicPlayer.startEncounter(
+                                player,
+                                MusicRow.getRow("dbrow.music_dt2_vardorvis"),
+                            )
+                        }
                         scheduleFirstAxes(npc)
                     }
                 } else {
+                    hit.resolvePlayerSource(deps.playerList)?.let { player ->
+                        musicPlayer.finishEncounter(
+                            player,
+                            MusicRow.getRow("dbrow.music_dt2_vardorvis"),
+                        )
+                    }
                     if (isAwakened(npc)) npc.respawns = false
                     deps.worldQueues.add(BARRIER_DEATH_DELAY) { dropArenaBarrier(npc, animated = true) }
                 }

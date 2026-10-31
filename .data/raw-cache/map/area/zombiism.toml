@@ -1,0 +1,21 @@
+
+[[area]]
+name = "Zombiism"
+area_id = "area.zombiism"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3776, 2816],
+    [3839, 2816],
+    [3839, 2879],
+    [3776, 2879],
+]
+
+[[area.polygons]]
+vertices = [
+    [3776, 9216],
+    [3839, 9216],
+    [3839, 9279],
+    [3776, 9279],
+]

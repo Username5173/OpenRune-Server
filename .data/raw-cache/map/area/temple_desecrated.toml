@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Temple Desecrated"
+area_id = "area.temple_desecrated"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [4032, 4352],
+    [4159, 4352],
+    [4159, 4479],
+    [4032, 4479],
+]

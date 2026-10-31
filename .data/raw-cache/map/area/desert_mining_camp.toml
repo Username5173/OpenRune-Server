@@ -1,0 +1,12 @@
+[[area]]
+name = "Desert Mining Camp"
+area_id = "area.desert_mining_camp"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3260, 3008],
+    [3330, 3008],
+    [3330, 3045],
+    [3260, 3045],
+]

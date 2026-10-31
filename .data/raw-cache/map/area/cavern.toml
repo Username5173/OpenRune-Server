@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Cavern"
+area_id = "area.cavern"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3008, 10304],
+    [3071, 10304],
+    [3071, 10367],
+    [3008, 10367],
+]

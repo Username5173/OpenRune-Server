@@ -4,6 +4,7 @@ import dev.openrune.ServerCacheManager
 import dev.openrune.definition.type.VarBitType
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import dev.openrune.types.varp.VarpLifetime
 import dev.openrune.types.varp.VarpServerType
 import dev.openrune.types.varp.baseVar
 import dev.openrune.types.varp.bits
@@ -36,6 +37,21 @@ import org.rsmod.utils.bits.withBits
  * @see [VarPlayerIntMap]
  */
 public object VarPlayerIntMapSetter {
+
+    public fun clear(player: Player, varp: String) {
+        val type = checkNotNull(ServerCacheManager.getVarp(varp.asRSCM(RSCMType.VARP))) {
+            "Unable to find varp: $varp"
+        }
+        if (type !in player.vars) return
+        val previous = player.vars.backing.remove(type.id)
+        if (player.processedMapClock <= 0) return
+        if (type.scope == VarpLifetime.Perm) {
+            PlayerPersistenceHints.notify(player)
+        }
+        if (type.transmit.always || type.transmit.onDiff && previous != 0) {
+            VarpSync.writeVarp(player, type, 0)
+        }
+    }
 
     public fun set(player: Player, varp: String, value: Int) {
         if (varp.startsWith("varp.")) {

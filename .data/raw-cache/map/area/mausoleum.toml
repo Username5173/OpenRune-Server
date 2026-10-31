@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Mausoleum"
+area_id = "area.mausoleum"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3392, 9856],
+    [3455, 9856],
+    [3455, 9919],
+    [3392, 9919],
+]

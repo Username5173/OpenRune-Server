@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Curtain Closes"
+area_id = "area.the_curtain_closes"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3200, 4288],
+    [3263, 4288],
+    [3263, 4351],
+    [3200, 4351],
+]

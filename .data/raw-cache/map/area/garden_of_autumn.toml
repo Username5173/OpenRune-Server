@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Garden of Autumn"
+area_id = "area.garden_of_autumn"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2897, 5447],
+    [2918, 5447],
+    [2918, 5462],
+    [2897, 5462],
+]

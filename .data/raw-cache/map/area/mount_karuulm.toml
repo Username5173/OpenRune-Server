@@ -1,0 +1,12 @@
+[[area]]
+name = "Mount Karuulm"
+area_id = "area.mount_karuulm"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1280, 3780],
+    [1370, 3780],
+    [1370, 3870],
+    [1280, 3870],
+]

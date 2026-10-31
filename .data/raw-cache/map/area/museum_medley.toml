@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Museum Medley"
+area_id = "area.museum_medley"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3008, 9920],
+    [3071, 9920],
+    [3071, 9983],
+    [3008, 9983],
+]

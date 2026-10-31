@@ -1,0 +1,13 @@
+[[area]]
+name = "Blast Furnace (inferred, unverified)"
+area_id = "area.blast_furnace"
+levels = [0]
+
+# TODO: Verify the basement boundary; this rectangle is inferred from NPC spawns.
+[[area.polygons]]
+vertices = [
+    [1925, 4945],
+    [1965, 4945],
+    [1965, 4980],
+    [1925, 4980],
+]

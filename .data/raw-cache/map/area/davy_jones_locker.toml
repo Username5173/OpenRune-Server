@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Davy Jones' Locker"
+area_id = "area.davy_jones_locker"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2944, 9472],
+    [3007, 9472],
+    [3007, 9535],
+    [2944, 9535],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Cabin Fever"
+area_id = "area.cabin_fever"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1792, 4800],
+    [1855, 4800],
+    [1855, 4863],
+    [1792, 4863],
+]

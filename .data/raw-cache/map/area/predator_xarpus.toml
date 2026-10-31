@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Predator Xarpus"
+area_id = "area.predator_xarpus"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 4352],
+    [3199, 4352],
+    [3199, 4415],
+    [3136, 4415],
+]

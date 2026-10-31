@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Too Many Cooks..."
+area_id = "area.too_many_cooks"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2944, 9856],
+    [3007, 9856],
+    [3007, 9919],
+    [2944, 9919],
+]

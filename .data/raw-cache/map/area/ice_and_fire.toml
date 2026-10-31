@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Ice and Fire"
+area_id = "area.ice_and_fire"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1600, 3968],
+    [1663, 3968],
+    [1663, 4031],
+    [1600, 4031],
+]

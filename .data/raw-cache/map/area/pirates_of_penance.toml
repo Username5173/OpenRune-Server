@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Pirates of Penance"
+area_id = "area.pirates_of_penance"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1856, 5376],
+    [1919, 5376],
+    [1919, 5439],
+    [1856, 5439],
+]

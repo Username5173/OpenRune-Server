@@ -1,0 +1,12 @@
+[[area]]
+name = "Death Altar"
+area_id = "area.death_altar"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2180, 4810],
+    [2235, 4810],
+    [2235, 4862],
+    [2180, 4862],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Route of All Evil"
+area_id = "area.the_route_of_all_evil"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [4126, 4842],
+    [4147, 4842],
+    [4147, 4857],
+    [4126, 4857],
+]

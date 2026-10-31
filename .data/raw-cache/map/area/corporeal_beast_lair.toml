@@ -1,0 +1,12 @@
+[[area]]
+name = "Corporeal Beast Cave"
+area_id = "area.corporeal_beast_lair"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2960, 4240],
+    [3010, 4240],
+    [3010, 4400],
+    [2960, 4400],
+]

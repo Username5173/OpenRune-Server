@@ -1,0 +1,12 @@
+[[area]]
+name = "Crash Island"
+area_id = "area.crash_island"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2880, 2690],
+    [2950, 2690],
+    [2950, 2750],
+    [2880, 2750],
+]

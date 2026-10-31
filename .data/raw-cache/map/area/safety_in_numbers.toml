@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Safety in Numbers"
+area_id = "area.safety_in_numbers"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 9664],
+    [3199, 9664],
+    [3199, 9727],
+    [3136, 9727],
+]

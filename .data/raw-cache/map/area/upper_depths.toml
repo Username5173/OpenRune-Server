@@ -1,0 +1,44 @@
+
+[[area]]
+name = "Upper Depths"
+area_id = "area.upper_depths"
+levels = [2]
+
+[[area.polygons]]
+vertices = [
+    [3264, 5120],
+    [3349, 5120],
+    [3349, 5471],
+    [3264, 5471],
+]
+
+[[area.polygons]]
+vertices = [
+    [3350, 5120],
+    [3359, 5120],
+    [3359, 5124],
+    [3350, 5124],
+]
+
+[[area.polygons]]
+vertices = [
+    [3350, 5151],
+    [3359, 5151],
+    [3359, 5471],
+    [3350, 5471],
+]
+
+
+
+[[area]]
+name = "Upper Depths"
+area_id = "area.upper_depths"
+levels = [0, 1, 3]
+
+[[area.polygons]]
+vertices = [
+    [3264, 5120],
+    [3359, 5120],
+    [3359, 5471],
+    [3264, 5471],
+]

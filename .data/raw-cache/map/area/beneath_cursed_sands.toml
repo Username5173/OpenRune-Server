@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Beneath Cursed Sands"
+area_id = "area.beneath_cursed_sands"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3520, 5120],
+    [3583, 5120],
+    [3583, 5183],
+    [3520, 5183],
+]

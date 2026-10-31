@@ -1,0 +1,31 @@
+[[area]]
+name = "Falador"
+area_id = "area.falador"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2935, 3320],
+    [3062, 3320],
+    [3062, 3400],
+    [2935, 3400],
+]
+
+
+[[area.polygons]]
+vertices = [
+    [3063, 3367],
+    [3063, 3386],
+]
+
+[[area.polygons]]
+vertices = [
+    [3064, 3368],
+    [3064, 3385],
+]
+
+[[area.polygons]]
+vertices = [
+    [3065, 3369],
+    [3065, 3384],
+]

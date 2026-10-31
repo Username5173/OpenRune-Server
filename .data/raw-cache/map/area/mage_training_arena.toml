@@ -1,0 +1,21 @@
+
+[[area]]
+name = "Mage Training Arena"
+area_id = "area.mage_training_arena"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3330, 3292],
+    [3395, 3292],
+    [3395, 3329],
+    [3330, 3329],
+]
+
+[[area.polygons]]
+vertices = [
+    [3380, 3330],
+    [3395, 3330],
+    [3395, 3335],
+    [3380, 3335],
+]

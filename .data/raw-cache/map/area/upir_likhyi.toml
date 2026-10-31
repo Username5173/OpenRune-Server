@@ -1,0 +1,39 @@
+
+[[area]]
+name = "Upir Likhyi"
+area_id = "area.upir_likhyi"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3561, 3349],
+    [3570, 3349],
+    [3570, 3367],
+    [3561, 3367],
+]
+
+[[area.polygons]]
+vertices = [
+    [3571, 3350],
+    [3571, 3366],
+]
+
+[[area.polygons]]
+vertices = [
+    [3572, 3351],
+    [3572, 3365],
+]
+
+[[area.polygons]]
+vertices = [
+    [3573, 3352],
+    [3573, 3364],
+]
+
+[[area.polygons]]
+vertices = [
+    [3574, 3353],
+    [3578, 3353],
+    [3578, 3363],
+    [3574, 3363],
+]

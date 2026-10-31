@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Guardian of Tapoyauik"
+area_id = "area.the_guardian_of_tapoyauik"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1344, 4480],
+    [1407, 4480],
+    [1407, 4543],
+    [1344, 4543],
+]

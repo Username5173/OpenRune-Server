@@ -1,0 +1,29 @@
+
+[[area]]
+name = "Maws Jaws & Claws"
+area_id = "area.maws_jaws_and_claws"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1216, 1216],
+    [1279, 1216],
+    [1279, 1279],
+    [1216, 1279],
+]
+
+[[area.polygons]]
+vertices = [
+    [1344, 1216],
+    [1407, 1216],
+    [1407, 1279],
+    [1344, 1279],
+]
+
+[[area.polygons]]
+vertices = [
+    [1280, 1280],
+    [1343, 1280],
+    [1343, 1343],
+    [1280, 1343],
+]

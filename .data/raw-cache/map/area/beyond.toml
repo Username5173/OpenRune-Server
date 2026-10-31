@@ -1,0 +1,21 @@
+
+[[area]]
+name = "Beyond"
+area_id = "area.beyond"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2816, 9856],
+    [2879, 9856],
+    [2879, 9983],
+    [2816, 9983],
+]
+
+[[area.polygons]]
+vertices = [
+    [2880, 9920],
+    [2943, 9920],
+    [2943, 9983],
+    [2880, 9983],
+]

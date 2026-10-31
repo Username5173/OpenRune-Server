@@ -1,0 +1,12 @@
+[[area]]
+name = "Mos Le'Harmless"
+area_id = "area.mos_le_harmless"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3640, 2920],
+    [3845, 2920],
+    [3845, 3075],
+    [3640, 3075],
+]

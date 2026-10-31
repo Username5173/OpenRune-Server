@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Foundry"
+area_id = "area.the_foundry"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3328, 11456],
+    [3391, 11456],
+    [3391, 11519],
+    [3328, 11519],
+]

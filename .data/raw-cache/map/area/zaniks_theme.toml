@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Zanik's Theme"
+area_id = "area.zaniks_theme"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3840, 4352],
+    [3903, 4352],
+    [3903, 4415],
+    [3840, 4415],
+]

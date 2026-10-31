@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Showdown"
+area_id = "area.showdown"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2688, 9152],
+    [2751, 9152],
+    [2751, 9215],
+    [2688, 9215],
+]

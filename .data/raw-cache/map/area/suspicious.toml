@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Suspicious"
+area_id = "area.suspicious"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2560, 4544],
+    [2687, 4544],
+    [2687, 4607],
+    [2560, 4607],
+]

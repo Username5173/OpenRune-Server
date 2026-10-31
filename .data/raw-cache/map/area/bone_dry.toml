@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Bone Dry"
+area_id = "area.bone_dry"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 9344],
+    [3327, 9344],
+    [3327, 9407],
+    [3136, 9407],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "A Mother's Curse"
+area_id = "area.a_mothers_curse"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3520, 5376],
+    [3583, 5376],
+    [3583, 5439],
+    [3520, 5439],
+]

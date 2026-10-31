@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Song of the Elves"
+area_id = "area.song_of_the_elves"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2560, 6080],
+    [2687, 6080],
+    [2687, 6207],
+    [2560, 6207],
+]

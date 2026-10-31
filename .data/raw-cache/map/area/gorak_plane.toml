@@ -1,0 +1,12 @@
+[[area]]
+name = "Gorak Plane"
+area_id = "area.gorak_plane"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3015, 5322],
+    [3060, 5322],
+    [3060, 5370],
+    [3015, 5370],
+]

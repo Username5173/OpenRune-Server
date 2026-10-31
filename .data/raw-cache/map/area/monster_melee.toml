@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Monster Melee"
+area_id = "area.monster_melee"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 9600],
+    [3199, 9600],
+    [3199, 9663],
+    [3136, 9663],
+]

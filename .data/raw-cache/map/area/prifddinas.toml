@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Prifddinas music"
+area_id = "area.prifddinas"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3200, 6016],
+    [3327, 6016],
+    [3327, 6143],
+    [3200, 6143],
+]

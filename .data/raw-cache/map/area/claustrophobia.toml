@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Claustrophobia"
+area_id = "area.claustrophobia"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2304, 4928],
+    [2431, 4928],
+    [2431, 4991],
+    [2304, 4991],
+]

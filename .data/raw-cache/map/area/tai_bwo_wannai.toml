@@ -1,0 +1,12 @@
+[[area]]
+name = "Tai Bwo Wannai"
+area_id = "area.tai_bwo_wannai"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2750, 3030],
+    [2835, 3030],
+    [2835, 3115],
+    [2750, 3115],
+]

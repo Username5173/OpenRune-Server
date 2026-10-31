@@ -1,0 +1,12 @@
+[[area]]
+name = "Kourend Woodland"
+area_id = "area.kourend_woodland"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1440, 3440],
+    [1600, 3440],
+    [1600, 3518],
+    [1440, 3518],
+]

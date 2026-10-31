@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Looking Back"
+area_id = "area.looking_back"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1728, 4928],
+    [1791, 4928],
+    [1791, 4991],
+    [1728, 4991],
+]

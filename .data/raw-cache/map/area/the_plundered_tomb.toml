@@ -1,0 +1,21 @@
+
+[[area]]
+name = "The Plundered Tomb"
+area_id = "area.the_plundered_tomb"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3840, 4544],
+    [3903, 4544],
+    [3903, 4607],
+    [3840, 4607],
+]
+
+[[area.polygons]]
+vertices = [
+    [3840, 4672],
+    [3903, 4672],
+    [3903, 4735],
+    [3840, 4735],
+]

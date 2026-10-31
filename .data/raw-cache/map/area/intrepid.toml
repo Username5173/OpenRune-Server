@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Intrepid"
+area_id = "area.intrepid"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2304, 9792],
+    [2367, 9792],
+    [2367, 9919],
+    [2304, 9919],
+]

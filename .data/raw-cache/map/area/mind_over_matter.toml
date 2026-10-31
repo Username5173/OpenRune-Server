@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Mind over Matter"
+area_id = "area.mind_over_matter"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3328, 9664],
+    [3391, 9664],
+    [3391, 9727],
+    [3328, 9727],
+]

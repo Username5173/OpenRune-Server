@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Lagoon"
+area_id = "area.lagoon"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3712, 10240],
+    [3839, 10240],
+    [3839, 10303],
+    [3712, 10303],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Maiden's Anger"
+area_id = "area.the_maidens_anger"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 4416],
+    [3263, 4416],
+    [3263, 4479],
+    [3136, 4479],
+]

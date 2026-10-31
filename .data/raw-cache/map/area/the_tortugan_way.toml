@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Tortugan Way"
+area_id = "area.the_tortugan_way"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3264, 8832],
+    [3327, 8832],
+    [3327, 8895],
+    [3264, 8895],
+]

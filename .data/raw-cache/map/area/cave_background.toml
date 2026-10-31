@@ -1,0 +1,29 @@
+
+[[area]]
+name = "Cave Background"
+area_id = "area.cave_background"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3000, 9664],
+    [3071, 9664],
+    [3071, 9727],
+    [3000, 9727],
+]
+
+[[area.polygons]]
+vertices = [
+    [3008, 9728],
+    [3071, 9728],
+    [3071, 9855],
+    [3008, 9855],
+]
+
+[[area.polygons]]
+vertices = [
+    [2944, 9792],
+    [3007, 9792],
+    [3007, 9855],
+    [2944, 9855],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Sands of Time"
+area_id = "area.sands_of_time"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3648, 5376],
+    [3711, 5376],
+    [3711, 5439],
+    [3648, 5439],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Lucid Nightmare"
+area_id = "area.lucid_nightmare"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1792, 5213],
+    [1855, 5213],
+    [1855, 5247],
+    [1792, 5247],
+]

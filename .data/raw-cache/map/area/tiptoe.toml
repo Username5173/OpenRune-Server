@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Tiptoe"
+area_id = "area.tiptoe"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3072, 9728],
+    [3135, 9728],
+    [3135, 9791],
+    [3072, 9791],
+]

@@ -31,6 +31,7 @@ import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.events.skilling.SkillingActionCompleteEvent
 import org.rsmod.api.player.events.skilling.SkillingActionContext
 import org.rsmod.api.player.isValidTarget
+import org.rsmod.api.player.music.MusicPlayer
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.soundSynth
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -45,6 +46,7 @@ import org.rsmod.api.script.onOpLoc3
 import org.rsmod.api.script.onOpLoc5
 import org.rsmod.api.script.onOpLocU
 import org.rsmod.api.script.onOpNpc1
+import org.rsmod.api.table.MusicRow
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.headbar.Headbar
@@ -76,6 +78,7 @@ constructor(
     private val locRepo: LocRepository,
     private val aiPlayerInteractions: AiPlayerInteractions,
     private val npcDeath: NpcDeath,
+    private val musicPlayer: MusicPlayer,
 ) : InstanceScript(registry) {
 
     private val pendingAwakened = HashSet<Player>()
@@ -224,7 +227,10 @@ constructor(
         npc.apRequiresLineOfSight = false
         npc.apRangeOverride = ARENA_AP_RANGE
         deps.suppressAttacks(npc, WAKE_ATTACK_DELAY)
-        if (target.isValidTarget()) npc.apPlayer2(target, aiPlayerInteractions)
+        if (target.isValidTarget()) {
+            musicPlayer.startEncounter(target, MusicRow.getRow("dbrow.music_dt2_sucellus"))
+            npc.apPlayer2(target, aiPlayerInteractions)
+        }
         val session = sessionOf(npc) ?: return
         animateAllEyes(session, EYE_WAKE_SEQ)
         loopAwakeEyes(npc, session)
@@ -276,6 +282,11 @@ constructor(
         showAllOps()
         anim(DEATH_RESET_SEQ)
         val session = sessionOf(npc) ?: return
+        for (player in deps.playerList) {
+            if (manager.sessionForPlayer(player)?.id == session.id) {
+                musicPlayer.finishEncounter(player, MusicRow.getRow("dbrow.music_dt2_sucellus"))
+            }
+        }
         startHazards(
             npc,
             session,

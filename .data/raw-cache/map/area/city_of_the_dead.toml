@@ -1,0 +1,13 @@
+
+[[area]]
+name = "City of the Dead"
+area_id = "area.city_of_the_dead"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3264, 2748],
+    [3322, 2748],
+    [3322, 2809],
+    [3264, 2809],
+]

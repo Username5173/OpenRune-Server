@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Spooky"
+area_id = "area.spooky"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1920, 4992],
+    [1951, 4992],
+    [1951, 5023],
+    [1920, 5023],
+]

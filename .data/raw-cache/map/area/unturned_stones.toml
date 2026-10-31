@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Unturned Stones"
+area_id = "area.unturned_stones"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2752, 6400],
+    [2815, 6400],
+    [2815, 6463],
+    [2752, 6463],
+]

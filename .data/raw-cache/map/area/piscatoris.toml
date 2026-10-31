@@ -1,0 +1,12 @@
+[[area]]
+name = "Piscatoris"
+area_id = "area.piscatoris"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2300, 3536],
+    [2400, 3536],
+    [2400, 3630],
+    [2300, 3630],
+]

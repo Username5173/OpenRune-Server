@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Gauntlet"
+area_id = "area.the_gauntlet"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1856, 5632],
+    [1983, 5632],
+    [1983, 5695],
+    [1856, 5695],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Sign Here"
+area_id = "area.sign_here"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1475, 10048],
+    [1535, 10048],
+    [1535, 10111],
+    [1475, 10111],
+]

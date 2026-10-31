@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Catacombs and Tombs"
+area_id = "area.catacombs_and_tombs"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3712, 4352],
+    [3775, 4352],
+    [3775, 4415],
+    [3712, 4415],
+]

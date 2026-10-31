@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Lost Tribe"
+area_id = "area.the_lost_tribe"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3220, 9600],
+    [3263, 9600],
+    [3263, 9663],
+    [3220, 9663],
+]

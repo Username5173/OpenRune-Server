@@ -1,0 +1,12 @@
+[[area]]
+name = "Ruins of Ullek"
+area_id = "area.ruins_of_ullek"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3408, 2775],
+    [3470, 2775],
+    [3470, 2825],
+    [3408, 2825],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "A Forgotten Religion"
+area_id = "area.a_forgotten_religion"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1792, 9912],
+    [1855, 9912],
+    [1855, 9983],
+    [1792, 9983],
+]

@@ -1,0 +1,12 @@
+[[area]]
+name = "Entrana"
+area_id = "area.entrana"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2800, 3320],
+    [2885, 3320],
+    [2885, 3399],
+    [2800, 3399],
+]

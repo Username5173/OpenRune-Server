@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Pick & Shovel"
+area_id = "area.pick_and_shovel"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3712, 5632],
+    [3775, 5632],
+    [3775, 5695],
+    [3712, 5695],
+]

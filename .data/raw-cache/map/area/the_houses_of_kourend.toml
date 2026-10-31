@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Houses of Kourend"
+area_id = "area.the_houses_of_kourend"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1536, 9920],
+    [1599, 9920],
+    [1599, 9983],
+    [1536, 9983],
+]

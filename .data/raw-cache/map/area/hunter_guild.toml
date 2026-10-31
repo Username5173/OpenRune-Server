@@ -1,0 +1,12 @@
+[[area]]
+name = "Hunter Guild"
+area_id = "area.hunter_guild"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1540, 9400],
+    [1584, 9400],
+    [1584, 9480],
+    [1540, 9480],
+]

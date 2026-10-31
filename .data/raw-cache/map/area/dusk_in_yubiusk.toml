@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Dusk in Yu'biusk"
+area_id = "area.dusk_in_yubiusk"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3456, 4288],
+    [3647, 4288],
+    [3647, 4479],
+    [3456, 4479],
+]

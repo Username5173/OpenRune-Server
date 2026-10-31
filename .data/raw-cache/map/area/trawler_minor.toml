@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Trawler Minor"
+area_id = "area.trawler_minor"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1920, 4800],
+    [2047, 4800],
+    [2047, 4863],
+    [1920, 4863],
+]

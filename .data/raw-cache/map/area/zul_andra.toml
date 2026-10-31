@@ -1,0 +1,12 @@
+[[area]]
+name = "Zul-Andra"
+area_id = "area.zul_andra"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2140, 3040],
+    [2230, 3040],
+    [2230, 3120],
+    [2140, 3120],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "It's not over 'til..."
+area_id = "area.its_not_over_til"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 4288],
+    [3199, 4288],
+    [3199, 4351],
+    [3136, 4351],
+]

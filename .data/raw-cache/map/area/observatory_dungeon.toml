@@ -1,0 +1,12 @@
+[[area]]
+name = "Observatory Dungeon"
+area_id = "area.observatory_dungeon"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2300, 9340],
+    [2370, 9340],
+    [2370, 9410],
+    [2300, 9410],
+]

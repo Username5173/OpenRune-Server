@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Temple of the Eye"
+area_id = "area.temple_of_the_eye"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3520, 9408],
+    [3711, 9408],
+    [3711, 9482],
+    [3520, 9482],
+]

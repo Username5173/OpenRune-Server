@@ -1,0 +1,12 @@
+[[area]]
+name = "Port Piscarilius"
+area_id = "area.port_piscarilius"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1790, 3690],
+    [1870, 3690],
+    [1870, 3819],
+    [1790, 3819],
+]

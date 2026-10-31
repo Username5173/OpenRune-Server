@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Forgotten Tomb"
+area_id = "area.the_forgotten_tomb"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3328, 9216],
+    [3455, 9216],
+    [3455, 9279],
+    [3328, 9279],
+]

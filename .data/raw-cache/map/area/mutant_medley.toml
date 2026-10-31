@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Mutant Medley"
+area_id = "area.mutant_medley"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3008, 4352],
+    [3071, 4352],
+    [3071, 4415],
+    [3008, 4415],
+]

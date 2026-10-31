@@ -1,0 +1,12 @@
+[[area]]
+name = "Mort Myre Swamp"
+area_id = "area.mort_myre_swamp"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3420, 3320],
+    [3515, 3320],
+    [3515, 3465],
+    [3420, 3465],
+]

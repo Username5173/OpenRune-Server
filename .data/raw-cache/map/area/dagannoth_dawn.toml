@@ -1,0 +1,21 @@
+
+[[area]]
+name = "Dagannoth Dawn"
+area_id = "area.dagannoth_dawn"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1792, 4352],
+    [1855, 4352],
+    [1855, 4415],
+    [1792, 4415],
+]
+
+[[area.polygons]]
+vertices = [
+    [1920, 4352],
+    [1983, 4352],
+    [1983, 4415],
+    [1920, 4415],
+]

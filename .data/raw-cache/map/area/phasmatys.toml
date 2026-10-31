@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Phasmatys"
+area_id = "area.phasmatys"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3648, 9856],
+    [3711, 9856],
+    [3711, 9919],
+    [3648, 9919],
+]

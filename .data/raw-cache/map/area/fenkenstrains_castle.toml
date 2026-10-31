@@ -1,0 +1,12 @@
+[[area]]
+name = "Fenkenstrain's Castle"
+area_id = "area.fenkenstrains_castle"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3530, 3530],
+    [3580, 3530],
+    [3580, 3580],
+    [3530, 3580],
+]

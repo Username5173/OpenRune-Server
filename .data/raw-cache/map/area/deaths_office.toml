@@ -1,0 +1,12 @@
+[[area]]
+name = "Death's Office"
+area_id = "area.deaths_office"
+levels = [2]
+
+[[area.polygons]]
+vertices = [
+    [3350, 5125],
+    [3375, 5125],
+    [3375, 5150],
+    [3350, 5150],
+]

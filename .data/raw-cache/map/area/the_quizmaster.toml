@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Quizmaster"
+area_id = "area.the_quizmaster"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1920, 4736],
+    [1983, 4736],
+    [1983, 4799],
+    [1920, 4799],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "On the Wing"
+area_id = "area.on_the_wing"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3008, 4480],
+    [3071, 4480],
+    [3071, 4543],
+    [3008, 4543],
+]

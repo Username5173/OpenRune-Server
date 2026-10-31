@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Pinball Wizard"
+area_id = "area.pinball_wizard"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1952, 5024],
+    [1983, 5024],
+    [1983, 5055],
+    [1952, 5055],
+]

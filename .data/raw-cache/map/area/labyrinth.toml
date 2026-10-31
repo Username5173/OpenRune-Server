@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Labyrinth"
+area_id = "area.labyrinth"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3264, 9216],
+    [3327, 9216],
+    [3327, 9279],
+    [3264, 9279],
+]

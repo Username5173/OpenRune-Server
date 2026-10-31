@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Chain of Command"
+area_id = "area.chain_of_command"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2624, 9728],
+    [2687, 9728],
+    [2687, 9919],
+    [2624, 9919],
+]

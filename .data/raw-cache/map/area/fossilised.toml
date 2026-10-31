@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Fossilised"
+area_id = "area.fossilised"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3584, 10176],
+    [3647, 10176],
+    [3647, 10303],
+    [3584, 10303],
+]

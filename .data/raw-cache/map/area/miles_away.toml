@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Miles Away"
+area_id = "area.miles_away"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2624, 4672],
+    [2687, 4672],
+    [2687, 4735],
+    [2624, 4735],
+]

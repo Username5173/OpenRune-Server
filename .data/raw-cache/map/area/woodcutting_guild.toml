@@ -1,0 +1,13 @@
+# TODO: Verify the guild boundary; it is inferred from NPC spawns and must exclude the public entrance.
+[[area]]
+name = "Woodcutting Guild"
+area_id = "area.woodcutting_guild"
+levels = [0]
+
+[[area.polygons]]
+vertices = [
+    [1578, 3474],
+    [1662, 3474],
+    [1662, 3518],
+    [1578, 3518],
+]

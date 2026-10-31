@@ -1,0 +1,29 @@
+
+[[area]]
+name = "Beneath the Stronghold"
+area_id = "area.beneath_the_stronghold"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2368, 9728],
+    [2495, 9728],
+    [2495, 9791],
+    [2368, 9791],
+]
+
+[[area.polygons]]
+vertices = [
+    [2400, 9792],
+    [2495, 9792],
+    [2495, 9807],
+    [2400, 9807],
+]
+
+[[area.polygons]]
+vertices = [
+    [2416, 9808],
+    [2495, 9808],
+    [2495, 9855],
+    [2416, 9855],
+]

@@ -1,0 +1,21 @@
+
+[[area]]
+name = "Legion"
+area_id = "area.legion"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2560, 5248],
+    [2623, 5248],
+    [2623, 5311],
+    [2560, 5311],
+]
+
+[[area.polygons]]
+vertices = [
+    [2496, 9920],
+    [2559, 9920],
+    [2559, 9983],
+    [2496, 9983],
+]

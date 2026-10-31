@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Far Side"
+area_id = "area.the_far_side"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3008, 5056],
+    [3071, 5056],
+    [3071, 5119],
+    [3008, 5119],
+]

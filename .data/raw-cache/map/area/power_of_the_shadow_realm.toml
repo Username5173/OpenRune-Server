@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Power of the Shadow Realm"
+area_id = "area.power_of_the_shadow_realm"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3264, 4288],
+    [3327, 4288],
+    [3327, 4351],
+    [3264, 4351],
+]

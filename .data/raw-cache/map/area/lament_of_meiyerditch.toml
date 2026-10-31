@@ -1,0 +1,29 @@
+
+[[area]]
+name = "Lament of Meiyerditch"
+area_id = "area.lament_of_meiyerditch"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2368, 4608],
+    [2431, 4608],
+    [2431, 4671],
+    [2368, 4671],
+]
+
+[[area.polygons]]
+vertices = [
+    [3584, 9600],
+    [3647, 9600],
+    [3647, 9663],
+    [3584, 9663],
+]
+
+[[area.polygons]]
+vertices = [
+    [3616, 9681],
+    [3647, 9681],
+    [3647, 9727],
+    [3616, 9727],
+]

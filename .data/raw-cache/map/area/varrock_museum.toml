@@ -1,0 +1,12 @@
+[[area]]
+name = "Varrock Museum"
+area_id = "area.varrock_museum"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3249, 3438],
+    [3268, 3438],
+    [3268, 3456],
+    [3249, 3456],
+]

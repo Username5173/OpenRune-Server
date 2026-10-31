@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Sound of Guthix"
+area_id = "area.the_sound_of_guthix"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [4032, 4544],
+    [4095, 4544],
+    [4095, 4607],
+    [4032, 4607],
+]

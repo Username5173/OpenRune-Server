@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Evil Bob's Island"
+area_id = "area.evil_bobs_island"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2496, 4736],
+    [2559, 4736],
+    [2559, 4799],
+    [2496, 4799],
+]

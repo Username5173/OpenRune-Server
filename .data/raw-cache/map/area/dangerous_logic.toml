@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Dangerous Logic"
+area_id = "area.dangerous_logic"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [4115, 4932],
+    [4149, 4932],
+    [4149, 4985],
+    [4115, 4985],
+]

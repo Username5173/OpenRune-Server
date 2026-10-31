@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Grotto"
+area_id = "area.grotto"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3392, 9728],
+    [3455, 9728],
+    [3455, 9791],
+    [3392, 9791],
+]

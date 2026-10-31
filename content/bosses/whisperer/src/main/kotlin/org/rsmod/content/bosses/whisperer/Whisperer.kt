@@ -29,6 +29,7 @@ import org.rsmod.api.instances.InstanceManager
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.isValidTarget
+import org.rsmod.api.player.music.MusicPlayer
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.stat.hitpoints
@@ -37,6 +38,7 @@ import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.script.onEvent
 import org.rsmod.api.script.onNpcHit
 import org.rsmod.api.script.onNpcQueue
+import org.rsmod.api.table.MusicRow
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcStateEvents
@@ -61,6 +63,7 @@ constructor(
     private val protectedAccess: ProtectedAccessLauncher,
     private val npcHitModifier: StandardNpcHitModifier,
     private val npcDeath: NpcDeath,
+    private val musicPlayer: MusicPlayer,
 ) : BossPluginScript(deps) {
     private val chargeTimers: MutableMap<Npc, ChargeTimer> = IdentityHashMap()
     private val specialCleanups: MutableMap<Npc, () -> Unit> = IdentityHashMap()
@@ -960,6 +963,7 @@ constructor(
         for (player in instancePlayers(boss)) {
             player.sanity = SANITY_MAX
             returnToRealRealm(boss, player)
+            musicPlayer.finishEncounter(player, MusicRow.getRow("dbrow.music_dt2_whisperer"))
         }
         return dropCoords
     }

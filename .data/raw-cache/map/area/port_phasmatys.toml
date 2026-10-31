@@ -1,0 +1,12 @@
+[[area]]
+name = "Port Phasmatys"
+area_id = "area.port_phasmatys"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3634, 3470],
+    [3700, 3470],
+    [3700, 3530],
+    [3634, 3530],
+]

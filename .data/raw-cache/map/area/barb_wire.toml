@@ -1,0 +1,21 @@
+
+[[area]]
+name = "Barb Wire"
+area_id = "area.barb_wire"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1536, 4864],
+    [1599, 4864],
+    [1599, 4927],
+    [1536, 4927],
+]
+
+[[area.polygons]]
+vertices = [
+    [1728, 5248],
+    [1791, 5248],
+    [1791, 5375],
+    [1728, 5375],
+]

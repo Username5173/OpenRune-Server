@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Ape-ex Predator"
+area_id = "area.ape_ex_predator"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3776, 5376],
+    [3839, 5376],
+    [3839, 5439],
+    [3776, 5439],
+]

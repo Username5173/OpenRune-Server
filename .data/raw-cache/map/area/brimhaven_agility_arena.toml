@@ -1,0 +1,12 @@
+[[area]]
+name = "Brimhaven Agility Arena"
+area_id = "area.brimhaven_agility_arena"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2750, 9528],
+    [2818, 9528],
+    [2818, 9598],
+    [2750, 9598],
+]

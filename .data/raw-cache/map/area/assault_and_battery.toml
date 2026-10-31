@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Assault and Battery"
+area_id = "area.assault_and_battery"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1856, 5440],
+    [1919, 5440],
+    [1919, 5503],
+    [1856, 5503],
+]

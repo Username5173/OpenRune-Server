@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Forever"
+area_id = "area.forever"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3072, 9792],
+    [3135, 9792],
+    [3135, 10047],
+    [3072, 10047],
+]

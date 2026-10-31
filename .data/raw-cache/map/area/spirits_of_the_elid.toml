@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Spirits of the Elid"
+area_id = "area.spirits_of_the_elid"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3328, 9536],
+    [3391, 9536],
+    [3391, 9599],
+    [3328, 9599],
+]

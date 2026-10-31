@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Prime Time"
+area_id = "area.prime_time"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1920, 5120],
+    [1983, 5120],
+    [1983, 5183],
+    [1920, 5183],
+]

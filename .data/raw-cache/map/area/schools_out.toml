@@ -1,0 +1,13 @@
+
+[[area]]
+name = "School's Out"
+area_id = "area.schools_out"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1856, 4992],
+    [1919, 4992],
+    [1919, 5055],
+    [1856, 5055],
+]

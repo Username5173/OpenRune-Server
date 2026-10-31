@@ -1,0 +1,12 @@
+[[area]]
+name = "Haunted Woods"
+area_id = "area.haunted_woods"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3560, 3440],
+    [3632, 3440],
+    [3632, 3528],
+    [3560, 3528],
+]

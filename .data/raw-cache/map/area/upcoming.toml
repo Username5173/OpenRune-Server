@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Upcoming"
+area_id = "area.upcoming"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1824, 4896],
+    [1855, 4896],
+    [1855, 4927],
+    [1824, 4927],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "The Vault"
+area_id = "area.the_vault"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 6400],
+    [3327, 6400],
+    [3327, 6463],
+    [3136, 6463],
+]

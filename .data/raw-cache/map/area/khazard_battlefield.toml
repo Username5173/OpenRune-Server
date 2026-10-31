@@ -1,0 +1,12 @@
+[[area]]
+name = "Khazard Battlefield"
+area_id = "area.khazard_battlefield"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2495, 3230],
+    [2545, 3230],
+    [2545, 3275],
+    [2495, 3275],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Undead Dungeon"
+area_id = "area.undead_dungeon"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3136, 4544],
+    [3199, 4544],
+    [3199, 4671],
+    [3136, 4671],
+]

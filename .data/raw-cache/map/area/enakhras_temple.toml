@@ -1,0 +1,12 @@
+[[area]]
+name = "Enakhras Temple"
+area_id = "area.enakhras_temple"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3080, 9280],
+    [3135, 9280],
+    [3135, 9335],
+    [3080, 9335],
+]

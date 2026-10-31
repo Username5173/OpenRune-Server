@@ -1,0 +1,12 @@
+[[area]]
+name = "Varrock Sewers"
+area_id = "area.varrock_sewers"
+levels = [0, 1, 2, 3]
+# The north edge must stay below Wilderness areas; overlap would flag these sewers as Wilderness.
+[[area.polygons]]
+vertices = [
+    [3168, 9820],
+    [3262, 9820],
+    [3262, 9918],
+    [3168, 9918],
+]

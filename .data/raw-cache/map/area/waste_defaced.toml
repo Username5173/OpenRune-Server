@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Waste Defaced"
+area_id = "area.waste_defaced"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1472, 4224],
+    [1535, 4224],
+    [1535, 4351],
+    [1472, 4351],
+]

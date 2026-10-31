@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Monkey Madness"
+area_id = "area.monkey_madness"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2048, 5376],
+    [2111, 5376],
+    [2111, 5439],
+    [2048, 5439],
+]

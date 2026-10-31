@@ -11,6 +11,8 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 public class MusicTimerScript @Inject constructor(private val musicPlayer: MusicPlayer) :
     PluginScript() {
+    private val Player.masterVolume by intVarBit("varbit.option_master_volume_desktop")
+    private val Player.musicVolume by intVarBit("varbit.option_music_desktop")
     private var Player.currMusicId by intVarBit("varbit.music_curr_id")
     private var Player.musicClock by intVarBit("varbit.music_curr_clocks")
     private var Player.musicDuration by intVarBit("varbit.music_curr_duration")
@@ -33,14 +35,24 @@ public class MusicTimerScript @Inject constructor(private val musicPlayer: Music
     }
 
     private fun Player.musicResume() {
-        if (musicPlayer.isMuted(this)) {
+        // One-shot: soft timers re-arm unless cleared, and this one is scheduled with cycles=1
+        // by the audio settings script - left uncleared it fired EVERY tick, re-sending
+        // midi_song each tick, which the client answers by killing any playing jingle (silencing
+        // level-up and death jingles entirely).
+        clearSoftTimer("timer.music_resume")
+        if (isMusicMuted()) {
             return
         }
         musicPlayer.enable(this)
     }
 
     private fun Player.musicSync() {
-        if (musicPlayer.isMuted(this)) {
+        // Area exits run after timers, before incoming area hooks. Resolve last cycle's
+        // departure even while muted so unmuting cannot revive music from a departed area.
+        if (musicPlayer.syncAreaExit(this)) {
+            return
+        }
+        if (isMusicMuted()) {
             return
         }
 
@@ -56,8 +68,12 @@ public class MusicTimerScript @Inject constructor(private val musicPlayer: Music
 
         val endMusic = musicClock > musicDuration
         if (endMusic) {
-            musicPlayer.stop(this)
+            musicPlayer.trackEnded(this)
             return
         }
+    }
+
+    private fun Player.isMusicMuted(): Boolean {
+        return masterVolume == 0 || musicVolume == 0
     }
 }

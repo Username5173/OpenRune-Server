@@ -1,0 +1,12 @@
+[[area]]
+name = "Burgh de Rott"
+area_id = "area.burgh_de_rott"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [3470, 3160],
+    [3560, 3160],
+    [3560, 3250],
+    [3470, 3250],
+]

@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Fe Fi Fo Fum"
+area_id = "area.fe_fi_fo_fum"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2112, 5504],
+    [2175, 5504],
+    [2175, 5567],
+    [2112, 5567],
+]

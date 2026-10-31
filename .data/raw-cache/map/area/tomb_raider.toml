@@ -1,0 +1,13 @@
+
+[[area]]
+name = "Tomb Raider"
+area_id = "area.tomb_raider"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [1920, 4416],
+    [1983, 4416],
+    [1983, 4479],
+    [1920, 4479],
+]
