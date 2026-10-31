@@ -154,6 +154,7 @@ class MusicTransitionDispatchTest {
             with(MusicTimerScript(music)) { context.startup() }
             set("varbit.option_master_volume_desktop", 100)
             set("varbit.option_music_desktop", 100)
+            set("varbit.music_enableloop", 1)
             set("varbit.music_area_mode", 0)
             set("varp.musicplay", initialMode.varValue)
             set("varbit.use_previous_music_mode_on_login", if (rememberMode) 1 else 0)

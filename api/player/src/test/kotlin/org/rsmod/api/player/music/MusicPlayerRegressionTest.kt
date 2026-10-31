@@ -13,6 +13,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.shorts.ShortArrayList
 import net.rsprot.protocol.game.outgoing.sound.MidiJingle
 import net.rsprot.protocol.game.outgoing.sound.MidiSongV2
+import net.rsprot.protocol.game.outgoing.sound.MidiSongWithSecondary
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -341,6 +342,142 @@ class MusicPlayerRegressionTest {
     }
 
     @Test
+    fun `classic areas resolve the cache default track of their map area`() {
+        val f = Fixture()
+        f.repo.load()
+
+        assertEquals("Harmony", f.repo.getClassicArea("area.lumbridge")?.displayName)
+        assertEquals("Nightfall", f.repo.getClassicArea("area.falador_south")?.displayName)
+        assertEquals("Crest of a Wave", f.repo.getClassicArea("area.port_sarim")?.displayName)
+        assertEquals(
+            "Wilderness",
+            f.repo.getClassicArea("area.wilderness_music")?.displayName,
+        )
+    }
+
+    @Test
+    fun `classic area entry plays and unlocks the single area track`() {
+        val f = Fixture()
+        f.repo.load()
+        val harmony = checkNotNull(f.repo.getClassicArea("area.lumbridge"))
+        f.set("varbit.music_area_mode", MusicAreaMode.Classic.varValue)
+
+        f.music.enterArea(f.player, "area.lumbridge")
+
+        assertEquals(harmony.id, f.player.vars["varbit.music_curr_id"])
+        assertEquals(harmony.rowId, f.player.vars["varp.music_current_track"])
+        assertTrue(f.music.hasUnlocked(f.player, harmony))
+        assertEquals(harmony.midi.id, f.client.messages.filterIsInstance<MidiSongV2>().single().id)
+    }
+
+    @Test
+    fun `default track setting starts the first area track without shuffling`() {
+        val f = Fixture()
+        f.modernArea("area.lumbridge", f.first, f.second)
+        f.set("varbit.settings_music_default_track_on_area_entry", 1)
+
+        f.music.enterArea(f.player, "area.lumbridge")
+
+        assertEquals(f.first.id, f.player.vars["varbit.music_curr_id"])
+        assertEquals(0, f.player.vars["varp.music_playlist"])
+    }
+
+    @Test
+    fun `single track areas restart their song when looping is enabled`() {
+        val f = Fixture()
+        f.area("area.lumbridge", f.first)
+        f.music.enterArea(f.player, "area.lumbridge")
+        f.client.messages.clear()
+
+        f.music.trackEnded(f.player)
+
+        assertEquals(f.first.id, f.player.vars["varbit.music_curr_id"])
+        assertEquals(f.first.midi.id, f.client.messages.filterIsInstance<MidiSongV2>().single().id)
+    }
+
+    @Test
+    fun `single track areas end silently when looping is disabled`() {
+        val f = Fixture()
+        f.area("area.lumbridge", f.first)
+        f.set("varbit.music_enableloop", 0)
+        f.music.enterArea(f.player, "area.lumbridge")
+        f.client.messages.clear()
+
+        f.music.trackEnded(f.player)
+
+        assertEquals(0, f.player.vars["varbit.music_curr_id"])
+        assertEquals(
+            listOf(MidiSongV2("midi.stop_music".asRSCM(), 0, 20, 0, 0)),
+            f.client.messages.filterIsInstance<MidiSongV2>(),
+        )
+        f.client.messages.clear()
+        f.music.playNext(f.player)
+        assertEquals(0, f.player.vars["varbit.music_curr_id"])
+        assertTrue(f.client.messages.filterIsInstance<MidiSongV2>().isEmpty())
+    }
+
+    @Test
+    fun `shuffle still advances to another track when looping is disabled`() {
+        val f = Fixture()
+        f.set("varp.musicmulti_1", 3)
+        assertTrue(f.music.playSelected(f.player, f.first))
+        f.music.selectMode(f.player, MusicPlayMode.Random)
+        f.set("varbit.music_enableloop", 0)
+        f.client.messages.clear()
+
+        f.music.trackEnded(f.player)
+        f.music.playNext(f.player)
+
+        assertEquals(f.second.id, f.player.vars["varbit.music_curr_id"])
+        val songs =
+            f.client.messages
+                .filterIsInstance<MidiSongV2>()
+                .filter { it.id != "midi.stop_music".asRSCM() }
+        assertEquals(f.second.midi.id, songs.single().id)
+    }
+
+    @Test
+    fun `single mode keeps looping while the loop setting is disabled`() {
+        val f = Fixture()
+        f.set("varp.musicmulti_1", 3)
+        assertTrue(f.music.playSelected(f.player, f.first))
+        f.set("varbit.music_enableloop", 0)
+        f.client.messages.clear()
+
+        f.music.trackEnded(f.player)
+
+        assertEquals(f.first.id, f.player.vars["varbit.music_curr_id"])
+        assertEquals(f.first.midi.id, f.client.messages.filterIsInstance<MidiSongV2>().single().id)
+    }
+
+    @Test
+    fun `tracks with a secondary track send both midi ids`() {
+        val f = Fixture()
+        f.repo.load()
+        val music = checkNotNull(f.repo.forRow(MusicRow.all().first { it.displayname == "Master of Puppets" }))
+        val secondary = checkNotNull(music.secondaryMidi)
+        f.set("varp.musicmulti_1", 0xFFFF)
+        f.set(music.unlockVarp!!, music.unlockBitflag)
+
+        assertTrue(f.music.playSelected(f.player, music))
+
+        val song = f.client.messages.filterIsInstance<MidiSongWithSecondary>().single()
+        assertEquals(music.midi.id, song.primaryId)
+        assertEquals(secondary.id, song.secondaryId)
+    }
+
+    @Test
+    fun `automatically unlocked tracks are playable without setting a varp bit`() {
+        val f = Fixture()
+        f.repo.load()
+        val music = checkNotNull(f.repo.forRow(MusicRow.all().first { it.displayname == "Newbie Melody" }))
+
+        assertTrue(music.automaticUnlock)
+        assertTrue(f.music.hasUnlocked(f.player, music))
+        assertTrue(f.music.playSelected(f.player, music))
+    }
+
+    @Test
     fun `adjacent classic and modern areas crossfade directly without stopping between them`() {
         for (mode in MusicAreaMode.entries) {
             val f = Fixture()
@@ -475,6 +612,7 @@ class MusicPlayerRegressionTest {
             repoField("modernAreas", Int2ObjectOpenHashMap<List<Music>>())
             set("varbit.option_master_volume_desktop", 100)
             set("varbit.option_music_desktop", 100)
+            set("varbit.music_enableloop", 1)
         }
 
         fun repoField(name: String, value: Any) {
@@ -484,13 +622,16 @@ class MusicPlayerRegressionTest {
         fun set(key: String, value: Int) = VarPlayerIntMapSetter.set(player, key, value)
 
         fun area(key: String, track: Music) {
+            modernArea(key, track)
             @Suppress("UNCHECKED_CAST")
             val classic = MusicRepository::class.java.getDeclaredField("classicAreas").apply { isAccessible = true }.get(repo) as Int2ObjectOpenHashMap<Music>
+            classic[key.asRSCM()] = track
+        }
 
+        fun modernArea(key: String, vararg tracks: Music) {
             @Suppress("UNCHECKED_CAST")
             val modern = MusicRepository::class.java.getDeclaredField("modernAreas").apply { isAccessible = true }.get(repo) as Int2ObjectOpenHashMap<List<Music>>
-            classic[key.asRSCM()] = track
-            modern[key.asRSCM()] = listOf(track)
+            modern[key.asRSCM()] = tracks.toList()
         }
 
         private fun track(id: Int, bit: Int) = Music(id, id, "Track $id", "in an area.", 100, MidiType(id), "varp.musicmulti_1", 1, bit, false, null)

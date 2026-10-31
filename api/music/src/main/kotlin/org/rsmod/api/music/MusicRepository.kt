@@ -58,7 +58,7 @@ public class MusicRepository @Inject constructor(private val random: GameRandom)
         val modernAreas = loadModernAreas(musicRows)
         this.modernAreas = Int2ObjectOpenHashMap(modernAreas)
 
-        val classicAreas = loadClassicAreas(musicRows)
+        val classicAreas = deriveClassicAreas(modernAreas, musicRows)
         this.classicAreas = Int2ObjectOpenHashMap(classicAreas)
     }
 
@@ -88,8 +88,21 @@ public class MusicRepository @Inject constructor(private val random: GameRandom)
                     unlockVarpIndex = unlockVarpIndex,
                     unlockBitpos = unlockBitpos,
                     hidden = row.hidden ?: false,
-                    secondary = null,
+                    secondaryMidi = null,
+                    automaticUnlock = row.automaticUnlock ?: false,
+                    classicAreas = row.area,
+                    classicAreaDefault = row.areaDefault,
                 )
+        }
+        for (row in rows) {
+            val music = mapped[row.rowId] ?: continue
+            val secondaryRow = row.secondaryTrack ?: continue
+            val secondary = mapped[secondaryRow.rowId] ?: continue
+            // Self-referencing secondaries belong to the same midi; playing it twice overlaps.
+            if (secondary.midi.id == music.midi.id) {
+                continue
+            }
+            mapped[row.rowId] = music.copy(secondaryMidi = secondary.midi)
         }
         return mapped
     }
@@ -116,8 +129,36 @@ public class MusicRepository @Inject constructor(private val random: GameRandom)
         return grouped
     }
 
-    private fun loadClassicAreas(musicRows: Map<Int, Music>): Map<Int, Music> {
-        return emptyMap()
+    /**
+     * Classic mode plays a single track per music area. The cache stores the classic area ids and
+     * the default track of each one on `dbtable.music`; pick the area's own default track first,
+     * then the default track of any classic area its tracks belong to, and fall back to the first
+     * track for areas that only exist in modern mode.
+     */
+    private fun deriveClassicAreas(
+        modernAreas: Map<Int, List<Music>>,
+        musicRows: Map<Int, Music>,
+    ): Map<Int, Music> {
+        val classicDefaults =
+            musicRows.values.mapNotNull { music ->
+                music.classicAreaDefault?.let { area -> area to music }
+            }.toMap()
+
+        val derived = HashMap<Int, Music>(modernAreas.size)
+        for ((area, tracks) in modernAreas) {
+            val track =
+                tracks.firstOrNull { it.classicAreaDefault != null }
+                    ?: tracks
+                        .asSequence()
+                        .flatMap { it.classicAreas.asSequence() }
+                        .mapNotNull(classicDefaults::get)
+                        .firstOrNull()
+                    ?: tracks.firstOrNull()
+            if (track != null) {
+                derived[area] = track
+            }
+        }
+        return derived
     }
 
     private fun unlockVarps(): List<String> =

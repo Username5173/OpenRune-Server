@@ -4,6 +4,7 @@ import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import net.rsprot.protocol.game.outgoing.sound.MidiJingle
 import net.rsprot.protocol.game.outgoing.sound.MidiSongV2
+import net.rsprot.protocol.game.outgoing.sound.MidiSongWithSecondary
 import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.game.entity.Player
 
@@ -54,4 +55,24 @@ public fun Player.midiSong(
     fadeInSpeed: Int = 0,
 ) {
     client.write(MidiSongV2(midi, fadeOutDelay, fadeOutSpeed, fadeInDelay, fadeInSpeed))
+}
+
+public fun Player.midiSongWithSecondary(
+    midi: Int,
+    secondaryMidi: Int,
+    fadeOutDelay: Int = 0,
+    fadeOutSpeed: Int = 0,
+    fadeInDelay: Int = 0,
+    fadeInSpeed: Int = 0,
+) {
+    client.write(
+        MidiSongWithSecondary(
+            midi,
+            secondaryMidi,
+            fadeOutDelay,
+            fadeOutSpeed,
+            fadeInDelay,
+            fadeInSpeed,
+        )
+    )
 }

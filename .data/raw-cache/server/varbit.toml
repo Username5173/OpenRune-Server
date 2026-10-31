@@ -7,6 +7,13 @@ endBit = 15
 
 [[varbit]]
 isServerOnly = true
+id = "varbit.music_track_ended"
+varp = "varp.music_temp_state_3"
+startBit = 16
+endBit = 16
+
+[[varbit]]
+isServerOnly = true
 id = "varbit.music_curr_duration"
 varp = "varp.music_temp_state_2"
 startBit = 0

@@ -1,6 +1,9 @@
 [gamevals.varp]
 music_pending_area_exit = 63797
 
+[gamevals.varbit]
+music_track_ended = 64000
+
 [gamevals.area]
 sorceress_garden_courtyard = 20535
 

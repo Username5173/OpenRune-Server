@@ -1,7 +1,6 @@
 package org.rsmod.api.music
 
 import dev.openrune.types.aconverted.MidiType
-import org.rsmod.api.table.MusicRow
 
 public data class Music(
     val id: Int,
@@ -15,7 +14,12 @@ public data class Music(
     val unlockVarpIndex: Int,
     val unlockBitpos: Int,
     val hidden: Boolean,
-    val secondary: MusicRow?,
+    val secondaryMidi: MidiType? = null,
+    val automaticUnlock: Boolean = false,
+    /** Classic music-area ids this track unlocks in, from `dbcol.music:area`. */
+    val classicAreas: List<Int> = emptyList(),
+    /** The classic music-area this track is the default of, from `dbcol.music:area_default`. */
+    val classicAreaDefault: Int? = null,
 ) {
     val unlockBitflag: Int
         get() = 1 shl unlockBitpos

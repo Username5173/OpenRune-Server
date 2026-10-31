@@ -8,6 +8,7 @@ import org.rsmod.api.music.Music
 import org.rsmod.api.music.MusicRepository
 import org.rsmod.api.player.chatMesColorTag
 import org.rsmod.api.player.midiSong
+import org.rsmod.api.player.midiSongWithSecondary
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.ui.ifSetText
 import org.rsmod.api.player.vars.VarPlayerIntMapSetter
@@ -50,6 +51,11 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
 
     private val Player.masterVolume by intVarBit("varbit.option_master_volume_desktop")
     private val Player.musicVolume by intVarBit("varbit.option_music_desktop")
+
+    private val Player.loopMusic by boolVarBit("varbit.music_enableloop")
+    private val Player.defaultTrackOnAreaEntry by
+        boolVarBit("varbit.settings_music_default_track_on_area_entry")
+    private var Player.musicEnded by boolVarBit("varbit.music_track_ended")
 
     public fun unlockAndPlay(player: Player, musicRow: MusicRow) {
         val music = getUnlockableOrThrow(musicRow)
@@ -107,6 +113,7 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
 
     private fun play(player: Player, music: Music, fade: Int = MUSIC_PLAY_FADE) {
         player.pendingAreaExit = null
+        player.musicEnded = false
         val currMusicId = player.currMusicId
 
         // Attempting to play music that is already playing does not restart the midi: the
@@ -122,7 +129,17 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
 
             val fadeSpeed = if (currMusicId == 0) 0 else fade
             // Both fades start together; delaying the new song would leave a gap instead.
-            player.midiSong(music.midi.id, fadeOutSpeed = fadeSpeed, fadeInSpeed = fadeSpeed)
+            val secondaryMidi = music.secondaryMidi
+            if (secondaryMidi == null) {
+                player.midiSong(music.midi.id, fadeOutSpeed = fadeSpeed, fadeInSpeed = fadeSpeed)
+            } else {
+                player.midiSongWithSecondary(
+                    music.midi.id,
+                    secondaryMidi.id,
+                    fadeOutSpeed = fadeSpeed,
+                    fadeInSpeed = fadeSpeed,
+                )
+            }
             player.ifSetText("component.music:now_playing_text", music.displayName)
         }
     }
@@ -146,6 +163,7 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
             return
         }
         player.playMode = mode
+        player.musicEnded = false
         val leavePlaylist = mode == MusicPlayMode.Area && !player.keepPlaylistOnModeChange
         if (leavePlaylist && player.currentPlaylist != 0) {
             player.currentPlaylist = 0
@@ -165,10 +183,30 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
     }
 
     public fun trackEnded(player: Player) {
-        if (player.playMode != MusicPlayMode.Manual) {
-            stop(player)
-            return
+        when (player.playMode) {
+            MusicPlayMode.Manual -> replayCurrent(player)
+            MusicPlayMode.Area -> {
+                if (!areaReplaysCurrent(player)) {
+                    stop(player)
+                    return
+                }
+                if (player.loopMusic) {
+                    replayCurrent(player)
+                } else {
+                    endTrack(player)
+                }
+            }
+            MusicPlayMode.Random -> {
+                if (!player.loopMusic && !hasOtherRandomTrack(player)) {
+                    endTrack(player)
+                } else {
+                    stop(player)
+                }
+            }
         }
+    }
+
+    private fun replayCurrent(player: Player) {
         val music = repo.forId(player.currMusicId)
         if (music == null) {
             stop(player)
@@ -177,6 +215,26 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
         player.currMusicId = 0
         play(player, music)
     }
+
+    private fun endTrack(player: Player) {
+        stop(player)
+        // Keep the idle sync from starting the same track again while loop is disabled.
+        player.musicEnded = true
+    }
+
+    private fun areaReplaysCurrent(player: Player): Boolean {
+        if (player.currMusicArea == 0) {
+            return false
+        }
+        val area = RSCM.getReverseMapping(RSCMType.AREA, player.currMusicArea - 1)
+        return when (player.areaMode) {
+            MusicAreaMode.Classic -> repo.getClassicArea(area)?.id == player.currMusicId
+            MusicAreaMode.Modern -> (repo.getModernArea(area)?.size ?: 0) <= 1
+        }
+    }
+
+    private fun hasOtherRandomTrack(player: Player): Boolean =
+        unlockedCandidates(player).any { it.id != player.currMusicId }
 
     public fun resume(player: Player) {
         val music = repo.forId(player.currMusicId)
@@ -232,6 +290,9 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
     }
 
     public fun hasUnlocked(player: Player, music: Music): Boolean {
+        if (music.automaticUnlock) {
+            return true
+        }
         val varp = music.unlockVarp ?: return false
         val unlockedValue = player.vars[varp] and music.unlockBitflag
         return unlockedValue != 0
@@ -312,6 +373,9 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
     }
 
     public fun playNext(player: Player) {
+        if (player.musicEnded) {
+            return
+        }
         when (player.playMode) {
             MusicPlayMode.Area -> playNextArea(player)
             MusicPlayMode.Random -> playNextRandom(player)
@@ -343,7 +407,7 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
             }
             MusicAreaMode.Classic -> {
                 val classicMusic = repo.getClassicArea(area)
-                if (classicMusic != null && player.lastMusicId != classicMusic.id) {
+                if (classicMusic != null) {
                     unlockAndPlay(player, classicMusic)
                 } else {
                     setEmptyMusicText(player)
@@ -352,13 +416,18 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
         }
     }
 
-    private fun playNextRandom(player: Player, fade: Int = MUSIC_PLAY_FADE) {
+    private fun unlockedCandidates(player: Player): List<Music> {
         val playlist = player.currentPlaylist
         val candidates =
             if (playlist in 1..PLAYLIST_COUNT) playlistTracks(player, playlist) else repo.getAll()
-        val unlocked = candidates.filter { hasUnlocked(player, it) }
-        val next = random.pickOrNull(unlocked.filter { it.id != player.currMusicId })
-            ?: unlocked.firstOrNull()
+        return candidates.filter { hasUnlocked(player, it) }
+    }
+
+    private fun playNextRandom(player: Player, fade: Int = MUSIC_PLAY_FADE) {
+        val unlocked = unlockedCandidates(player)
+        val next =
+            random.pickOrNull(unlocked.filter { it.id != player.currMusicId })
+                ?: unlocked.firstOrNull()
         if (next == null) {
             // An empty or stale playlist never falls back to a locked or unrelated track.
             if (player.currMusicId != 0) stop(player)
@@ -399,7 +468,12 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
         for (music in musicList) {
             unlock(player, music)
         }
-        if (player.playMode == MusicPlayMode.Area) {
+        if (player.playMode != MusicPlayMode.Area) {
+            return
+        }
+        if (player.defaultTrackOnAreaEntry) {
+            musicList.firstOrNull()?.let { unlockAndPlay(player, it) }
+        } else {
             playShuffled(player, musicList)
         }
     }
