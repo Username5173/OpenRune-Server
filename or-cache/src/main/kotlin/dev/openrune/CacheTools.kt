@@ -1,11 +1,14 @@
 package dev.openrune
 
+import com.displee.cache.CacheLibrary
 import com.github.michaelbull.logging.InlineLogger
+import dev.openrune.cache.CLIENTSCRIPT
 import dev.openrune.cache.gameval.GameValHandler
 import dev.openrune.cache.tools.Builder
 import dev.openrune.cache.tools.CacheEnvironment
 import dev.openrune.cache.tools.CacheTool
 import dev.openrune.cache.tools.cacheTool
+import dev.openrune.cache.tools.cs2.Cs2Overrides
 import dev.openrune.cache.tools.cs2.PackCs2
 import dev.openrune.cache.tools.cs2.UnpackDefaultCs2
 import dev.openrune.cache.tools.iftype.PackIfType
@@ -147,13 +150,78 @@ fun buildCache(type: TaskType, force: Boolean = false) {
     )
 
     val packTasks = packs.buildPackTasks(tablesToPack(), cs2Overrides)
+
+    // Neptune recompiles every library script, which changes the bytes of otherwise untouched
+    // vanilla clientscripts. RuneLite matches its script patches (music list search/filter, bank
+    // search, quest filter, ...) against the original script hash and silently skips a patch whose
+    // hash differs. Keep the original bytes for every script the packs did not replace.
+    val cacheDir = File(getCacheLocation())
+    val originalScripts =
+        if (type == TaskType.BUILD && cacheDir.exists()) snapshotScripts(cacheDir) else emptyMap()
+
     newCacheTool(type, packTasks).initialize()
+
+    if (originalScripts.isNotEmpty()) {
+        val overridden = cs2OverrideIds(cs2Overrides)
+        restoreScripts(cacheDir, originalScripts, overridden)
+        logger.info {
+            "Restored ${originalScripts.size - overridden.size} vanilla clientscripts " +
+                "(${overridden.size} pack overrides kept)"
+        }
+    }
 
     if (type == TaskType.BUILD) {
         buildServerCache(packTasks, packs)
     }
 
     finalizeServerCache(force)
+}
+
+private fun snapshotScripts(cacheDir: File): Map<Int, ByteArray> {
+    val cache = Cache.load(cacheDir.toPath())
+    try {
+        val scripts = HashMap<Int, ByteArray>()
+        for (group in cache.archives(CLIENTSCRIPT)) {
+            if (cache.fileCount(CLIENTSCRIPT, group) != 1) continue
+            val data = cache.data(CLIENTSCRIPT, group, 0) ?: continue
+            scripts[group] = data
+        }
+        return scripts
+    } finally {
+        cache.close()
+    }
+}
+
+private fun restoreScripts(cacheDir: File, scripts: Map<Int, ByteArray>, overridden: Set<Int>) {
+    CacheLibrary(cacheDir.absolutePath).use { cache ->
+        for ((group, data) in scripts) {
+            if (group in overridden) continue
+            cache.put(CLIENTSCRIPT, group, 0, data)
+        }
+        cache.update()
+    }
+}
+
+/** Script ids the packs replace; those must keep the compiled override instead of the vanilla copy. */
+private fun cs2OverrideIds(overrides: Cs2Overrides): Set<Int> {
+    val ids = HashSet<Int>()
+    for (source in overrides.sources) {
+        val files =
+            if (source.isDirectory) {
+                source.walkTopDown().filter { it.isFile && it.extension == "cs2" }
+            } else {
+                sequenceOf(source)
+            }
+        for (file in files) {
+            val archiveName = file.nameWithoutExtension
+            ConstantProvider.getMappingOrNull("clientscript.$archiveName")?.let(ids::add)
+            val shortName = archiveName.substringAfter(',', "").removeSuffix("]")
+            if (shortName.isNotEmpty()) {
+                ConstantProvider.getMappingOrNull("clientscript.$shortName")?.let(ids::add)
+            }
+        }
+    }
+    return ids
 }
 
 private fun buildServerCache(packTasks: List<CacheTask>, packs: PluginPacks) {
