@@ -89,6 +89,7 @@ public object MapAreaPacker {
 
     private fun collectAreas(mapAreas: List<TomlMapArea>): PolygonArea {
         val builderLists = mutableMapOf<MapSquareKey, PolygonMapSquareBuilder>()
+        val holeLists = mutableMapOf<MapSquareKey, MutableList<(PolygonMapSquareBuilder) -> Unit>>()
         for (mapArea in mapAreas) {
             val areaId = mapArea.area_id.asRSCM().toShort()
             val levels = mapArea.levels.toSet()
@@ -106,6 +107,30 @@ public object MapAreaPacker {
                     }
                 }
             }
+
+            for (hole in mapArea.holes) {
+                val clipped = PolygonMapSquareClipper.closeAndClip(hole.coords())
+                for ((mapSquare, polygonVertices) in clipped) {
+                    val apply =
+                        { builder: PolygonMapSquareBuilder ->
+                            builder.hole(areaId, levels) {
+                                for (vertex in polygonVertices) {
+                                    val localX = vertex.x % MapSquareGrid.LENGTH
+                                    val localZ = vertex.z % MapSquareGrid.LENGTH
+                                    vertex(localX, localZ)
+                                }
+                            }
+                        }
+                    holeLists.getOrPut(mapSquare) { mutableListOf() }.add(apply)
+                }
+            }
+        }
+
+        for ((mapSquare, holes) in holeLists) {
+            val builder = builderLists[mapSquare] ?: continue
+            for (hole in holes) {
+                hole(builder)
+            }
         }
 
         val groupedSquares = builderLists.mapValues { it.value.build() }
@@ -121,6 +146,7 @@ public object MapAreaPacker {
         val area_id: String,
         val levels: List<Int>,
         val polygons: List<TomlPolygon> = emptyList(),
+        val holes: List<TomlPolygon> = emptyList(),
         val includes: List<String> = emptyList(),
         val excludes: List<String> = emptyList(),
     )

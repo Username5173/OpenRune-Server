@@ -54,6 +54,24 @@ public class PolygonMapSquareBuilder {
         builder.close()
     }
 
+    /**
+     * Clears [area] coverage inside the given polygon. Holes are applied after every [polygon] call
+     * for the same area on this map square, so a hole carved from a filled polygon cannot be
+     * refilled by a later polygon of the same area.
+     */
+    public fun hole(area: Short, levels: Iterable<Int>, init: PolygonBuilder.() -> Unit) {
+        val holes = Short2ObjectOpenHashMap<BitSet>()
+        val builder = PolygonBuilder(area = area, levels = levels, coordAreas = holes)
+        builder.apply(init)
+        builder.close()
+        val holeBits = holes[area] ?: return
+        val areaBits = coordAreas[area] ?: return
+        areaBits.andNot(holeBits)
+        if (areaBits.isEmpty) {
+            coordAreas.remove(area)
+        }
+    }
+
     public fun build(): PolygonMapSquare {
         val zoneAreas = Short2ObjectOpenHashMap<BitSet>()
         val mapSquareAreas = ShortOpenHashSet()
