@@ -200,6 +200,36 @@ class MusicPlayerRegressionTest {
     }
 
     @Test
+    fun `sailing oceans share the native music area group`() {
+        val repo = MusicRepository(DefaultGameRandom(1)).apply { load() }
+        val ardentGroup = checkNotNull(repo.getModernGroupId("area.ardent_ocean"))
+        val sunsetGroup = checkNotNull(repo.getModernGroupId("area.sunset_ocean"))
+        assertEquals(ardentGroup, sunsetGroup)
+        assertEquals(12, repo.getModernGroup("area.ardent_ocean")?.size)
+        assertTrue(ardentGroup != repo.getModernGroupId("area.lumbridge"))
+    }
+
+    @Test
+    fun `crossing between sailing oceans keeps the current track`() {
+        val f = Fixture()
+        f.repo.load()
+        f.music.enterArea(f.player, "area.ardent_ocean")
+        val current = f.player.vars["varp.music_current_track"]
+        f.client.messages.clear()
+
+        f.music.enterArea(f.player, "area.unquiet_ocean")
+
+        assertEquals(current, f.player.vars["varp.music_current_track"])
+        assertTrue(f.client.messages.filterIsInstance<MidiSongV2>().isEmpty())
+        assertTrue(f.music.hasUnlocked(f.player, MusicRow.getRow(7075)))
+        assertTrue(f.music.hasUnlocked(f.player, MusicRow.getRow(7076)))
+
+        f.music.playNext(f.player)
+        val next = f.player.vars["varp.music_current_track"]
+        assertTrue(next != null && next in setOf(7073, 7074, 7075, 7076), "Next track was $next")
+    }
+
+    @Test
     fun `garden courtyard boundaries meet seasonal music without overlapping`() {
         val modern = MusicModernRow.all().associateBy { "area.${it.area}".asRSCM() }
         for (x in 2887..2936) for (z in 5447..5496) {

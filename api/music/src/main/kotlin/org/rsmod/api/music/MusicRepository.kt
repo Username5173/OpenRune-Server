@@ -2,10 +2,13 @@ package org.rsmod.api.music
 
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import it.unimi.dsi.fastutil.ints.Int2IntMap
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import jakarta.inject.Inject
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.table.MusicAreaGroupRow
 import org.rsmod.api.table.MusicModernRow
 import org.rsmod.api.table.MusicRow
 
@@ -15,6 +18,8 @@ public class MusicRepository @Inject constructor(private val random: GameRandom)
     private lateinit var jukebox: List<Music>
 
     private lateinit var modernAreas: Int2ObjectMap<List<Music>>
+    private var modernGroups: Int2ObjectMap<List<Music>> = Int2ObjectOpenHashMap()
+    private var areaGroups: Int2IntMap = Int2IntOpenHashMap()
     private lateinit var classicAreas: Int2ObjectMap<Music>
 
     public fun forRow(row: MusicRow): Music? = musicRows[row.rowId]
@@ -34,6 +39,23 @@ public class MusicRepository @Inject constructor(private val random: GameRandom)
 
     public fun getModernArea(area: String): List<Music>? {
         return modernAreas[area.asRSCM(RSCMType.AREA)]
+    }
+
+    /**
+     * Tracks that share a native `music_area_group` row, such as the six Sailing oceans. Moving
+     * between areas in the same group keeps the current playlist instead of restarting it.
+     */
+    public fun getModernGroup(area: String): List<Music>? {
+        val group = getModernGroupId(area) ?: return null
+        return modernGroups[group]
+    }
+
+    public fun getModernGroupId(area: String): Int? {
+        val areaId = area.asRSCM(RSCMType.AREA)
+        if (!areaGroups.containsKey(areaId)) {
+            return null
+        }
+        return areaGroups.get(areaId)
     }
 
     public fun getClassicArea(area: String): Music? {
@@ -57,6 +79,7 @@ public class MusicRepository @Inject constructor(private val random: GameRandom)
 
         val modernAreas = loadModernAreas(musicRows)
         this.modernAreas = Int2ObjectOpenHashMap(modernAreas)
+        loadModernGroups(modernAreas)
 
         val classicAreas = deriveClassicAreas(modernAreas, musicRows)
         this.classicAreas = Int2ObjectOpenHashMap(classicAreas)
@@ -127,6 +150,26 @@ public class MusicRepository @Inject constructor(private val random: GameRandom)
         }
 
         return grouped
+    }
+
+    private fun loadModernGroups(modernAreas: Map<Int, List<Music>>) {
+        val groups = MusicAreaGroupRow.all()
+        val areaGroups = Int2IntOpenHashMap(modernAreas.size)
+        val grouped = mutableMapOf<Int, MutableList<Music>>()
+        for ((areaId, tracks) in modernAreas) {
+            val nativeAreas = tracks.flatMapTo(HashSet()) { it.classicAreas }
+            val group = groups.firstOrNull { row -> row.area.any(nativeAreas::contains) }
+            val groupId = group?.rowId ?: areaId
+            areaGroups[areaId] = groupId
+            val groupTracks = grouped.getOrPut(groupId) { mutableListOf() }
+            for (track in tracks) {
+                if (groupTracks.none { it.id == track.id }) {
+                    groupTracks += track
+                }
+            }
+        }
+        this.areaGroups = areaGroups
+        this.modernGroups = Int2ObjectOpenHashMap(grouped)
     }
 
     /**

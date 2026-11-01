@@ -229,7 +229,10 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
         val area = RSCM.getReverseMapping(RSCMType.AREA, player.currMusicArea - 1)
         return when (player.areaMode) {
             MusicAreaMode.Classic -> repo.getClassicArea(area)?.id == player.currMusicId
-            MusicAreaMode.Modern -> (repo.getModernArea(area)?.size ?: 0) <= 1
+            MusicAreaMode.Modern -> {
+                val tracks = repo.getModernGroup(area) ?: repo.getModernArea(area)
+                (tracks?.count { hasUnlocked(player, it) } ?: 0) <= 1
+            }
         }
     }
 
@@ -395,15 +398,15 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
         val area = RSCM.getReverseMapping(RSCMType.AREA, player.currMusicArea - 1)
         when (player.areaMode) {
             MusicAreaMode.Modern -> {
-                val modernMusic = repo.getModernArea(area)
-                if (modernMusic != null) {
-                    // TODO(emulation): Does this unlock all tracks if they haven't already? Or
-                    //  only the shuffled track that is selected to play? Will need to enter an
-                    //  area with 3+ music tracks in classic mode, then switch to modern and wait
-                    //  for the classic track to complete and see if the rest unlock all in one go
-                    //  or one at a time as they play.
-                    playShuffled(player, modernMusic)
-                }
+                val areaTracks = repo.getModernArea(area) ?: return
+                val groupTracks = repo.getModernGroup(area) ?: areaTracks
+                val candidates = groupTracks.filter { hasUnlocked(player, it) }
+                // TODO(emulation): Does this unlock all tracks if they haven't already? Or
+                //  only the shuffled track that is selected to play? Will need to enter an
+                //  area with 3+ music tracks in classic mode, then switch to modern and wait
+                //  for the classic track to complete and see if the rest unlock all in one go
+                //  or one at a time as they play.
+                playShuffled(player, candidates.ifEmpty { areaTracks })
             }
             MusicAreaMode.Classic -> {
                 val classicMusic = repo.getClassicArea(area)
@@ -438,19 +441,12 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
     }
 
     public fun enterArea(player: Player, area: String) {
-        player.musicPlaylist = 0
         when (player.areaMode) {
-            MusicAreaMode.Modern -> {
-                val modernMusic = repo.getModernArea(area)
-                if (modernMusic != null) {
-                    player.pendingAreaExit = null
-                    player.currMusicArea = area.asRSCM(RSCMType.AREA) + 1
-                    unlockAndPlayShuffled(player, modernMusic)
-                }
-            }
+            MusicAreaMode.Modern -> enterModernArea(player, area)
             // Note: When entering a modern area with classic music mode, it does _not_ unlock
             // the modern tracks.
             MusicAreaMode.Classic -> {
+                player.musicPlaylist = 0
                 val classicMusic = repo.getClassicArea(area)
                 if (classicMusic != null) {
                     player.pendingAreaExit = null
@@ -464,17 +460,49 @@ internal constructor(private val random: GameRandom, private val repo: MusicRepo
         }
     }
 
-    private fun unlockAndPlayShuffled(player: Player, musicList: List<Music>) {
-        for (music in musicList) {
+    private fun enterModernArea(player: Player, area: String) {
+        val areaTracks = repo.getModernArea(area) ?: return
+        val groupTracks = repo.getModernGroup(area) ?: areaTracks
+        val groupId = repo.getModernGroupId(area)
+        val areaId = area.asRSCM(RSCMType.AREA)
+        val previousAreaId = if (player.currMusicArea == 0) null else player.currMusicArea - 1
+        val currentGroupId =
+            if (player.currMusicArea == 0) {
+                null
+            } else {
+                repo.getModernGroupId(
+                    RSCM.getReverseMapping(RSCMType.AREA, player.currMusicArea - 1),
+                )
+            }
+        val sameGroup = groupId != null && groupId == currentGroupId && areaId != previousAreaId
+
+        player.pendingAreaExit = null
+        player.currMusicArea = area.asRSCM(RSCMType.AREA) + 1
+        for (music in areaTracks) {
             unlock(player, music)
         }
+
+        if (sameGroup) {
+            // Crossing between areas in one native group (the Sailing oceans) keeps the current
+            // track and shuffled playlist alive; only the newly entered area's tracks unlock.
+            if (player.playMode == MusicPlayMode.Area && player.currMusicId == 0) {
+                val candidates = groupTracks.filter { hasUnlocked(player, it) }
+                if (candidates.isNotEmpty()) {
+                    playShuffled(player, candidates)
+                }
+            }
+            return
+        }
+
+        player.musicPlaylist = 0
         if (player.playMode != MusicPlayMode.Area) {
             return
         }
         if (player.defaultTrackOnAreaEntry) {
-            musicList.firstOrNull()?.let { unlockAndPlay(player, it) }
+            areaTracks.firstOrNull()?.let { unlockAndPlay(player, it) }
         } else {
-            playShuffled(player, musicList)
+            val candidates = groupTracks.filter { hasUnlocked(player, it) }
+            playShuffled(player, candidates.ifEmpty { areaTracks })
         }
     }
 
