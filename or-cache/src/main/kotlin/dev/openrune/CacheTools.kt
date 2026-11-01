@@ -61,6 +61,7 @@ import dev.openrune.tables.skills.prayer.PrayerTable
 import dev.openrune.toml.rsconfig.rsconfig
 import dev.openrune.toml.tomlMapper
 import dev.openrune.tools.MinifyServerCache
+import dev.openrune.tools.NativeMusicRows
 import dev.openrune.tools.PackServerConfig
 import dev.openrune.tools.SlayerBossKeys
 import dev.openrune.tools.SlayerTargetMonsterLoader
@@ -262,7 +263,8 @@ private fun finalizeServerCache(force: Boolean = false) {
     startEnumGeneration(enums, force)
 }
 
-fun tablesToPack(): List<DBTable> = tablesToPack(loadSlayerData(), loadSlayerBossKeys())
+fun tablesToPack(): List<DBTable> =
+    tablesToPack(loadSlayerData(), loadSlayerBossKeys(), loadNativeMusicRows())
 
 private fun loadSlayerData(): Map<Int, SlayerNpcData> =
     SlayerTargetMonsterLoader.loadNpcSlayerData(
@@ -273,13 +275,17 @@ private fun loadSlayerData(): Map<Int, SlayerNpcData> =
 private fun loadSlayerBossKeys(): (String) -> Int =
     SlayerBossKeys.load(Cache.load(File(getCacheLocation()).toPath()), revision.first)
 
+private fun loadNativeMusicRows(): (String) -> Int =
+    NativeMusicRows.load(Cache.load(File(getCacheLocation()).toPath()), revision.first)
+
 private fun tablesToPack(
     slayerData: Map<Int, SlayerNpcData>,
     slayerBossKey: (String) -> Int,
+    nativeMusicRow: (String) -> Int,
 ): List<DBTable> = listOf(
     GameframeTable.gameframe(),
     Music.musicClassic(),
-    Music.musicModern(),
+    Music.musicModern(nativeMusicRow),
     Firemaking.logs(),
     Firemaking.firelighters(),
     Firemaking.sources(),

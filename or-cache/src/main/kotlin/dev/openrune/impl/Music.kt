@@ -31,7 +31,7 @@ fun packVertex(mx: Int, mz: Int, lx: Int, lz: Int): Int {
 
 object Music {
 
-    fun musicModern() =
+    fun musicModern(nativeTrackRow: (String) -> Int) =
         dbTable("dbtable.music_modern", serverOnly = true) {
             column("area", 0, VarType.STRING)
             column("tracks", 1, VarType.DBROW)
@@ -140,7 +140,7 @@ object Music {
             modern("a_walk_in_the_woods", "woodland_walk")
             modern("aldarin", "aldarin", "aldarin_2")
             modern("alls_fairy_in_love_and_war", "alls_fairy_in_love_n_war")
-            modern("all_the_trimmings", 4969)
+            modern("all_the_trimmings", nativeTrackRow("All the Trimmings"))
             modern("alone", "alone")
             modern("altar_ego", "altarego")
             modern("alternative_root", "alternative_root")
@@ -151,7 +151,7 @@ object Music {
             modern("arachnids_of_vampyrium", "nylocas_combat")
             modern("arboretum", "arboretum")
             modern("arcane", "arceuus")
-            modern("ardent_ocean", 7074, 7073)
+            modern("ardent_ocean", nativeTrackRow("Set Sail"), nativeTrackRow("All Aboard"))
             modern("are_you_not_entertained", "fortis_colosseum")
             modern("armadyl_alliance", "armadyl_alliance")
             modern("armageddon", "armageddon")
@@ -464,7 +464,11 @@ object Music {
             modern("no_way_out", "no_way_out")
             modern("nomad", "nomad")
             modern("norse_code", "norse_code")
-            modern("northern_ocean", 7079, 7080)
+            modern(
+                "northern_ocean",
+                nativeTrackRow("The Great North"),
+                nativeTrackRow("Echoes of the North"),
+            )
             modern("not_a_moment_of_relief", "arceuus_outskirts")
             modern("noxious_awakening", "araxxor")
             modern("null_and_void", "null_and_void")
@@ -551,7 +555,11 @@ object Music {
             modern("shining_spirit", "shiningspirit")
             modern("shipwrecked", "shipwrecked")
             modern("showdown", "showdown")
-            modern("shrouded_ocean", 7077, 7078)
+            modern(
+                "shrouded_ocean",
+                nativeTrackRow("Into the Blue"),
+                nativeTrackRow("The Eternal Waves"),
+            )
             modern("sigmunds_showdown", "sigmunds_showdown")
             modern("sign_here", "yama_combat")
             modern("slice_of_silent_movie", "slice_of_silent_movie")
@@ -579,7 +587,11 @@ object Music {
             modern("strength_of_saradomin", "strength_of_saradomin")
             modern("stuck_in_the_mire", "stuck_in_the_mire")
             modern("subterranea", "subterranea")
-            modern("sunset_ocean", 7083, 7084)
+            modern(
+                "sunset_ocean",
+                nativeTrackRow("Over the Horizon"),
+                nativeTrackRow("Shadow of the Ocean"),
+            )
             modern("superstition", "superstition")
             modern("suspicious", "suspicious")
             modern("tears_of_guthix", "tears_of_guthix_music")
@@ -687,7 +699,11 @@ object Music {
             modern("underground_pass", "upass")
             modern("understanding", "understanding")
             modern("untouchable", "untouchable")
-            modern("unquiet_ocean", 7075, 7076)
+            modern(
+                "unquiet_ocean",
+                nativeTrackRow("Crashing Waves"),
+                nativeTrackRow("Remote Waters"),
+            )
             modern("unturned_stones", "dt2_digsite")
             modern("upcoming", "upcoming")
             modern("upir_likhyi", "upir_likhyi")
@@ -711,7 +727,11 @@ object Music {
             modern("welcome_to_the_theatre", "thetheatre")
             modern("well_hallowed_air", "hallowed_sepulchre_lobby")
             modern("well_of_voyage", "well_of_voyage")
-            modern("western_ocean", 7081, 7082)
+            modern(
+                "western_ocean",
+                nativeTrackRow("The Western Seas"),
+                nativeTrackRow("A Sailor's Dream"),
+            )
             modern("what_happens_below", "warrens")
             modern("what_the_shell", "gryphon_boss")
             modern("where_eagles_lair", "where_eagles_lair")
@@ -774,7 +794,7 @@ object Music {
         }
     }
 
-    // Native cache rows for tracks that ship without gameval symbols, such as the sailing tracks.
+    // Native music rows for tracks without gameval symbols, resolved from the cache at build time.
     private fun DBTableBuilder.modern(area: String, vararg trackRowIds: Int) {
         row("dbrow.music_modern_$area") {
             column(0, area)
