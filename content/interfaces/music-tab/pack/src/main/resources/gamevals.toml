@@ -6,6 +6,20 @@ music_track_ended = 64000
 
 [gamevals.area]
 sorceress_garden_courtyard = 20535
+all_the_trimmings = 20537
+ardent_ocean = 20538
+unquiet_ocean = 20539
+shrouded_ocean = 20540
+northern_ocean = 20541
+western_ocean = 20542
+sunset_ocean = 20543
 
 [gamevals.dbrow]
 music_modern_sorceress_garden_courtyard = 20535
+music_modern_all_the_trimmings = 100007
+music_modern_ardent_ocean = 100008
+music_modern_unquiet_ocean = 100009
+music_modern_shrouded_ocean = 100010
+music_modern_northern_ocean = 100011
+music_modern_western_ocean = 100012
+music_modern_sunset_ocean = 100013

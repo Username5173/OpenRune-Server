@@ -139,6 +139,67 @@ class MusicPlayerRegressionTest {
     }
 
     @Test
+    fun `sailing ocean and event music areas resolve at their polygons`() {
+        val modern = MusicModernRow.all().associateBy { "area.${it.area}".asRSCM() }
+        val expected =
+            mapOf(
+                "ardent_ocean" to (listOf(7074, 7073) to CoordGrid(2981, 2784)),
+                "unquiet_ocean" to (listOf(7075, 7076) to CoordGrid(2840, 2453)),
+                "shrouded_ocean" to (listOf(7077, 7078) to CoordGrid(2070, 2471)),
+                "northern_ocean" to (listOf(7079, 7080) to CoordGrid(2466, 4075)),
+                "western_ocean" to (listOf(7081, 7082) to CoordGrid(2057, 3587)),
+                "sunset_ocean" to (listOf(7083, 7084) to CoordGrid(1310, 2327)),
+                "all_the_trimmings" to (listOf(4969) to CoordGrid(3218, 3397)),
+            )
+        for ((area, expectedRow) in expected) {
+            val (trackRows, coords) = expectedRow
+            val row = checkNotNull(modern["area.$area".asRSCM()]) { "No modern row for $area" }
+            assertEquals(trackRows, row.tracks.map { it.rowId }, "Wrong tracks for $area")
+            val present = ShortArrayList()
+            areaIndex.putAreasIncludingParents(coords, present)
+            val rows = present.toShortArray().map { modern[it.toInt()] }.filterNotNull()
+            assertEquals(listOf(area), rows.map { it.area }, "Wrong music at $coords")
+        }
+    }
+
+    @Test
+    fun `sailing ocean music does not bleed onto their islands`() {
+        val oceanAreas =
+            setOf(
+                "ardent_ocean",
+                "unquiet_ocean",
+                "shrouded_ocean",
+                "northern_ocean",
+                "western_ocean",
+                "sunset_ocean",
+            ).map { "area.$it".asRSCM() }.toSet()
+        val landPoints =
+            listOf(
+                CoordGrid(2850, 2950),
+                CoordGrid(2400, 3800),
+                CoordGrid(1400, 2900),
+                CoordGrid(2650, 2650),
+            )
+        for (coords in landPoints) {
+            val present = ShortArrayList()
+            areaIndex.putAreasIncludingParents(coords, present)
+            val ocean = present.toShortArray().filter { it.toInt() in oceanAreas }
+            assertTrue(ocean.isEmpty(), "Ocean music at land $coords: $ocean")
+        }
+    }
+
+    @Test
+    fun `every native unlock track belongs to a modern music area`() {
+        val assigned = MusicModernRow.all().flatMap { it.tracks }.map { it.rowId }.toSet()
+        val missing =
+            MusicRow.all().filter {
+                it.area.isNotEmpty() && it.hidden != true && it.automaticUnlock != true &&
+                    it.rowId !in assigned
+            }
+        assertTrue(missing.isEmpty(), "Unassigned tracks: ${missing.map { it.displayname }}")
+    }
+
+    @Test
     fun `garden courtyard boundaries meet seasonal music without overlapping`() {
         val modern = MusicModernRow.all().associateBy { "area.${it.area}".asRSCM() }
         for (x in 2887..2936) for (z in 5447..5496) {
@@ -674,12 +735,29 @@ class MusicPlayerRegressionTest {
         )
         private val areaIndex = AreaIndex()
 
+        private val extraAreaPoints =
+            listOf(
+                CoordGrid(2981, 2784),
+                CoordGrid(2840, 2453),
+                CoordGrid(2070, 2471),
+                CoordGrid(2466, 4075),
+                CoordGrid(2057, 3587),
+                CoordGrid(1310, 2327),
+                CoordGrid(3218, 3397),
+                CoordGrid(2850, 2950),
+                CoordGrid(2400, 3800),
+                CoordGrid(1400, 2900),
+                CoordGrid(2800, 3400),
+                CoordGrid(2650, 2650),
+            )
+
         @JvmStatic @BeforeAll fun cache() {
             val cache = ServerCacheManager.init(241)
             try {
-                val squares = captures.flatMap { capture ->
-                    (-1..1).flatMap { dx -> (-1..1).map { dz -> MapSquareKey.from(capture.coords.translate(dx, dz)) } }
-                }.distinct()
+                val squares = (captures.map { it.coords } + extraAreaPoints)
+                    .flatMap { coords ->
+                        (-1..1).flatMap { dx -> (-1..1).map { dz -> MapSquareKey.from(coords.translate(dx, dz)) } }
+                    }.distinct()
                 for (square in squares) {
                     val data = requireNotNull(cache.data(MAPS, square.id, 7)) { "Missing packed area map $square" }
                     MapAreaDefinitions.putAreas(areaIndex, square, MapAreaDecoder.decode(InlineByteBuf(data)))
