@@ -230,6 +230,32 @@ class MusicPlayerRegressionTest {
     }
 
     @Test
+    fun `ocean and land music areas never overlap at shared boundaries`() {
+        val modern = MusicModernRow.all().associateBy { "area.${it.area}".asRSCM() }
+        val points =
+            mapOf(
+                CoordGrid(2690, 3098) to "yanille_chain",
+                CoordGrid(2976, 3089) to "mudskipper_point",
+                CoordGrid(3041, 3148) to "port_sarim",
+                CoordGrid(2592, 2840) to "corsair_cove",
+                CoordGrid(2820, 3423) to "catherby",
+                CoordGrid(2962, 3966) to "wilderness_music",
+                CoordGrid(2640, 3704) to "rellekka",
+                CoordGrid(2506, 3570) to "barbarian_outpost",
+                CoordGrid(1561, 2772) to "tranquillity",
+                CoordGrid(2558, 2825) to "corsair_cove",
+                CoordGrid(3161, 2388) to "the_great_conch",
+                CoordGrid(1164, 2760) to "waterlogged",
+            )
+        for ((coords, expected) in points) {
+            val present = ShortArrayList()
+            areaIndex.putAreasIncludingParents(coords, present)
+            val rows = present.toShortArray().map { modern[it.toInt()] }.filterNotNull()
+            assertEquals(listOf(expected), rows.map { it.area }, "Wrong music at $coords")
+        }
+    }
+
+    @Test
     fun `garden courtyard boundaries meet seasonal music without overlapping`() {
         val modern = MusicModernRow.all().associateBy { "area.${it.area}".asRSCM() }
         for (x in 2887..2936) for (z in 5447..5496) {
@@ -762,6 +788,7 @@ class MusicPlayerRegressionTest {
             capture(2927, 5470, "garden_of_spring", "garden_of_spring"),
             capture(2908, 5454, "garden_of_autumn", "garden_of_autumn"),
             capture(2914, 5487, "garden_of_summer", "garden_of_summer"),
+            capture(3218, 3397, "varrock", "adventure", "garden", "medieval", "spirit", level = 2),
         )
         private val areaIndex = AreaIndex()
 
@@ -779,6 +806,18 @@ class MusicPlayerRegressionTest {
                 CoordGrid(1400, 2900),
                 CoordGrid(2800, 3400),
                 CoordGrid(2650, 2650),
+                CoordGrid(2690, 3098),
+                CoordGrid(2976, 3089),
+                CoordGrid(3041, 3148),
+                CoordGrid(2592, 2840),
+                CoordGrid(2820, 3423),
+                CoordGrid(2962, 3966),
+                CoordGrid(2640, 3704),
+                CoordGrid(2506, 3570),
+                CoordGrid(1561, 2772),
+                CoordGrid(2558, 2825),
+                CoordGrid(3161, 2388),
+                CoordGrid(1164, 2760),
             )
 
         @JvmStatic @BeforeAll fun cache() {

@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.bytes.Byte2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.shorts.ShortArraySet
+import it.unimi.dsi.fastutil.shorts.ShortOpenHashSet
 import it.unimi.dsi.fastutil.shorts.ShortSet
 import kotlin.collections.iterator
 import org.rsmod.game.area.polygon.PolygonMapSquare
@@ -62,7 +63,15 @@ public data class MapAreaDefinition(
             }
 
             val flippedExcludes = Short2ObjectOpenHashMap<ShortSet>()
-            for (area in mapSquareAreas) {
+            val presentAreas = ShortOpenHashSet()
+            presentAreas.addAll(mapSquareAreas)
+            for (areas in flippedZoneAreas.values) {
+                presentAreas.addAll(areas)
+            }
+            for (areas in flippedCoordAreas.values) {
+                presentAreas.addAll(areas)
+            }
+            for (area in presentAreas) {
                 val refs = excludesByArea[area] ?: continue
                 flippedExcludes[area] = ShortArraySet(refs)
             }

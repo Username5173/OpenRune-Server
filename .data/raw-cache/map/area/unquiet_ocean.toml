@@ -2,6 +2,18 @@
 name = "Unquiet Ocean music"
 area_id = "area.unquiet_ocean"
 levels = [0]
+excludes = [
+    "area.business_as_unusual",
+    "area.cannonballin",
+    "area.dunes_of_eternity",
+    "area.elder_wisdom",
+    "area.lurking_threats",
+    "area.mysterious_lands",
+    "area.the_great_conch",
+    "area.tranquillity",
+    "area.wings_of_madness",
+    "area.wonder",
+]
 
 [[area.polygons]]
 vertices = [

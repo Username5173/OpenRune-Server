@@ -2,6 +2,29 @@
 name = "Western Ocean music"
 area_id = "area.western_ocean"
 levels = [0]
+excludes = [
+    "area.a_walk_in_the_woods",
+    "area.auburn_valley",
+    "area.avium_savannah",
+    "area.civitas_illa_fortis",
+    "area.country_jig",
+    "area.crystal_castle",
+    "area.down_by_the_docks",
+    "area.everywhere",
+    "area.in_the_brine",
+    "area.isafdar",
+    "area.lighthouse",
+    "area.lunar_isle",
+    "area.mysterious_lands",
+    "area.neverland",
+    "area.piscatoris_hunter_area",
+    "area.quest",
+    "area.rugged_terrain",
+    "area.the_forests_of_shayzien",
+    "area.the_galleon",
+    "area.theme",
+    "area.whispering_wind",
+]
 
 [[area.polygons]]
 vertices = [

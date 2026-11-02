@@ -2,6 +2,48 @@
 name = "Ardent Ocean music"
 area_id = "area.ardent_ocean"
 levels = [0]
+excludes = [
+    "area.al_kharid",
+    "area.ape_atoll",
+    "area.background",
+    "area.bandit_camp",
+    "area.brimhaven",
+    "area.catherby",
+    "area.corsair_cove",
+    "area.draynor_village",
+    "area.east_ardougne",
+    "area.falador_south",
+    "area.fanfare_2",
+    "area.fanfare_3",
+    "area.feldip_hills",
+    "area.fruits_de_mer",
+    "area.hemenster",
+    "area.in_the_manor",
+    "area.karamja",
+    "area.kharidian_desert",
+    "area.lumbridge",
+    "area.marooned",
+    "area.mudskipper_point",
+    "area.musa_point",
+    "area.newbie_melody",
+    "area.nomad",
+    "area.null_and_void",
+    "area.pest_control",
+    "area.port_sarim",
+    "area.rimmington",
+    "area.south_ardougne",
+    "area.spooky_jungle",
+    "area.taverley",
+    "area.tempor_of_the_storm",
+    "area.the_mollusc_menace",
+    "area.the_pandemonium",
+    "area.the_shadow",
+    "area.tomorrow",
+    "area.tranquillity",
+    "area.wizards_tower",
+    "area.yanille",
+    "area.yanille_chain",
+]
 
 [[area.polygons]]
 vertices = [

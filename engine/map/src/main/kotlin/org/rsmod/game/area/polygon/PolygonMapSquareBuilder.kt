@@ -172,6 +172,9 @@ public class PolygonMapSquareBuilder {
         }
 
         private fun connect(from: MapSquareGrid, to: MapSquareGrid) {
+            if (from == to) {
+                return
+            }
             val dx = to.x - from.x
             val dz = to.z - from.z
             val sx = dx.sign
@@ -299,6 +302,12 @@ public class PolygonMapSquareBuilder {
         }
 
         private fun fillLine(filled: BitSet, start: MapSquareGrid, end: MapSquareGrid) {
+            if (start == end) {
+                for (level in levelList) {
+                    filled.set(MapSquareGrid(start.x, start.z, level).packed)
+                }
+                return
+            }
             val deltaX = end.x - start.x
             val deltaZ = end.z - start.z
             when {

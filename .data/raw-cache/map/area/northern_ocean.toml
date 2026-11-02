@@ -2,6 +2,31 @@
 name = "Northern Ocean music"
 area_id = "area.northern_ocean"
 levels = [0]
+excludes = [
+    "area.barbarian_outpost",
+    "area.barren_land",
+    "area.etceteria",
+    "area.exposed",
+    "area.fremennik_province",
+    "area.have_an_ice_day",
+    "area.island_of_the_trolls",
+    "area.lighthouse",
+    "area.lunar_isle",
+    "area.making_waves",
+    "area.miscellania",
+    "area.norse_code",
+    "area.not_a_moment_of_relief",
+    "area.piscatoris_hunter_area",
+    "area.poles_apart",
+    "area.rellekka",
+    "area.saga",
+    "area.stranded",
+    "area.the_desolate_isle",
+    "area.the_doors_of_dinh",
+    "area.the_galleon",
+    "area.volcanic_vikings",
+    "area.wilderness_music",
+]
 
 [[area.polygons]]
 vertices = [

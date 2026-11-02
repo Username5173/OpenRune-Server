@@ -2,6 +2,23 @@
 name = "Shrouded Ocean music"
 area_id = "area.shrouded_ocean"
 levels = [0]
+excludes = [
+    "area.avium_savannah",
+    "area.corsair_cove",
+    "area.doorways",
+    "area.exposed",
+    "area.feldip_hills",
+    "area.fruits_de_mer",
+    "area.island_life",
+    "area.life_at_sea",
+    "area.lost_soul",
+    "area.mysterious_lands",
+    "area.mythical",
+    "area.romper_chomper",
+    "area.thrall_of_the_serpent",
+    "area.tranquillity",
+    "area.zealot",
+]
 
 [[area.polygons]]
 vertices = [

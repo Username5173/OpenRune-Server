@@ -2,6 +2,16 @@
 name = "Sunset Ocean music"
 area_id = "area.sunset_ocean"
 levels = [0]
+excludes = [
+    "area.aldarin",
+    "area.auburn_valley",
+    "area.avium_savannah",
+    "area.call_of_the_tlati",
+    "area.mistrock",
+    "area.the_talkasti_people",
+    "area.varlamores_sunset",
+    "area.waterlogged",
+]
 
 [[area.polygons]]
 vertices = [

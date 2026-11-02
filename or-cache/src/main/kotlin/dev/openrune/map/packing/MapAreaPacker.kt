@@ -113,7 +113,7 @@ public object MapAreaPacker {
                 for ((mapSquare, polygonVertices) in clipped) {
                     val apply =
                         { builder: PolygonMapSquareBuilder ->
-                            builder.hole(areaId, levels) {
+                            builder.hole(areaId, hole.levels ?: levels) {
                                 for (vertex in polygonVertices) {
                                     val localX = vertex.x % MapSquareGrid.LENGTH
                                     val localZ = vertex.z % MapSquareGrid.LENGTH
@@ -151,7 +151,10 @@ public object MapAreaPacker {
         val excludes: List<String> = emptyList(),
     )
 
-    private data class TomlPolygon(val vertices: List<List<Int>>) {
+    private data class TomlPolygon(
+        val vertices: List<List<Int>>,
+        val levels: List<Int>? = null,
+    ) {
         fun coords(): List<CoordGrid> =
             vertices.map { vertex ->
                 require(vertex.size == 2) { "vertex must be [x, z]" }
