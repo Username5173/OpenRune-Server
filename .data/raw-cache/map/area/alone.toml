@@ -11,3 +11,17 @@ vertices = [
     [2623, 9663],
     [2560, 9663],
 ]
+
+[[area]]
+name = "Alone"
+area_id = "area.alone"
+levels = [0, 1, 2, 3]
+excludes = ["area.ardougne_sewers", "area.catch_me_if_you_can", "area.crystal_sword", "area.nether_realm", "area.yanille_agility_dungeon"]
+[[area.polygons]]
+vertices = [
+    [2623, 9663],
+    [2557, 9663],
+    [2625, 9665],
+    [2625, 9598],
+    [2624, 9597],
+]

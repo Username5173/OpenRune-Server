@@ -65,3 +65,34 @@ vertices = [
     [1399, 10239],
     [1368, 10239],
 ]
+
+[[area]]
+name = "The Forsaken Tower"
+area_id = "area.the_forsaken_tower"
+levels = [0, 1, 2, 3]
+excludes = ["area.karuulm_slayer_dungeon_music", "area.rugged_terrain"]
+[[area.polygons]]
+vertices = [
+    [1399, 10205],
+    [1399, 10239],
+    [1365, 10240],
+    [1366, 10241],
+    [1401, 10241],
+]
+[[area.polygons]]
+vertices = [
+    [1376, 3822],
+    [1376, 3831],
+    [1390, 3831],
+    [1390, 3822],
+    [1386, 3817],
+    [1385, 3829],
+    [1384, 3829],
+    [1384, 3815],
+    [1383, 3814],
+    [1382, 3823],
+    [1381, 3816],
+    [1380, 3829],
+    [1379, 3829],
+    [1379, 3817],
+]

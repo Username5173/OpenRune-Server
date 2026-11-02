@@ -473,6 +473,7 @@ object Music {
             modern("noxious_awakening", "araxxor")
             modern("null_and_void", "null_and_void")
             modern("observatory", "soundscape", "serenade", "melodrama")
+            modern("ocean_depths", nativeTrackRow("Ocean Depths"))
             modern("ogre_the_top", "ogre_the_top")
             modern("oh_rats", "rat_boss")
             modern("on_the_frontline", "battlefront")

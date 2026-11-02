@@ -1,0 +1,12 @@
+[[area]]
+name = "Ocean Depths"
+area_id = "area.ocean_depths"
+levels = [0]
+
+[[area.polygons]]
+vertices = [
+    [2816, 8896],
+    [2816, 8960],
+    [2880, 8960],
+    [2880, 8896],
+]

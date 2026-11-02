@@ -256,6 +256,17 @@ class MusicPlayerRegressionTest {
     }
 
     @Test
+    fun `ocean depths quest area unlocks its native track`() {
+        val modern = MusicModernRow.all().associateBy { "area.${it.area}".asRSCM() }
+        val row = checkNotNull(modern["area.ocean_depths".asRSCM()])
+        assertEquals(listOf(16225), row.tracks.map { it.rowId })
+        val present = ShortArrayList()
+        areaIndex.putAreasIncludingParents(CoordGrid(2848, 8928), present)
+        val rows = present.toShortArray().map { modern[it.toInt()] }.filterNotNull()
+        assertEquals(listOf("ocean_depths"), rows.map { it.area })
+    }
+
+    @Test
     fun `garden courtyard boundaries meet seasonal music without overlapping`() {
         val modern = MusicModernRow.all().associateBy { "area.${it.area}".asRSCM() }
         for (x in 2887..2936) for (z in 5447..5496) {
@@ -818,6 +829,7 @@ class MusicPlayerRegressionTest {
                 CoordGrid(2558, 2825),
                 CoordGrid(3161, 2388),
                 CoordGrid(1164, 2760),
+                CoordGrid(2848, 8928),
             )
 
         @JvmStatic @BeforeAll fun cache() {

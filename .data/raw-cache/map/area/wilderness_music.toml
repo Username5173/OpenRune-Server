@@ -675,3 +675,24 @@ vertices = [
     [3041, 3986],
     [3056, 3986],
 ]
+
+[[area]]
+name = "Wilderness (music)"
+area_id = "area.wilderness_music"
+levels = [0, 1, 2, 3]
+[[area.polygons]]
+vertices = [
+    [3042, 3966],
+    [3042, 3943],
+    [3040, 3943],
+    [3040, 3964],
+]
+[[area.polygons]]
+vertices = [
+    [3021, 3965],
+    [3022, 3960],
+    [3025, 3958],
+    [3037, 3963],
+    [3037, 3942],
+    [3021, 3944],
+]
