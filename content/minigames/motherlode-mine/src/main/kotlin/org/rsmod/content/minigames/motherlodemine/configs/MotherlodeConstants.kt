@@ -181,7 +181,7 @@ object MotherlodeConstants {
         )
 
     const val SHOP_STOCK = "inv.motherlode_shop"
-    const val SHOP_TEMPLATE = "inv.generalshop1"
+    const val SHOP_TEMPLATE = "inv.gemshop"
     const val CURRENCY_NUGGET = "currency.golden_nugget"
 
     const val OBJ_PROSPECTOR_HAT = "obj.motherlode_reward_hat"

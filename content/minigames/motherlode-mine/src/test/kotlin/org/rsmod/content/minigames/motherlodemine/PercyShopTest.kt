@@ -59,6 +59,7 @@ class PercyShopTest {
             MotherlodeConstants.SHOP_TEMPLATE.asRSCM(RSCMType.INV),
             shop.inv.type.id,
         )
+        assertEquals(8, shop.inv.size)
         assertEquals(MotherlodeConstants.CURRENCY_NUGGET, shop.currency)
         assertEquals(100, shop.inv.count(MotherlodeConstants.OBJ_PROSPECTOR_HAT))
 
