@@ -207,6 +207,8 @@ class PercyScript @Inject constructor(
             changePercentage = 0.0,
             currency = MotherlodeConstants.CURRENCY_NUGGET,
             subtext = Shops.DEFAULT_SUBTEXT,
+            refundable = MotherlodeConstants.SHOP_REFUNDABLE,
+            refusalMessages = MotherlodeConstants.SHOP_REFUSAL_MESSAGES,
         )
     }
 

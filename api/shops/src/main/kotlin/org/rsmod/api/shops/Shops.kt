@@ -37,14 +37,13 @@ public class Shops @Inject constructor(private val eventBus: EventBus) {
         open(
             player = player,
             title = title,
-            shopInv = RSCM.getReverseMapping(RSCMType.INV,inventoryID),
+            shopInv = RSCM.getReverseMapping(RSCMType.INV, inventoryID),
             buyPercentage = buyPercentage,
             sellPercentage = sellPercentage,
             changePercentage = changePercentage,
             currency = currency
         )
     }
-
 
     public fun open(
         player: Player,
@@ -103,8 +102,21 @@ public class Shops @Inject constructor(private val eventBus: EventBus) {
         sellPercentage: Double,
         changePercentage: Double,
         subtext: String,
+        refundable: Set<String> = emptySet(),
+        refusalMessages: Map<String, String> = emptyMap(),
     ) {
-        player.openedShop = Shop(shopInv, currency, buyPercentage, sellPercentage, changePercentage)
+        val refundableIds = refundable.mapTo(mutableSetOf()) { it.asRSCM(RSCMType.OBJ) }
+        val refusalIds = refusalMessages.entries.associate { it.key.asRSCM(RSCMType.OBJ) to it.value }
+        player.openedShop =
+            Shop(
+                shopInv,
+                currency,
+                buyPercentage,
+                sellPercentage,
+                changePercentage,
+                refundable = refundableIds,
+                refusalMessages = refusalIds,
+            )
 
         player.startInvTransmit(shopInv)
         player.startInvTransmit(sideInv)

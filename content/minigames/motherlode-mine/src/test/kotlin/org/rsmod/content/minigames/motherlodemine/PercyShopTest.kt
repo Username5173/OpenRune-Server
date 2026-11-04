@@ -10,6 +10,7 @@ import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.startCoroutine
 import net.rsprot.protocol.common.game.outgoing.inv.InventoryObject
 import net.rsprot.protocol.game.outgoing.inv.UpdateInvFull
+import net.rsprot.protocol.game.outgoing.misc.player.MessageGame
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -94,6 +95,94 @@ class PercyShopTest {
         f.assertStockPacket(buyer, 1)
     }
 
+    @Test
+    fun `prospector jacket sells back for 80 percent and restocks`() {
+        val f = Fixture()
+        val seller = f.player()
+        val shop = f.trade(seller)
+        val slot = seller.inv.indices.first { seller.inv[it] == null }
+        seller.inv[slot] = InvObj(MotherlodeConstants.OBJ_PROSPECTOR_TOP, 1)
+
+        f.startCycle()
+        f.sell(seller, shop, slot)
+
+        assertEquals(0, seller.inv.count(MotherlodeConstants.OBJ_PROSPECTOR_TOP))
+        assertEquals(148, seller.inv.count(MotherlodeConstants.OBJ_NUGGET))
+        assertEquals(101, shop.inv.count(MotherlodeConstants.OBJ_PROSPECTOR_TOP))
+        f.finishCycle()
+
+        assertEquals(100, shop.inv.count(MotherlodeConstants.OBJ_PROSPECTOR_TOP))
+    }
+
+    @Test
+    fun `every nugget shop stock item can be sold back for 80 percent`() {
+        val refunds =
+            mapOf(
+                MotherlodeConstants.OBJ_PROSPECTOR_HAT to 32,
+                MotherlodeConstants.OBJ_PROSPECTOR_TOP to 48,
+                MotherlodeConstants.OBJ_PROSPECTOR_LEGS to 40,
+                MotherlodeConstants.OBJ_PROSPECTOR_BOOTS to 24,
+                MotherlodeConstants.OBJ_COAL_BAG to 80,
+                MotherlodeConstants.OBJ_GEM_BAG to 80,
+                MotherlodeConstants.OBJ_SOFTCLAY_PACK to 8,
+                MotherlodeConstants.OBJ_BAG_FULL_OF_GEMS to 32,
+            )
+        for ((obj, refund) in refunds) {
+            val f = Fixture()
+            val seller = f.player()
+            val shop = f.trade(seller)
+            val slot = seller.inv.indices.first { seller.inv[it] == null }
+            seller.inv[slot] = InvObj(obj, 1)
+            val stockBefore = shop.inv.count(obj)
+
+            f.startCycle()
+            f.sell(seller, shop, slot)
+
+            assertEquals(0, seller.inv.count(obj)) { "Seller should lose $obj" }
+            assertEquals(100 + refund, seller.inv.count(MotherlodeConstants.OBJ_NUGGET)) {
+                "Refund for $obj"
+            }
+            assertEquals(stockBefore + 1, shop.inv.count(obj)) { "Shop stock for $obj" }
+        }
+    }
+
+    @Test
+    fun `selling multiple pieces is capped by the amount held and pays per piece`() {
+        val f = Fixture()
+        val seller = f.player()
+        val shop = f.trade(seller)
+        val slots = seller.inv.indices.filter { seller.inv[it] == null }.take(2)
+        slots.forEach { seller.inv[it] = InvObj(MotherlodeConstants.OBJ_PROSPECTOR_TOP, 1) }
+
+        f.startCycle()
+        f.sell(seller, shop, slots.first(), IfButtonOp.Op4)
+
+        assertEquals(0, seller.inv.count(MotherlodeConstants.OBJ_PROSPECTOR_TOP))
+        assertEquals(196, seller.inv.count(MotherlodeConstants.OBJ_NUGGET))
+        assertEquals(102, shop.inv.count(MotherlodeConstants.OBJ_PROSPECTOR_TOP))
+    }
+
+    @Test
+    fun `volcanic prospector pieces are refused with percy's message`() {
+        val f = Fixture()
+        val seller = f.player()
+        val shop = f.trade(seller)
+        val slot = seller.inv.indices.first { seller.inv[it] == null }
+        seller.inv[slot] = InvObj("obj.fossil_motherlode_reward_top", 1)
+
+        f.startCycle()
+        f.sell(seller, shop, slot)
+
+        assertEquals(1, seller.inv.count("obj.fossil_motherlode_reward_top"))
+        assertEquals(100, seller.inv.count(MotherlodeConstants.OBJ_NUGGET))
+        assertEquals(100, shop.inv.count(MotherlodeConstants.OBJ_PROSPECTOR_TOP))
+        assertTrue(
+            f.messages(seller).contains(
+                "You can't sell this item back to Percy as you did not buy it from this shop"
+            )
+        )
+    }
+
     private class Fixture {
         private val events = EventBus()
         private val interactions = NpcInteractions(events)
@@ -143,6 +232,13 @@ class PercyShopTest {
         fun buyHat(player: Player, shop: Shop) {
             checkNotNull(operations[shop.currency]).shopInvOp(player, player.inv, shop, hatSlot(shop), IfButtonOp.Op2)
         }
+
+        fun sell(player: Player, shop: Shop, slot: Int, op: IfButtonOp = IfButtonOp.Op2) {
+            checkNotNull(operations[shop.currency]).sideInvOp(player, player.inv, shop, slot, op)
+        }
+
+        fun messages(player: Player): List<String> =
+            (player.client as RecordingClient).messages.filterIsInstance<MessageGame>().map { it.message }
 
         fun startCycle() { events.publish(GameLifecycle.StartCycle) }
 

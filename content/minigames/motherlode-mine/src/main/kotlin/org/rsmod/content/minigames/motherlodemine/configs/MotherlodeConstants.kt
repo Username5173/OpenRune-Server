@@ -193,6 +193,29 @@ object MotherlodeConstants {
     const val OBJ_SOFTCLAY_PACK = "obj.pack_softclay"
     const val OBJ_BAG_FULL_OF_GEMS = "obj.reward_gem_bag"
 
+    val SHOP_REFUNDABLE =
+        setOf(
+            OBJ_PROSPECTOR_HAT,
+            OBJ_PROSPECTOR_TOP,
+            OBJ_PROSPECTOR_LEGS,
+            OBJ_PROSPECTOR_BOOTS,
+            OBJ_COAL_BAG,
+            OBJ_GEM_BAG,
+            OBJ_SOFTCLAY_PACK,
+            OBJ_BAG_FULL_OF_GEMS,
+        )
+
+    val SHOP_REFUSAL_MESSAGES =
+        mapOf(
+            "obj.fossil_motherlode_reward_hat" to REFUND_REFUSED,
+            "obj.fossil_motherlode_reward_top" to REFUND_REFUSED,
+            "obj.fossil_motherlode_reward_legs" to REFUND_REFUSED,
+            "obj.fossil_motherlode_reward_boots" to REFUND_REFUSED,
+        )
+
+    private const val REFUND_REFUSED =
+        "You can't sell this item back to Percy as you did not buy it from this shop"
+
     const val UPPER_FLOOR_COST = 100
     const val UPPER_FLOOR_MINING_REQ = 57
     const val SUPER_HOPPER_COST = 50
