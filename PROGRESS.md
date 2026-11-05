@@ -36,7 +36,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Herblore_icon.png?ffa9e" height="20" alt=""> [Herblore](content/skills/herblore) | 1,189 loc | [wiki](https://oldschool.runescape.wiki/w/Herblore) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Fishing_icon.png?15a98" height="20" alt=""> [Fishing](content/skills/fishing) | 1,699 loc | [wiki](https://oldschool.runescape.wiki/w/Fishing) |
 | 🔴 | <img src="https://oldschool.runescape.wiki/images/Agility_icon.png?389e0" height="20" alt=""> Agility | nothing yet | [wiki](https://oldschool.runescape.wiki/w/Agility) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Thieving_icon.png?973fe" height="20" alt=""> [Thieving](content/skills/thieving) | 419 loc | [wiki](https://oldschool.runescape.wiki/w/Thieving) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/Thieving_icon.png?973fe" height="20" alt=""> [Thieving](content/skills/thieving) | 445 loc | [wiki](https://oldschool.runescape.wiki/w/Thieving) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Crafting_icon.png?a1f71" height="20" alt=""> [Crafting](content/skills/crafting) | 6,383 loc | [wiki](https://oldschool.runescape.wiki/w/Crafting) |
 | 🔴 | <img src="https://oldschool.runescape.wiki/images/Fletching_icon.png?15cda" height="20" alt=""> Fletching | nothing yet | [wiki](https://oldschool.runescape.wiki/w/Fletching) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Construction_icon.png?f9bf7" height="20" alt=""> Construction | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Construction) |
@@ -297,7 +297,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `interfaces/combat-tab` | 1 | 613 | 1 | 0 | 2026-06-21 |
 | `interfaces/deposit-box` | 6 | 459 | 0 | 1 | 2026-08-08 |
 | `interfaces/emotes` | 2 | 637 | 2 | 0 | 2026-10-22 |
-| `interfaces/equipment` | 3 | 689 | 0 | 0 | 2026-10-31 |
+| `interfaces/equipment` | 3 | 698 | 1 | 0 | 2026-11-01 |
 | `interfaces/fade-overlay` | 1 | 20 | 0 | 0 | 2026-05-03 |
 | `interfaces/gameframe` | 7 | 550 | 0 | 0 | 2026-10-22 |
 | `interfaces/gameframe/pack` | 1 | 6 | 0 | 0 | 2026-10-14 |
@@ -358,7 +358,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `skills/slayer` | 51 | 5,967 | 8 | 0 | 2026-10-18 |
 | `skills/slayer/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
 | `skills/smithing` | 15 | 2,118 | 1 | 1 | 2026-10-21 |
-| `skills/thieving` | 2 | 419 | 0 | 0 | 2026-10-15 |
+| `skills/thieving` | 2 | 445 | 1 | 0 | 2026-11-01 |
 | `skills/utils` | 2 | 346 | 0 | 0 | 2026-10-27 |
 | `skills/woodcutting` | 6 | 529 | 3 | 3 | 2026-10-31 |
 | `travel/canoe` | 6 | 1,122 | 1 | 2 | 2026-07-22 |
