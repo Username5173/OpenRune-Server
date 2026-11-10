@@ -259,38 +259,6 @@ contentGroup = "content.opened_right_door"
 "param.next_loc_stage" = "loc.bankdoor_r"
 
 [[object]]
-id = "loc.brain_mill_doubledoorl"
-inherit = "loc.brain_mill_doubledoorl"
-contentGroup = "content.closed_left_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.brain_mill_opendoubledoorl"
-
-[[object]]
-id = "loc.brain_mill_opendoubledoorl"
-inherit = "loc.brain_mill_opendoubledoorl"
-contentGroup = "content.opened_left_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.brain_mill_doubledoorl"
-
-[[object]]
-id = "loc.brain_mill_doubledoorr"
-inherit = "loc.brain_mill_doubledoorr"
-contentGroup = "content.closed_right_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.brain_mill_opendoubledoorr"
-
-[[object]]
-id = "loc.brain_mill_opendoubledoorr"
-inherit = "loc.brain_mill_opendoubledoorr"
-contentGroup = "content.opened_right_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.brain_mill_doubledoorr"
-
-[[object]]
 id = "loc.canafis_door_ground"
 inherit = "loc.canafis_door_ground"
 contentGroup = "content.closed_single_door"
@@ -531,22 +499,6 @@ contentGroup = "content.opened_single_door"
 "param.next_loc_stage" = "loc.dwarf_keldagrim_door_interior"
 
 [[object]]
-id = "loc.dwarf_keldagrim_door_interior_factory"
-inherit = "loc.dwarf_keldagrim_door_interior_factory"
-contentGroup = "content.closed_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.dwarf_keldagrim_door_interior_factory_open"
-
-[[object]]
-id = "loc.dwarf_keldagrim_door_interior_factory_open"
-inherit = "loc.dwarf_keldagrim_door_interior_factory_open"
-contentGroup = "content.opened_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.dwarf_keldagrim_door_interior_factory"
-
-[[object]]
 id = "loc.dwarf_keldagrim_door_interior_palace"
 inherit = "loc.dwarf_keldagrim_door_interior_palace"
 contentGroup = "content.closed_single_door"
@@ -769,70 +721,6 @@ contentGroup = "content.opened_single_door"
 
 [object.params]
 "param.next_loc_stage" = "loc.fai_varrock_shanty_door"
-
-[[object]]
-id = "loc.fairy_mushroom_gate_door_l"
-inherit = "loc.fairy_mushroom_gate_door_l"
-contentGroup = "content.closed_left_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.fairy_mushroom_gate_door_l_open"
-
-[[object]]
-id = "loc.fairy_mushroom_gate_door_l_open"
-inherit = "loc.fairy_mushroom_gate_door_l_open"
-contentGroup = "content.opened_left_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.fairy_mushroom_gate_door_l"
-
-[[object]]
-id = "loc.fairy_mushroom_gate_door_r"
-inherit = "loc.fairy_mushroom_gate_door_r"
-contentGroup = "content.closed_right_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.fairy_mushroom_gate_door_r_open"
-
-[[object]]
-id = "loc.fairy_mushroom_gate_door_r_open"
-inherit = "loc.fairy_mushroom_gate_door_r_open"
-contentGroup = "content.opened_right_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.fairy_mushroom_gate_door_r"
-
-[[object]]
-id = "loc.fenk_door"
-inherit = "loc.fenk_door"
-contentGroup = "content.closed_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.fenk_door_open"
-
-[[object]]
-id = "loc.fenk_door_open"
-inherit = "loc.fenk_door_open"
-contentGroup = "content.opened_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.fenk_door"
-
-[[object]]
-id = "loc.fenk_door_mirror"
-inherit = "loc.fenk_door_mirror"
-contentGroup = "content.closed_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.fenk_door_open_mirror"
-
-[[object]]
-id = "loc.fenk_door_open_mirror"
-inherit = "loc.fenk_door_open_mirror"
-contentGroup = "content.opened_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.fenk_door_mirror"
 
 [[object]]
 id = "loc.fortis_door_double_l"
@@ -2243,38 +2131,6 @@ contentGroup = "content.opened_single_door"
 "param.next_loc_stage" = "loc.slayertower_small_door"
 
 [[object]]
-id = "loc.slayertower_small_door_l"
-inherit = "loc.slayertower_small_door_l"
-contentGroup = "content.closed_left_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.slayertower_small_door_open_l"
-
-[[object]]
-id = "loc.slayertower_small_door_open_l"
-inherit = "loc.slayertower_small_door_open_l"
-contentGroup = "content.opened_left_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.slayertower_small_door_l"
-
-[[object]]
-id = "loc.slayertower_small_door_r"
-inherit = "loc.slayertower_small_door_r"
-contentGroup = "content.closed_right_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.slayertower_small_door_open_r"
-
-[[object]]
-id = "loc.slayertower_small_door_open_r"
-inherit = "loc.slayertower_small_door_open_r"
-contentGroup = "content.opened_right_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.slayertower_small_door_r"
-
-[[object]]
 id = "loc.slice_outpost_poordoor"
 inherit = "loc.slice_outpost_poordoor"
 contentGroup = "content.closed_single_door"
@@ -2625,86 +2481,6 @@ contentGroup = "content.opened_single_door"
 
 [object.params]
 "param.next_loc_stage" = "loc.wallkit_wooden01_default01_door"
-
-[[object]]
-id = "loc.warguild_door_armour_l"
-inherit = "loc.warguild_door_armour_l"
-contentGroup = "content.closed_left_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.warguild_dooropen_armour_l"
-
-[[object]]
-id = "loc.warguild_dooropen_armour_l"
-inherit = "loc.warguild_dooropen_armour_l"
-contentGroup = "content.opened_left_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.warguild_door_armour_l"
-
-[[object]]
-id = "loc.warguild_door_armour_r"
-inherit = "loc.warguild_door_armour_r"
-contentGroup = "content.closed_right_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.warguild_dooropen_armour_r"
-
-[[object]]
-id = "loc.warguild_dooropen_armour_r"
-inherit = "loc.warguild_dooropen_armour_r"
-contentGroup = "content.opened_right_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.warguild_door_armour_r"
-
-[[object]]
-id = "loc.warguild_door_catapult"
-inherit = "loc.warguild_door_catapult"
-contentGroup = "content.closed_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.warguild_dooropen_catapult"
-
-[[object]]
-id = "loc.warguild_dooropen_catapult"
-inherit = "loc.warguild_dooropen_catapult"
-contentGroup = "content.opened_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.warguild_door_catapult"
-
-[[object]]
-id = "loc.warguild_door_dummy"
-inherit = "loc.warguild_door_dummy"
-contentGroup = "content.closed_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.warguild_dooropen_dummy"
-
-[[object]]
-id = "loc.warguild_dooropen_dummy"
-inherit = "loc.warguild_dooropen_dummy"
-contentGroup = "content.opened_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.warguild_door_dummy"
-
-[[object]]
-id = "loc.warguild_door_front"
-inherit = "loc.warguild_door_front"
-contentGroup = "content.closed_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.warguild_dooropen_front"
-
-[[object]]
-id = "loc.warguild_dooropen_front"
-inherit = "loc.warguild_dooropen_front"
-contentGroup = "content.opened_single_door"
-
-[object.params]
-"param.next_loc_stage" = "loc.warguild_door_front"
 
 [[object]]
 id = "loc.wild_door"
